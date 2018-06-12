@@ -1,6 +1,29 @@
 {
+  "name": "lambdaface",
+  "description": "CS7 Capstone Project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint **/*.js --ignore-pattern node_modules/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lambda-School-Labs/lambdaface.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lambda-School-Labs/lambdaface/issues"
+  },
+  "homepage": "https://github.com/Lambda-School-Labs/lambdaface#readme",
   "devDependencies": {
+    "babel-eslint": "^8.2.3",
     "eslint": "4.19.1",
-    "eslint-config-airbnb": "16.1.0"
+    "eslint-config-airbnb": "16.1.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.9.1"
   }
 }
