@@ -1,4 +1,4 @@
-const knex = require('../db/db.js'); // Placeholder until we complete DB
+const knex = require('../../database/db.js');
 
 const getPosts = (req, res) => {
   knex('Posts')
@@ -64,5 +64,5 @@ module.exports = {
   getPostById,
   createPost,
   editPost,
-  deletePost
+  deletePost,
 };

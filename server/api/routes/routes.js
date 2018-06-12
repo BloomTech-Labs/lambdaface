@@ -3,7 +3,7 @@ const {
   getPostById,
   createPost,
   editPost,
-  deletePost
+  deletePost,
 } = require('../controllers');
 
 module.exports = (server) => {

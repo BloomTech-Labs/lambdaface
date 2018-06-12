@@ -3,7 +3,7 @@ const {
   getPostById,
   createPost,
   editPost,
-  deletePost
+  deletePost,
 } = require('./posts');
 
 module.exports = {
@@ -11,5 +11,5 @@ module.exports = {
   getPostById,
   createPost,
   editPost,
-  deletePost
+  deletePost,
 };
