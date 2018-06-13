@@ -7,13 +7,12 @@ exports.up = function(knex, Promise) {
       .notNullable();
 
     tbl
-      .text('content')
-      .notNullable();
-
-    tbl
       .string('title', 128)
       .notNullable();
 
+    tbl
+      .text('content')
+      .notNullable();
 
     tbl
       .integer('user_id')

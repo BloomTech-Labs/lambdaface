@@ -1,8 +1,10 @@
 const knex = require('../../database/db.js');
 const uuidv4 = require('uuid/v4');
 
-const getPosts = (req, res) => {
-  knex('post')
+const getComments = (req, res) => {
+  const { parentID } = req.params;
+  knex('comment')
+    .where('parent_id', parentID)
     .then((response) => {
       res.status(200).json(response);
     })
@@ -11,27 +13,15 @@ const getPosts = (req, res) => {
     });
 };
 
-const getPostById = (req, res) => {
-  const { id } = req.params;
-
-  knex('post').where({ id })
-    .then((response) => {
-      res.status(200).json(response);
-    })
-    .catch((err) => {
-      res.status(422).json({ error: err });
-    });
-};
-
-const createPost = (req, res) => {
+const createComment = (req, res) => {
   const id = uuidv4();
   const {
-    title, content, user_id, category_id,
+    content, user_id, parent_id, parent_type,
   } = req.body;
 
   knex.insert({
-    id, title, content, user_id, category_id,
-  }).into('post')
+    id, content, user_id, parent_id, parent_type,
+  }).into('comment')
     .then((response) => {
       res.status(201).json({ success: response });
     })
@@ -40,14 +30,11 @@ const createPost = (req, res) => {
     });
 };
 
-const editPost = (req, res) => {
+const editComment = (req, res) => {
   const { id } = req.params;
-  const {
-    title, content,
-  } = req.body;
-  const updated_at = new Date().toISOString(); // Temporary solution
+  const comment = req.body;
 
-  knex('post').where({ id }).update({ title, content, updated_at })
+  knex('comment').where({ id }).update(comment)
     .then((response) => {
       res.status(200).json({ success: response });
     })
@@ -56,10 +43,11 @@ const editPost = (req, res) => {
     });
 };
 
-const deletePost = (req, res) => {
+const deleteComment = (req, res) => {
   const { id } = req.params;
+  const content = 'Message Deleted';
 
-  knex('post').where({ id }).del()
+  knex('comment').where({ id }).update({ content })
     .then((response) => {
       res.status(200).json({ success: response });
     })
@@ -69,9 +57,8 @@ const deletePost = (req, res) => {
 };
 
 module.exports = {
-  getPosts,
-  getPostById,
-  createPost,
-  editPost,
-  deletePost,
+  getComments,
+  createComment,
+  editComment,
+  deleteComment,
 };
