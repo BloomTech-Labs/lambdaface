@@ -1,14 +1,19 @@
 
+const uuidv4 = require('uuid/v4');
+
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('comment', (tbl) => {
-    tbl.increments('id');
+    tbl
+      .uuid('id')
+      .defaultTo(uuidv4())
+      .primary();
 
     tbl
       .text('content')
       .notNullable();
 
     tbl
-      .integer('post_id')
+      .integer('parent_id')
       .references('id').inTable('post');
 
     tbl
@@ -18,6 +23,18 @@ exports.up = function(knex, Promise) {
     tbl
       .timestamp('created_at')
       .defaultTo(knex.fn.now());
+
+    tbl
+      .integer('upvotes')
+      .defaultTo(0);
+
+    tbl
+      .integer('downvotes')
+      .defaultTo(0);
+
+    tbl
+      .string('parent_type')
+      .notNullable();
   });
 };
 

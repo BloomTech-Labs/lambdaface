@@ -1,7 +1,10 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('user_comment', (tbl) => {
-    tbl.increments('id');
+    tbl
+      .uuid('id')
+      .notNullable()
+      .primary();
 
     tbl
       .integer('user_id')
