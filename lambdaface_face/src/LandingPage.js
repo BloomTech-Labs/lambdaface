@@ -15,7 +15,6 @@ class LandingPage extends React.Component {
 
   render() {
     const { isAuthenticated } = this.props.auth;
-    console.log(localStorage);
     return (
       <div>
         {
