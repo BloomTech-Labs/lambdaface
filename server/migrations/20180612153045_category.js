@@ -1,7 +1,9 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('category', (tbl) => {
-    tbl.increments('id');
+    tbl
+      .increments('id')
+      .primary();
 
     tbl
       .string('name', 128);

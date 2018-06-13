@@ -10,7 +10,7 @@ module.exports = (server) => {
   server.route('/api/posts')
     .get(getPosts)
     .post(createPost);
-  server.route('/api/notes/:id')
+  server.route('/api/posts/:id')
     .get(getPostById)
     .put(editPost)
     .delete(deletePost);

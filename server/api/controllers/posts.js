@@ -1,7 +1,8 @@
 const knex = require('../../database/db.js');
+const uuidv4 = require('uuid/v4');
 
 const getPosts = (req, res) => {
-  knex('Posts')
+  knex('post')
     .then((response) => {
       res.status(200).json(response);
     })
@@ -13,7 +14,7 @@ const getPosts = (req, res) => {
 const getPostById = (req, res) => {
   const { id } = req.params;
 
-  knex('Posts').where({ id })
+  knex('post').where({ id })
     .then((response) => {
       res.status(200).json(response);
     })
@@ -23,11 +24,16 @@ const getPostById = (req, res) => {
 };
 
 const createPost = (req, res) => {
-  const { title, content } = req.body;
+  const id = uuidv4();
+  const {
+    title, content, user_id, category_id,
+  } = req.body;
   // Retrieve author data as well
-  knex.insert({ title, content }).into('Posts')
+  knex.insert({
+    id, title, content, user_id, category_id,
+  }).into('post')
     .then((response) => {
-      res.status(201).json({ success: true });
+      res.status(201).json({ success: response });
     })
     .catch((err) => {
       res.status(422).json({ error: err });
@@ -38,9 +44,9 @@ const editPost = (req, res) => {
   const { id } = req.params;
   const post = req.body;
 
-  knex('Posts').where({ id }).update(post)
+  knex('post').where({ id }).update(post)
     .then((response) => {
-      res.status(200).json({ success: true });
+      res.status(200).json({ success: response });
     })
     .catch((err) => {
       res.status(422).json({ error: err });
@@ -50,9 +56,9 @@ const editPost = (req, res) => {
 const deletePost = (req, res) => {
   const { id } = req.params;
 
-  knex('Posts').where({ id }).del()
+  knex('post').where({ id }).del()
     .then((response) => {
-      res.status(200).json({ success: true });
+      res.status(200).json({ success: response });
     })
     .catch((err) => {
       res.status(422).json({ error: err });

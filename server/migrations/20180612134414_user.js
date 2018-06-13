@@ -1,12 +1,10 @@
 
-const uuidv4 = require('uuid/v4');
-
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('user', (tbl) => {
     tbl
       .uuid('id')
-      .defaultTo(uuidv4())
-      .primary();
+      .primary()
+      .notNullable();
 
     tbl
       .string('first_name', 64)

@@ -1,20 +1,19 @@
 
-const uuidv4 = require('uuid/v4');
-
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('post', (tbl) => {
     tbl
       .uuid('id')
-      .defaultTo(uuidv4())
-      .primary();
-
-    tbl
-      .string('title', 128)
+      .primary()
       .notNullable();
 
     tbl
       .text('content')
       .notNullable();
+
+    tbl
+      .string('title', 128)
+      .notNullable();
+
 
     tbl
       .integer('user_id')
@@ -30,7 +29,7 @@ exports.up = function(knex, Promise) {
 
     tbl
       .timestamp('updated_at')
-      .defaultTo(knex.fn.now());
+      .defaultTo(null);
 
     tbl
       .integer('upvotes')
