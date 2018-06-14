@@ -37,10 +37,6 @@ exports.up = function(knex, Promise) {
     tbl
       .integer('commentCount')
       .defaultTo(0);
-
-    tbl
-      .integer('commentCount')
-      .defaultTo(0);
   });
 };
 
