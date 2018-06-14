@@ -25,7 +25,7 @@ const createComment = (req, res) => {
     .then(async (response) => {
       await knex('post')
         .where({ id: parentId })
-        .increment("commentCount", 1);
+        .increment('commentCount', 1);
 
       res.status(201).json({ success: response });
     })

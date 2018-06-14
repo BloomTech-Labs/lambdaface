@@ -23,8 +23,7 @@ exports.up = function(knex, Promise) {
     //   .notNullable();
   });
 };
-    
+
 exports.down = function(knex, Promise) {
   return knex.schema.dropTableIfExists('votes');
 };
-    

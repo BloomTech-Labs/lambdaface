@@ -18,7 +18,7 @@ const {
 } = require('./users');
 
 const {
-  postVote
+  postVote,
 } = require('./votes');
 
 module.exports = {

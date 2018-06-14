@@ -30,18 +30,10 @@ exports.up = function(knex, Promise) {
       .timestamp('updatedAt')
       .defaultTo(null);
 
-    // tbl
-    //   .integer('upvotes')
-    //   .defaultTo(0);
-
-    // tbl
-    //   .integer('downvotes')
-    //   .defaultTo(0);
-
     tbl
       .integer('viewCount')
       .defaultTo(0);
-    
+
     tbl
       .integer('commentCount')
       .defaultTo(0);
