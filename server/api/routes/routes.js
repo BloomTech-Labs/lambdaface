@@ -9,6 +9,7 @@ const {
   createComment,
   deleteComment,
   createUser,
+  postVote,
 } = require('../controllers');
 
 module.exports = (server) => {
@@ -29,4 +30,6 @@ module.exports = (server) => {
     .post(createComment);
   server.route('/api/users')
     .post(createUser);
+  server.route('/api/votes')
+    .post(postVote);
 };

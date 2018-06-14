@@ -17,6 +17,10 @@ const {
   createUser,
 } = require('./users');
 
+const {
+  postVote,
+} = require('./votes');
+
 module.exports = {
   getPosts,
   getPostById,
@@ -28,4 +32,5 @@ module.exports = {
   editComment,
   deleteComment,
   createUser,
+  postVote,
 };

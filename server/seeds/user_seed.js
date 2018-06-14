@@ -11,6 +11,12 @@ exports.seed = function(knex, Promise) {
           lastName: 'Ceee',
           email: 'kevin@lambdaface.com',
         },
+        {
+          id: 'a21d9bbe-796d-4403-8c10-accba4a6c689',
+          firstName: 'Thomas',
+          lastName: 'Kevin',
+          email: 'kevin_is_the_man@lambdaface.com',
+        },
       ]);
     });
 };
