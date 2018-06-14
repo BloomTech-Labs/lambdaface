@@ -1,3 +1,8 @@
+/* To Do:
+  For view count:
+  Keep track of UserIDs on post
+*/
+
 const knex = require('../../database/db.js');
 const uuidv4 = require('uuid/v4');
 
@@ -15,7 +20,11 @@ const getPostById = (req, res) => {
   const { id } = req.params;
 
   knex('post').where({ id })
-    .then((response) => {
+    .then(async (response) => {
+      await knex('post')
+        .where({ id })
+        .update({ viewCount: ++response[0].viewCount });
+
       res.status(200).json(response);
     })
     .catch((err) => {
