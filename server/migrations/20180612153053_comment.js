@@ -11,15 +11,15 @@ exports.up = function(knex, Promise) {
       .notNullable();
 
     tbl
-      .integer('parent_id')
+      .integer('parentId')
       .references('id').inTable('post');
 
     tbl
-      .integer('user_id')
+      .integer('userId')
       .references('id').inTable('user');
 
     tbl
-      .timestamp('created_at')
+      .timestamp('createdAt')
       .defaultTo(knex.fn.now());
 
     tbl
@@ -31,7 +31,7 @@ exports.up = function(knex, Promise) {
       .defaultTo(0);
 
     tbl
-      .string('parent_type')
+      .string('parentType')
       .notNullable();
   });
 };

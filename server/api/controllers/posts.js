@@ -26,11 +26,11 @@ const getPostById = (req, res) => {
 const createPost = (req, res) => {
   const id = uuidv4();
   const {
-    title, content, user_id, category_id,
+    title, content, userId, categoryId,
   } = req.body;
 
   knex.insert({
-    id, title, content, user_id, category_id,
+    id, title, content, userId, categoryId,
   }).into('post')
     .then((response) => {
       res.status(201).json({ success: response });
@@ -45,9 +45,9 @@ const editPost = (req, res) => {
   const {
     title, content,
   } = req.body;
-  const updated_at = new Date().toISOString(); // Temporary solution
+  const updatedAt = knex.fn.now();
 
-  knex('post').where({ id }).update({ title, content, updated_at })
+  knex('post').where({ id }).update({ title, content, updatedAt })
     .then((response) => {
       res.status(200).json({ success: response });
     })

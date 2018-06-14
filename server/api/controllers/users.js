@@ -4,11 +4,11 @@ const uuidv4 = require('uuid/v4');
 const createUser = (req, res) => {
   const id = uuidv4();
   const {
-    first_name, last_name, email
+    firstName, lastName, email,
   } = req.body;
 
   knex.insert({
-    id, first_name, last_name, email,
+    id, firstName, lastName, email,
   }).into('user')
     .then((response) => {
       res.status(201).json({ success: response });

@@ -2,9 +2,9 @@ const knex = require('../../database/db.js');
 const uuidv4 = require('uuid/v4');
 
 const getComments = (req, res) => {
-  const { parentID } = req.params;
+  const { parentId } = req.params;
   knex('comment')
-    .where('parent_id', parentID)
+    .where('parentId', parentId)
     .then((response) => {
       res.status(200).json(response);
     })
@@ -16,11 +16,11 @@ const getComments = (req, res) => {
 const createComment = (req, res) => {
   const id = uuidv4();
   const {
-    content, user_id, parent_id, parent_type,
+    content, userId, parentId, parentType,
   } = req.body;
 
   knex.insert({
-    id, content, user_id, parent_id, parent_type,
+    id, content, userId, parentId, parentType,
   }).into('comment')
     .then((response) => {
       res.status(201).json({ success: response });

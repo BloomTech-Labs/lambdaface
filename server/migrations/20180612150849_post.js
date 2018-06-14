@@ -15,19 +15,19 @@ exports.up = function(knex, Promise) {
       .notNullable();
 
     tbl
-      .integer('user_id')
+      .integer('userId')
       .references('id').inTable('user');
 
     tbl
-      .integer('category_id')
+      .integer('categoryId')
       .references('id').inTable('category');
 
     tbl
-      .timestamp('created_at')
+      .timestamp('createdAt')
       .defaultTo(knex.fn.now());
 
     tbl
-      .timestamp('updated_at')
+      .timestamp('updatedAt')
       .defaultTo(null);
 
     tbl

@@ -7,11 +7,11 @@ exports.up = function(knex, Promise) {
       .notNullable();
 
     tbl
-      .string('first_name', 64)
+      .string('firstName', 64)
       .notNullable();
 
     tbl
-      .string('last_name', 64)
+      .string('lastName', 64)
       .notNullable();
 
     tbl
@@ -24,15 +24,11 @@ exports.up = function(knex, Promise) {
     //   .notNullable();
 
     tbl
-      .timestamp('created_at')
+      .timestamp('createdAt')
       .defaultTo(knex.fn.now());
 
     tbl
-      .timestamp('updated_at')
-      .defaultTo(null);
-
-    tbl
-      .text('profile_picture');
+      .text('profilePicture');
   });
 };
 

@@ -8,9 +8,9 @@ exports.seed = function(knex, Promise) {
         {
           id: 1,
           content: 'Test Comment',
-          parent_id: '87925db7-fb1e-4847-b601-b688def0dbca',
-          user_id: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
-          parent_type: 'post',
+          parentId: '87925db7-fb1e-4847-b601-b688def0dbca',
+          userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
+          parentType: 'post',
         },
       ]);
     });
