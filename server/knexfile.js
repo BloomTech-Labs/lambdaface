@@ -1,4 +1,5 @@
 // Update with your config settings.
+/* eslint-disable */
 
 module.exports = {
 

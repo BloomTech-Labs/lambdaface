@@ -39,7 +39,7 @@ exports.up = function(knex, Promise) {
     //   .defaultTo(0);
 
     tbl
-      .integer('views')
+      .integer('viewCount')
       .defaultTo(0);
     
     tbl
