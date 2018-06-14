@@ -8,7 +8,22 @@ const uuidv4 = require('uuid/v4');
 
 const getPosts = (req, res) => {
   knex('post')
-    .then((response) => {
+    .then(async (response) => {
+      for (let i = 0; i < response.length; i++) {
+        // Todo:
+        // clean this up
+        // make .count() work in knex.
+        const upvotes = await knex('votes')
+          .where({ parentId: response[i].id, voteType: 'INC' });
+
+        const downvotes = await knex('votes')
+          .where({ parentId: response[i].id, voteType: 'DEC' });
+        response[i] = {
+          ...response[i],
+          upvotes: upvotes.length,
+          downvotes: downvotes.length,
+        };
+      }
       res.status(200).json(response);
     })
     .catch((err) => {
@@ -54,6 +69,8 @@ const editPost = (req, res) => {
   const {
     title, content,
   } = req.body;
+
+
   const updatedAt = knex.fn.now();
 
   knex('post').where({ id }).update({ title, content, updatedAt })
