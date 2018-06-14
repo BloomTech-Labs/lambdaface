@@ -2,9 +2,9 @@
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
   return knex('comment').del()
-    .then(() => {
+    .then(() =>
       // Inserts seed entries
-      return knex('comment').insert([
+      knex('comment').insert([
         {
           id: 1,
           content: 'Test Comment',
@@ -12,6 +12,5 @@ exports.seed = function(knex, Promise) {
           userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
           parentType: 'post',
         },
-      ]);
-    });
+      ]));
 };
