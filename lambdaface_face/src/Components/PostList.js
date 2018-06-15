@@ -1,11 +1,44 @@
 import React from 'react';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import {BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-export default () => {
+// class PostList extends React.Component {
+//   state = {
+//    postsArr:[]
+//   }
+
+//   componentDidMount() {
+//     this.setState(...this.props.postsArr);
+//   }
+//   render () {
+//     return (
+//       <List>
+//         {this.state.postsArr.map((post, i) => {
+//           return (
+//             <ListItem>
+//               <ListItemText primary={post.title}/>
+//             </ListItem>
+//           )
+//         })}
+//       </List>
+//     )
+//   }
+// }
+
+// export default PostList;
+
+export default (props) => {
   return (
-    <ul>
-      <li>
-        test
-      </li>
-    </ul>
+    <List>
+      {props.postsArr.map((post, i) => {
+        return (
+          <ListItem key={i}>
+            <ListItemText primary={post.title}/>
+          </ListItem>
+        )
+      })}
+    </List>
   )
 }
