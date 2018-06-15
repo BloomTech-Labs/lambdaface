@@ -12,13 +12,6 @@ class LeftNav extends React.Component {
 
   render() {
     return (
-    // <ul>
-      //   <li>
-      //     <div>
-      //       Hello 
-      //     </div>
-      //   </li>
-      // </ul>
       <Router>
         <div>
           <List component="nav">
@@ -47,12 +40,3 @@ class LeftNav extends React.Component {
 }
 
 export default LeftNav;
-// const Category = (props) => {
-//   return (
-//     <Link to={`/${props.title.split(' ').join('')}`}>
-//       <ListItem button action={() => }>
-//         <ListItemText primary={props.title} />
-//       </ListItem>
-//     </Link>
-//   )
-// }
