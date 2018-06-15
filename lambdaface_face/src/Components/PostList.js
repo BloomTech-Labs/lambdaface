@@ -30,7 +30,7 @@ import { Link } from 'react-router-dom';
 // export default PostList;
 
 export default (props) => {
-  return (
+  return ( props.category &&
     <div>
       <div>
         <h1>{props.category}</h1>

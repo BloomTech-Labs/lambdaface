@@ -1,5 +1,5 @@
 import React from 'react';
-import Topbar from './TopBar';
+// import Topbar from './TopBar';
 import LeftNav from './LeftNav';
 
 class HomePage extends React.Component {
@@ -11,14 +11,14 @@ class HomePage extends React.Component {
       {title: 'Dev Team Title2', author: 'John', updown: [88,43], category: 'Dev Team', Date: Date.now, comments: ['red', 'oak']},
       {title: 'Dev Team Title', author: 'John', updown: [88,43], category: 'Dev Team', Date: Date.now, comments: ['red', 'oak']}
     ],
-    postOptions:  ['All Posts', 'Announcements', 'Dev Team'],
+    postOptions:  ['All Posts', 'Announcements', 'Dev Team', 'Design Team', 'Marketing', 'HR', 'Product Managers', 'QA'],
   };
   render() {
     return (
         <div>
-          <div className="Topbar">
+          {/* <div className="Topbar">
             <Topbar />
-          </div>
+          </div> */}
           <div className="LeftNav">
             <LeftNav options={this.state.postOptions} posts={this.state.posts}/>
           </div>

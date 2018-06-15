@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import './UserSettings.css';
+import '../Styles/UserSettings.css';
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
