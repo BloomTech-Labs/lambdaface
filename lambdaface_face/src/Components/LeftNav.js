@@ -25,7 +25,7 @@ class LeftNav extends React.Component {
           <List component="nav">
             {this.props.options.map((category, i) => {
               return (
-                <Link key={i} to={`/${category.split(" ").join("")}`}>
+                <Link key={i} to={`/${category.split(" ").join("")}`} href={`/${category.split(" ").join("")}`}>
                   <ListItem button onClick={this.changeCategory(category)}>
                     <ListItemText primary={category} />
                   </ListItem>

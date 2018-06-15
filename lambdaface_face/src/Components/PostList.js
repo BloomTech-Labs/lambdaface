@@ -35,7 +35,7 @@ export default props => {
       <div>
         <div>
           <h1>{props.category}</h1>
-          <Link to="/AddPost">
+          <Link to="/AddPost" href="/AddPost">
             <Button>Add Post</Button>
           </Link>
         </div>

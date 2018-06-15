@@ -9,7 +9,7 @@ export default props => {
   return (
     <div>
       <img src={LambdaLogo} alt="logo" />
-      <Link to="/UserSettings">
+      <Link href="/UserSettings" to="/UserSettings">
         <Button onClick={props.changeCategory("User Settings")}>
           User Settings
         </Button>
