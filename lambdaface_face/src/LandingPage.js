@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import App from './App';
 
 class LandingPage extends React.Component {
 
@@ -30,6 +31,7 @@ class LandingPage extends React.Component {
           <Button variant="contained" color="primary" onClick={this.logout()}>
            Logout
           </Button>
+          <App />
           </div>
         }
       </div>

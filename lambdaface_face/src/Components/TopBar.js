@@ -1,10 +1,10 @@
 import React from 'react';
-import '../Assets/LambdaLogo.svg';
+import LambdaLogo from '../Assets/LambdaLogo.svg';
 
 export default () => {
   return (
     <div>
-      <img src="../Assets/LamdaLogo.svg" alt="logo"/>
+      <img src={LambdaLogo} alt="logo"/>
     </div>
   )
 }
