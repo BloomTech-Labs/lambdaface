@@ -10,7 +10,7 @@ exports.seed = function(knex, Promise) {
           title: 'Test Title 1',
           content: 'Content Test 1',
           userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
-          categoryId: 2,
+          // categoryId: 1,
         },
       ]);
     });

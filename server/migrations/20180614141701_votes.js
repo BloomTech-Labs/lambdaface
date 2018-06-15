@@ -7,20 +7,16 @@ exports.up = function(knex, Promise) {
       .notNullable();
 
     table
-      .integer('parentId')
-      .references('id').inTable('post');
+      .string('parentId')
+      .references('post.id')
 
     table
-      .integer('userId')
-      .references('id').inTable('user');
+      .string('userId')
+      .references('user.id');
 
     table
       .string('voteType')
       .notNullable();
-
-    // table
-    //   .string('parentType')
-    //   .notNullable();
   });
 };
 
