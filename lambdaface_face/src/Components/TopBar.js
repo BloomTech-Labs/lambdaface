@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import Button from '@material-ui/core/Button';
-import LambdaLogo from '../Assets/LambdaLogo.svg';
+import Button from "@material-ui/core/Button";
+import LambdaLogo from "../Assets/LambdaLogo.svg";
 
-export default (props) => {
+export default props => {
   return (
     <div>
-      <img src={LambdaLogo} alt="logo"/>
+      <img src={LambdaLogo} alt="logo" />
       <Link to="/UserSettings">
-        <Button onClick={props.changeCategory('User Settings')}>
+        <Button onClick={props.changeCategory("User Settings")}>
           User Settings
         </Button>
       </Link>
     </div>
-  )
-}
+  );
+};
