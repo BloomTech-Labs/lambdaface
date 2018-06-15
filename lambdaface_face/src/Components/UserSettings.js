@@ -1,31 +1,32 @@
-import React from 'react';
-import axios from 'axios';
+import React from "react";
+import axios from "axios";
 
-import '../Styles/UserSettings.css';
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import "../Styles/UserSettings.css";
+
 
 class UserSettings extends React.Component {
   state = {
-    firstname: '',
-    lastname: '',
-    email: '',
-    password: ''
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: ""
   };
 
   handleChange = name => event => {
     this.setState({
-      [name]: event.target.value,
+      [name]: event.target.value
     });
   };
-  
+
   updateInfo = () => event => {
     event.preventDefault();
-    const userInfo = {...this.state};
-    console.log("updating Info!", userInfo);
+    const userInfo = { ...this.state };
+    // console.log("updating Info!", userInfo);
     axios
-      .put('urlgoeshere', userInfo)
+      .put("urlgoeshere", userInfo)
       .then(res => {
         // need to know what res looks like
       })
@@ -35,24 +36,27 @@ class UserSettings extends React.Component {
   };
 
   render() {
-
     return (
-    <div className="user-settings__container"> {/*container*/}
-
-        <div className="user-settings__left-col"> {/*left column*/}
+      <div className="user-settings__container">
+        {" "}
+        {/*container*/}
+        <div className="user-settings__left-col">
+          {" "}
+          {/*left column*/}
           {/* <img className="left-col__picture" src="" alt=""/> */}
-          <div className="left-col__picture"></div>
+          <div className="left-col__picture" />
           <span>(change)</span>
         </div>
-
-        <form className="user-settings__mid-col" onSubmit={this.updateInfo()}> {/*middle column*/}
+        <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
+          {" "}
+          {/*middle column*/}
           <TextField
             id="firstname-input"
             label="First Name"
             // className={}
             type="text"
             value={this.state.firstname}
-            onChange={this.handleChange('firstname')}
+            onChange={this.handleChange("firstname")}
             margin="normal"
           />
           <TextField
@@ -61,7 +65,7 @@ class UserSettings extends React.Component {
             // className={}
             type="text"
             value={this.state.lastname}
-            onChange={this.handleChange('lastname')}
+            onChange={this.handleChange("lastname")}
             margin="normal"
           />
           <TextField
@@ -70,7 +74,7 @@ class UserSettings extends React.Component {
             // className={}
             type="email"
             value={this.state.email}
-            onChange={this.handleChange('email')}
+            onChange={this.handleChange("email")}
             margin="normal"
           />
           <TextField
@@ -79,21 +83,20 @@ class UserSettings extends React.Component {
             // className={}
             type="password"
             value={this.state.password}
-            onChange={this.handleChange('password')}
+            onChange={this.handleChange("password")}
             margin="normal"
           />
           <Button variant="contained" type="submit">
             Save Settings
           </Button>
         </form>
-
-        <div className="user-settings__right-col">{/*right column*/}
+        <div className="user-settings__right-col">
+          {/*right column*/}
           <div>...</div>
         </div>
-
       </div>
     );
-  };
-};
+  }
+}
 
 export default UserSettings;
