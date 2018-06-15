@@ -2,7 +2,8 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 // class PostList extends React.Component {
 //   state = {
 //    postsArr:[]
@@ -30,14 +31,24 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 export default (props) => {
   return (
-    <List>
-      {props.postsArr.map((post, i) => {
-        return (
-          <ListItem key={i}>
-            <ListItemText primary={post.title}/>
-          </ListItem>
-        )
-      })}
-    </List>
+    <div>
+      <div>
+        <h1>{props.category}</h1>
+        <Link to="/AddPost">
+          <Button >
+            Add Post
+          </Button>
+        </Link>
+      </div>
+      <List>
+        {props.postsArr.map((post, i) => {
+          return (
+            <ListItem key={i}>
+              <ListItemText primary={post.title}/>
+            </ListItem>
+          )
+        })}
+      </List>
+    </div>
   )
 }

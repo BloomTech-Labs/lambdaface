@@ -4,6 +4,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {BrowserRouter as Router, Route, Link } from "react-router-dom";
 import PostList from './PostList';
+import AddPost from './AddPost';
 
 class LeftNav extends React.Component {
   state = {
@@ -30,8 +31,10 @@ class LeftNav extends React.Component {
           </List>
         
           <div className="PostList">
-            <Route path="/AllPosts" exact  render={() => (<PostList postsArr={this.props.posts}/>)} />
-            <Route path={`/${this.state.category}`} exact render={() => (<PostList postsArr={this.props.posts.filter(post => post.category.split(' ').join('') === this.state.category)}/>)} />
+            <Route path="/AllPosts" exact  render={() => (<PostList category={this.state.category} postsArr={this.props.posts}/>)} />
+            <Route path={`/${this.state.category}`} exact render={() => (<PostList category={this.state.category} postsArr={this.props.posts.filter(post => post.category.split(' ').join('') === this.state.category)}/>)} />
+            <Route path="/AddPost" exact  component={AddPost} />
+            
           </div>
         </div>
       </Router>
