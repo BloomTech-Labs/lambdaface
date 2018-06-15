@@ -1,8 +1,6 @@
 import React from 'react';
 import Topbar from './TopBar';
 import LeftNav from './LeftNav';
-import PostList from './PostList';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 class HomePage extends React.Component {
   state = {
@@ -17,7 +15,6 @@ class HomePage extends React.Component {
   };
   render() {
     return (
-      <Router>
         <div>
           <div className="Topbar">
             <Topbar />
@@ -26,7 +23,6 @@ class HomePage extends React.Component {
             <LeftNav options={this.state.postOptions} posts={this.state.posts}/>
           </div>
         </div>
-      </Router>
     )
   }; 
 };
