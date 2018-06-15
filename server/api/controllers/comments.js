@@ -22,7 +22,11 @@ const createComment = (req, res) => {
   knex.insert({
     id, content, userId, parentId, parentType,
   }).into('comment')
-    .then((response) => {
+    .then(async (response) => {
+      await knex('post')
+        .where({ id: parentId })
+        .increment('commentCount', 1);
+
       res.status(201).json({ success: response });
     })
     .catch((err) => {
