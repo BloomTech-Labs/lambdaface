@@ -1,44 +1,54 @@
 
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('post', (tbl) => {
-    tbl
-      .uuid('id')
-      .primary()
-      .notNullable();
+  return knex.raw('SET foreign_key_checks = 0;').then(() => {
+    return knex.schema.createTable('post', (table) => {
+      table
+        .uuid('id')
+        .primary()
+        .notNullable();
 
-    tbl
-      .string('title', 128)
-      .notNullable();
+      table
+        .string('title', 128)
+        .notNullable();
 
-    tbl
-      .text('content')
-      .notNullable();
+      table
+        .text('content')
+        .notNullable();
 
-    tbl
-      .integer('userId')
-      .references('id').inTable('user');
+      table
+        .string('userId');
 
-    tbl
-      .integer('categoryId')
-      .references('id').inTable('category');
+      table
+        .foreign('userId')
+        .references('user.id');
 
-    tbl
-      .timestamp('createdAt')
-      .defaultTo(knex.fn.now());
+      table
+        .integer('categoryId')
+        .unsigned();
 
-    tbl
-      .timestamp('updatedAt')
-      .defaultTo(null);
+      table
+        .foreign('categoryId')
+        .references('category.id');
 
-    tbl
-      .integer('viewCount')
-      .defaultTo(0);
+      table
+        .timestamp('createdAt')
+        .defaultTo(knex.fn.now());
 
-    tbl
-      .integer('commentCount')
-      .defaultTo(0);
-  });
-};
+      table
+        .timestamp('updatedAt')
+        .defaultTo(null);
+
+      table
+        .integer('viewCount')
+        .defaultTo(0);
+
+      table
+        .integer('commentCount')
+        .defaultTo(0);
+    });
+  })
+  // .finally(() => knex.raw('SET foreign_key_checks = 0;'));
+}
 
 exports.down = function(knex, Promise) {
   return knex.schema.dropTableIfExists('post');
