@@ -8,7 +8,8 @@ class HomePage extends React.Component {
     posts: [
       {
         title: "Announcements Title",
-        author: "Matt",
+        content: "Content Test 1",
+        User: "Matt",
         updown: [55, 3],
         category: "Announcements",
         Date: Date.now,
@@ -16,7 +17,8 @@ class HomePage extends React.Component {
       },
       {
         title: "Announcements Title2",
-        author: "Matt",
+        content: "Content Test 2",
+        User: "Matt",
         updown: [55, 3],
         category: "Announcements",
         Date: Date.now,
@@ -24,7 +26,8 @@ class HomePage extends React.Component {
       },
       {
         title: "Dev Team Title2",
-        author: "John",
+        content: "Content Test 3",
+        User: "John",
         updown: [88, 43],
         category: "Dev Team",
         Date: Date.now,
@@ -32,7 +35,8 @@ class HomePage extends React.Component {
       },
       {
         title: "Dev Team Title",
-        author: "John",
+        content: "Content Test 4",
+        User: "John",
         updown: [88, 43],
         category: "Dev Team",
         Date: Date.now,

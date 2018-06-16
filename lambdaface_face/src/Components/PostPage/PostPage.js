@@ -1,13 +1,13 @@
 import React from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 
 import PostFull from './PostFull';
 
 import Comment from './Comment';
 import WriteComment from './WriteComment';
 
-import './PostPage.css';
-import backArrow from './Assets/back arrow in circle.svg'
+import '../../Styles/PostPage.css';
+import backArrow from '../../Assets/BackArrow.svg';
 
 const testcomments = [
   {
@@ -47,10 +47,10 @@ class PostPage extends React.Component {
 
   componentDidMount() {
     this.getComments();
-  };
+  }
 
   getComments = () => {
-    const parentId = this.props.post.uuid;
+    // const parentId = this.props.post.uuid;
     // axios
     //   .get(`http://localhost:5000/api/comments/${parentId}`)
     //   .then(res => {
@@ -73,13 +73,13 @@ class PostPage extends React.Component {
     return (
       <div className="post-page__container">
         <div className="post-page__left-col">
-          <img src={backArrow} alt="Back" height="30px" width="30px"/>
+          <img src={backArrow} alt="Back" height="30px" width="30px" />
         </div>
   
         <div className="post-page__right-col">
-          <PostFull post={this.props.post}/>
+          <PostFull post={this.props.post} />
           <div>Comments</div>
-          { commentsLoaded && comments.map((elem, i) => <Comment key={`comment ${i}`} comment={elem}/>) }
+          { commentsLoaded && comments.map((elem, i) => <Comment key={`comment ${i}`} comment={elem} />) }
           { !commentsLoaded && <div>Loading Comments...</div> }
           <div>Write a comment</div>
           <WriteComment />
@@ -87,6 +87,6 @@ class PostPage extends React.Component {
       </div>
     );
   }
-};
+}
 
 export default PostPage;

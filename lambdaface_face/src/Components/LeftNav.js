@@ -7,17 +7,25 @@ import PostList from "./PostList";
 import AddPost from "./AddPost";
 import TopBar from "./TopBar";
 import UserSettings from "./UserSettings";
+import PostPage from "./PostPage/PostPage";
 
 class LeftNav extends React.Component {
   state = {
-    category: ""
+    category: "",
+    currentPost: {}
   };
 
   changeCategory = category => event => {
     this.setState({ category: category.split(" ").join("") });
   };
 
+  changeCurrentPost = post => event => {
+    this.setState({ currentPost: {...post} })
+  }
+
   render() {
+    const currentPost = this.state.currentPost;
+
     return (
       <Router>
         <div>
@@ -40,6 +48,7 @@ class LeftNav extends React.Component {
               exact
               render={() => (
                 <PostList
+                  changeCurrentPost={this.changeCurrentPost}                  
                   category={this.state.category}
                   postsArr={this.props.posts}
                 />
@@ -50,8 +59,10 @@ class LeftNav extends React.Component {
               exact
               render={() =>
                 this.state.category === "AllPosts" ||
+                this.state.category === "PostPage" ||
                 this.state.category === "UserSettings" ? null : (
                   <PostList
+                    changeCurrentPost={this.changeCurrentPost}
                     category={this.state.category}
                     postsArr={this.props.posts.filter(
                       post =>
@@ -64,6 +75,13 @@ class LeftNav extends React.Component {
             />
             <Route path="/AddPost" exact component={AddPost} />
             <Route path="/UserSettings" exact component={UserSettings} />
+            <Route
+              path="/PostPage"
+              exact 
+              render={() => (
+                <PostPage post={currentPost} />
+              )}
+            />
           </div>
         </div>
       </Router>

@@ -42,9 +42,11 @@ export default props => {
         <List>
           {props.postsArr.map((post, i) => {
             return (
-              <ListItem key={i}>
-                <ListItemText primary={post.title} />
-              </ListItem>
+              <Link key={i} onClick={props.changeCurrentPost(post)} to="PostPage" href="/PostPage">
+                <ListItem>
+                  <ListItemText primary={post.title} />
+                </ListItem>
+              </Link>
             );
           })}
         </List>
