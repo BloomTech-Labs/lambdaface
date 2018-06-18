@@ -1,48 +1,19 @@
 import React from "react";
-// import Topbar from './TopBar';
+import axios from 'axios';
+
 import LeftNav from "./LeftNav";
+import PostList from "./PostList";
+import AddPost from "./AddPost";
+import UserSettings from "./UserSettings";
+import PostPage from "./PostPage/PostPage";
+import TopBar from "./TopBar";
 
 class HomePage extends React.Component {
   state = {
     // user: {},
-    posts: [
-      {
-        title: "Announcements Title",
-        content: "Content Test 1",
-        User: "Matt",
-        updown: [55, 3],
-        category: "Announcements",
-        Date: Date.now,
-        comments: ["hi", "ok"]
-      },
-      {
-        title: "Announcements Title2",
-        content: "Content Test 2",
-        User: "Matt",
-        updown: [55, 3],
-        category: "Announcements",
-        Date: Date.now,
-        comments: ["hi", "ok"]
-      },
-      {
-        title: "Dev Team Title2",
-        content: "Content Test 3",
-        User: "John",
-        updown: [88, 43],
-        category: "Dev Team",
-        Date: Date.now,
-        comments: ["red", "oak"]
-      },
-      {
-        title: "Dev Team Title",
-        content: "Content Test 4",
-        User: "John",
-        updown: [88, 43],
-        category: "Dev Team",
-        Date: Date.now,
-        comments: ["red", "oak"]
-      }
-    ],
+    currentCategory: "",
+    currentPost: {},
+    posts: [],
     postOptions: [
       "All Posts",
       "Announcements",
@@ -54,15 +25,63 @@ class HomePage extends React.Component {
       "QA"
     ]
   };
+
+  componentDidMount() {
+    axios
+      .get(`${process.env.REACT_APP_URL}`.concat('api/posts'))
+      .then(res => {
+        console.log(res.data);
+        this.setState({ posts: res.data });
+      })
+      .catch(err => {
+        console.error('Could not get posts: ', err);
+      })
+  }
+
+  changeCurrentCategory = (category, post = null) => event => {
+    this.setState({ currentCategory: category.split(" ").join("") });
+    if (post) this.setState({ currentPost: { ...post } });
+  };
+
+  categorySwitch = (currentCategory, currentPost) => {
+    switch (currentCategory) {
+      case "AddPost":
+        return <AddPost />;
+      case "UserSettings":
+        return <UserSettings />;
+      case "PostPage":
+        return <PostPage post={currentPost} />;
+      default:
+        return (
+          <PostList
+            changeCurrentCategory={this.changeCurrentCategory}
+            category={this.state.currentCategory}
+            postsArr={this.state.posts.filter(
+              post => {
+                if (this.state.currentCategory === 'AllPosts') return true;
+                return post.category.split(" ").join("") === this.state.currentCategory
+              }
+            )}
+          />
+        );
+    }
+  };
+
   render() {
+    const currentCategory = this.state.currentCategory;
+    const currentPost = this.state.currentPost;
+
     return (
       <div>
-        {/* <div className="Topbar">
-            <Topbar />
-          </div> */}
+        <TopBar changeCurrentCategory={this.changeCurrentCategory} />
         <div className="LeftNav">
-          <LeftNav options={this.state.postOptions} posts={this.state.posts} />
+          <LeftNav
+            options={this.state.postOptions}
+            posts={this.state.posts}
+            changeCurrentCategory={this.changeCurrentCategory}
+          />
         </div>
+        <div>{this.categorySwitch(currentCategory, currentPost)}</div>
       </div>
     );
   }
