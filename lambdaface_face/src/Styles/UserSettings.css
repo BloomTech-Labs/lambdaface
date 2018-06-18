@@ -1,0 +1,35 @@
+.user-settings__container {
+  display: flex;
+  width: 1031px;
+  height: 281px;
+  background-color: rgb(251, 252, 253);
+}
+
+.user-settings__left-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+}
+
+.left-col__picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-top: 15%;
+  background-color: blue;
+}
+
+.user-settings__mid-col {
+  display: flex;
+  width: 40%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.user-settings__right-col {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+  width: 20%;
+}

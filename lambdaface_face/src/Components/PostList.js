@@ -1,8 +1,9 @@
-import React from 'react';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-
+import React from "react";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
 // class PostList extends React.Component {
 //   state = {
 //    postsArr:[]
@@ -28,16 +29,28 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 // export default PostList;
 
-export default (props) => {
+export default props => {
   return (
-    <List>
-      {props.postsArr.map((post, i) => {
-        return (
-          <ListItem key={i}>
-            <ListItemText primary={post.title}/>
-          </ListItem>
-        )
-      })}
-    </List>
-  )
-}
+    props.category && (
+      <div>
+        <div>
+          <h1>{props.category}</h1>
+          <Link to="/AddPost" href="/AddPost">
+            <Button>Add Post</Button>
+          </Link>
+        </div>
+        <List>
+          {props.postsArr.map((post, i) => {
+            return (
+              <Link key={i} onClick={props.changeCurrentPost(post)} to="PostPage" href="/PostPage">
+                <ListItem>
+                  <ListItemText primary={post.title} />
+                </ListItem>
+              </Link>
+            );
+          })}
+        </List>
+      </div>
+    )
+  );
+};

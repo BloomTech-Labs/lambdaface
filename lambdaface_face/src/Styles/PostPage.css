@@ -1,0 +1,11 @@
+.post-page__container {
+  display: flex;
+}
+
+.post-page__left-col {
+  display: flex;
+}
+
+.post-page__right col {
+  display: flex;
+}
