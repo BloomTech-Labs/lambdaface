@@ -1,39 +1,48 @@
 
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('comment', (tbl) => {
-    tbl
-      .uuid('id')
-      .primary()
-      .notNullable();
+  return knex.raw('SET foreign_key_checks = 0;').then(() => {
+    return knex.schema.createTable('comment', (table) => {
+      table
+        .uuid('id')
+        .primary()
+        .notNullable();
 
-    tbl
-      .text('content')
-      .notNullable();
+      table
+        .text('content')
+        .notNullable();
 
-    tbl
-      .integer('parentId')
-      .references('id').inTable('post');
+      table
+        .string('parentId');
 
-    tbl
-      .integer('userId')
-      .references('id').inTable('user');
+      table
+        .foreign('parentId')
+        .references('post.id');
 
-    tbl
-      .timestamp('createdAt')
-      .defaultTo(knex.fn.now());
+      table
+        .string('userId')
 
-    tbl
-      .integer('upvotes')
-      .defaultTo(0);
+      table
+        .foreign('userId')
+        .references('user.id')
 
-    tbl
-      .integer('downvotes')
-      .defaultTo(0);
+      table
+        .timestamp('createdAt')
+        .defaultTo(knex.fn.now());
 
-    tbl
-      .string('parentType')
-      .notNullable();
-  });
+      table
+        .integer('upvotes')
+        .defaultTo(0);
+
+      table
+        .integer('downvotes')
+        .defaultTo(0);
+
+      table
+        .string('parentType')
+        .notNullable();
+    });
+  })
+  // .finally(() => knex.raw('SET foreign_key_checks = 0;'));
 };
 
 exports.down = function(knex, Promise) {

@@ -1,8 +1,8 @@
-import React from 'react';
-import Button from '@material-ui/core/Button';
+import React from "react";
+import Button from "@material-ui/core/Button";
+import HomePage from "./Components/HomePage";
 
 class LandingPage extends React.Component {
-
   login = () => event => {
     event.preventDefault();
     this.props.auth.login();
@@ -17,24 +17,23 @@ class LandingPage extends React.Component {
     const { isAuthenticated } = this.props.auth;
     return (
       <div>
-        {
-          !isAuthenticated() &&
+        {!isAuthenticated() && (
           <Button variant="contained" color="primary" onClick={this.login()}>
             Login
           </Button>
-        }
-        {
-          isAuthenticated() &&
+        )}
+        {isAuthenticated() && (
           <div>
-          <span>User is now logged in.</span>
-          <Button variant="contained" color="primary" onClick={this.logout()}>
-           Logout
-          </Button>
+            <span>User is now logged in.</span>
+            <Button variant="contained" color="primary" onClick={this.logout()}>
+              Logout
+            </Button>
+            <HomePage />
           </div>
-        }
+        )}
       </div>
     );
-  };
-};
+  }
+}
 
 export default LandingPage;

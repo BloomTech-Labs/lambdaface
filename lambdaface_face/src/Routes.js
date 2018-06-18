@@ -16,12 +16,15 @@ const Routes = () => {
   return (
     <BrowserRouter>
       <div>
-        <Route path="/" render={(props) => <LandingPage auth={auth} {...props} />} />
-        <Route path="/landing" render={(props) => <LandingPage auth={auth} {...props} />} />
-        <Route path="/callback" render={(props) => {
+        <Route path="/" exact render={(props) => <LandingPage auth={auth} {...props} />} />
+        <Route path="/login" render={(props) => <LandingPage auth={auth} {...props} />} />
+        <Route 
+          path="/callback" 
+          render={(props) => {
           handleAuthentication(props);
           return <Callback {...props} /> 
-        }}/>
+        }}
+        />
       </div>
     </BrowserRouter>
   );
