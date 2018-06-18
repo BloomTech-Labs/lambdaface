@@ -1,10 +1,11 @@
 import auth0 from 'auth0-js';
+const s3url = "http://lambdaface.s3-website.us-west-2.amazonaws.com/"
 
 export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'lambda-face-test1.auth0.com',
     clientID: 'A86C7iFueySjvHsu5fhxq3SVJBNxo1CF',
-    redirectUri: 'http://localhost:3000/callback',
+    redirectUri: s3url + '/callback',
     audience: 'https://lambda-face-test1.auth0.com/userinfo',
     responseType: 'token id_token',
     scope: 'openid'
@@ -19,10 +20,10 @@ export default class Auth {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
         // TODO: find better way to redirect to main page;
-        window.location.replace('http://localhost:3000');
+        window.location.replace(s3url);
       } else if (err) {
         // TODO: find better way to redirect to main page;
-        window.location.replace('http://localhost:3000');        
+        window.location.replace(s3url)        
         console.error(err);
       }
     });
@@ -43,7 +44,7 @@ export default class Auth {
     localStorage.removeItem('expires_at');
 
     // TODO: find better way to navigate back to landing page
-    window.location.replace('http://localhost:3000');    
+    window.location.replace(s3url);    
   };
 
   // evaluate expiration time
