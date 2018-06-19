@@ -18,10 +18,15 @@ const getPosts = (req, res) => {
 
         const downvotes = await knex('votes')
           .where({ parentId: response[i].id, voteType: 'DEC' });
+
+        const user = await knex('user')
+          .where({ id: response[i].userId });
+        
         response[i] = {
           ...response[i],
           upvotes: upvotes.length,
           downvotes: downvotes.length,
+          user: user[0],
         };
       }
       res.status(200).json(response);
@@ -43,10 +48,15 @@ const getNewPosts = (req, res) => {
 
         const downvotes = await knex('votes')
           .where({ parentId: response[i].id, voteType: 'DEC' });
+
+        const user = await knex('user')
+          .where({ id: response[i].userId });
+        
         response[i] = {
           ...response[i],
           upvotes: upvotes.length,
           downvotes: downvotes.length,
+          user: user[0],
         };
       }
       res.status(200).json(response);
