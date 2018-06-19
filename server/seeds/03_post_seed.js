@@ -1,3 +1,4 @@
+const uuidv4 = require('uuid/v4');
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
@@ -13,30 +14,35 @@ exports.seed = function(knex, Promise) {
           categoryId: 1,
         },
         {
+          id: uuidv4(),
           title: 'Test Title 2',
           content: 'Content Test 2',
           userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
           categoryId: 2,
         },
         {
+          id: uuidv4(),
           title: 'Test Title 3',
           content: 'Content Test 3',
           userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
           categoryId: 3,
         },
         {
+          id: uuidv4(),
           title: 'Test Title 4',
           content: 'Content Test 4',
           userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
           categoryId: 4,
         },
         {
+          id: uuidv4(),
           title: 'Test Title 5',
           content: 'Content Test 5',
           userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
           categoryId: 5,
         },
         {
+          id: uuidv4(),
           title: 'Test Title 6',
           content: 'Content Test 6',
           userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
