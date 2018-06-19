@@ -22,7 +22,14 @@ module.exports = (server) => {
   server.route('/api/posts')
     .get(getPosts)
     .post(createPost);
+<<<<<<< HEAD
   server.route('/api/search')
+=======
+  server.route('/api/posts/:category')
+    .get(getPosts);
+  server.route('/api/post/:id')
+  server.route('/api/posts/search/:terms')
+>>>>>>> 19a98bf6fd8283588629aeb5d03e32cd7c6593eb
     .get(searchPosts);
   server.route('/api/posts/:id')
     .get(getPostById)
