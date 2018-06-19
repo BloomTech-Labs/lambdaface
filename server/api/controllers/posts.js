@@ -69,12 +69,10 @@ const getNewPosts = (req, res) => {
 
 
 const searchPosts = (req, res) => {
-  const { terms } = req.query;
+  const { q } = req.query;
+  console.log(q);
 
-  // const rawQuery = `FREETEXT (post, ${q})`
-  // const rawQuery = `CONTAINS (title, ${q})`
-
-  knex('post')
+  knex('post').whereRaw(`MATCH (content) AGAINST(${q})`)
     .then((response) => {
       res.status(200).json(response);
     })

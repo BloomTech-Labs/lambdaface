@@ -22,7 +22,7 @@ module.exports = (server) => {
   server.route('/api/posts')
     .get(getPosts)
     .post(createPost);
-  server.route('/api/posts/search/:terms')
+  server.route('/api/search')
     .get(searchPosts);
   server.route('/api/posts/:id')
     .get(getPostById)
