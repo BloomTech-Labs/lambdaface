@@ -59,6 +59,8 @@ class HomePage extends React.Component {
             postsArr={this.state.posts.filter(
               post => {
                 if (this.state.currentCategory === 'AllPosts') return true;
+                // TODO, DO NOT ALLOW post.categoryID to be 'null'
+                if (post.category === undefined) return true;
                 return post.category.split(" ").join("") === this.state.currentCategory
               }
             )}
