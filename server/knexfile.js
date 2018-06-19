@@ -1,5 +1,7 @@
 // Update with your config settings.
 /* eslint-disable */
+var dotenv = require('dotenv');
+dotenv.load();
 
 module.exports = {
 

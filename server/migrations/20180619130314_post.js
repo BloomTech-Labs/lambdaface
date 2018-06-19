@@ -23,8 +23,7 @@ exports.up = function(knex, Promise) {
         .references('user.id');
 
       table
-        .integer('categoryId')
-        .unsigned();
+        .integer('categoryId');
 
       table
         .foreign('categoryId')
