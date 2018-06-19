@@ -46,7 +46,7 @@ const getPosts = (req, res) => {
     .then(response => res.status(SUCCESS_CODE).json(response))
     .catch(err => res.status(SERVER_ERRROR).json({ err }));
 };
-
+  
 const searchPosts = (req, res) => {
   const { terms } = req.query;
 
