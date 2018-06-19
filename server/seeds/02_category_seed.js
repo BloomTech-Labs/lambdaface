@@ -5,13 +5,13 @@ exports.seed = function(knex, Promise) {
     .then(() => {
       // Inserts seed entries
       return knex('category').insert([
-        { name: 'Announcements' },
-        { name: 'Dev Team' },
-        { name: 'Design Team' },
-        { name: 'Marketing' },
-        { name: 'HR' },
-        { name: 'Product Managers' },
-        { name: 'QA' },
+        { id: 1, name: 'Announcements' },
+        { id: 2, name: 'Dev Team' },
+        { id: 3, name: 'Design Team' },
+        { id: 4, name: 'Marketing' },
+        { id: 5, name: 'HR' },
+        { id: 6, name: 'Product Managers' },
+        { id: 7, name: 'QA' },
       ]);
     });
 };
