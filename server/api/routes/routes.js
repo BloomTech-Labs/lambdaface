@@ -22,12 +22,11 @@ module.exports = (server) => {
   server.route('/api/posts')
     .get(getPosts)
     .post(createPost);
+  server.route('/api/search')
+    .get(searchPosts);
   server.route('/api/posts/:category')
     .get(getPosts);
   server.route('/api/post/:id')
-  server.route('/api/posts/search/:terms')
-    .get(searchPosts);
-  server.route('/api/posts/:id')
     .get(getPostById)
     .put(editPost)
     .delete(deletePost);
