@@ -2,7 +2,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('category', (tbl) => {
     tbl
-      .increments('id')
+      .integer('id')
       .primary();
 
     tbl

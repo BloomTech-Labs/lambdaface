@@ -3,31 +3,6 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom";
-// class PostList extends React.Component {
-//   state = {
-//    postsArr:[]
-//   }
-
-//   componentDidMount() {
-//     this.setState(...this.props.postsArr);
-//   }
-//   render () {
-//     return (
-//       <List>
-//         {this.state.postsArr.map((post, i) => {
-//           return (
-//             <ListItem>
-//               <ListItemText primary={post.title}/>
-//             </ListItem>
-//           )
-//         })}
-//       </List>
-//     )
-//   }
-// }
-
-// export default PostList;
 
 export default props => {
   return (
@@ -35,18 +10,19 @@ export default props => {
       <div>
         <div>
           <h1>{props.category}</h1>
-          <Link to="/AddPost" href="/AddPost">
-            <Button>Add Post</Button>
-          </Link>
+          <Button onClick={props.changeCurrentCategory("AddPost")}>
+            Add Post
+          </Button>
         </div>
         <List>
           {props.postsArr.map((post, i) => {
             return (
-              <Link key={i} onClick={props.changeCurrentPost(post)} to="PostPage" href="/PostPage">
-                <ListItem>
-                  <ListItemText primary={post.title} />
-                </ListItem>
-              </Link>
+              <ListItem
+                key={Math.random()}
+                onClick={props.changeCurrentCategory("PostPage", post)}
+              >
+                <ListItemText primary={post.title} />
+              </ListItem>
             );
           })}
         </List>
