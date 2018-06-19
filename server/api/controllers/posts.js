@@ -78,10 +78,10 @@ const getNewPosts = (req, res) => {
 
 const searchPosts = (req, res) => {
   const { q } = req.query;
-  console.log(q);
+  const rawQuery =  'SELECT * FROM post WHERE MATCH (title, content) AGAINST ("' +q+ '" IN NATURAL LANGUAGE MODE)'
 
-  knex('post').whereRaw(`MATCH (content) AGAINST(${q})`)
-    .then((response) => {
+  knex.raw(rawQuery)
+    .then(([response]) => {
       res.status(200).json(response);
     })
     .catch((error) => {
