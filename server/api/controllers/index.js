@@ -1,5 +1,7 @@
 const {
   getPosts,
+  getNewPosts,
+  searchPosts,
   getPostById,
   createPost,
   editPost,
@@ -15,6 +17,8 @@ const {
 
 const {
   createUser,
+  viewUsers,
+  editUser,
 } = require('./users');
 
 const {
@@ -23,6 +27,8 @@ const {
 
 module.exports = {
   getPosts,
+  getNewPosts,
+  searchPosts,
   getPostById,
   createPost,
   editPost,
@@ -32,5 +38,7 @@ module.exports = {
   editComment,
   deleteComment,
   createUser,
+  viewUsers,
+  editUser,
   postVote,
 };

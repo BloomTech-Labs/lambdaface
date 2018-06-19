@@ -31,6 +31,48 @@ const getPosts = (req, res) => {
     });
 };
 
+const getNewPosts = (req, res) => {
+  knex('post').orderBy('createdAt', 'desc')
+    .then(async (response) => {
+      for (let i = 0; i < response.length; i++) {
+        // Todo:
+        // clean this up
+        // make .count() work in knex.
+        const upvotes = await knex('votes')
+          .where({ parentId: response[i].id, voteType: 'INC' });
+
+        const downvotes = await knex('votes')
+          .where({ parentId: response[i].id, voteType: 'DEC' });
+        response[i] = {
+          ...response[i],
+          upvotes: upvotes.length,
+          downvotes: downvotes.length,
+        };
+      }
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res.status(422).json({ error: err });
+    });
+};
+
+
+
+const searchPosts = (req, res) => {
+  const { terms } = req.query;
+
+  // const rawQuery = `FREETEXT (post, ${q})`
+  // const rawQuery = `CONTAINS (title, ${q})`
+
+  knex('post')
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(422).json(error);
+    })
+}
+
 const getPostById = (req, res) => {
   const { id } = req.params;
 
@@ -96,6 +138,8 @@ const deletePost = (req, res) => {
 
 module.exports = {
   getPosts,
+  getNewPosts,
+  searchPosts,
   getPostById,
   createPost,
   editPost,
