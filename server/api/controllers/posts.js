@@ -46,7 +46,7 @@ const getPosts = (req, res) => {
     .then(response => res.status(SUCCESS_CODE).json(response))
     .catch(err => res.status(SERVER_ERRROR).json({ err }));
 };
-  
+
 const searchPosts = (req, res) => {
   const { terms } = req.query;
 
@@ -55,7 +55,7 @@ const searchPosts = (req, res) => {
 
   knex('post')
     .then((response) => {
-      res.status(200).json(response);
+      res.status(SUCCESS_CODE).json(response);
     })
     .catch((error) => {
       res.status(422).json(error);
@@ -75,7 +75,7 @@ const getPostById = (req, res) => {
       const [ user ] = await knex('user')
         .where({ id: response.userId });
 
-      res.status(200).json({ ...response, user });
+      res.status(SUCCESS_CODE).json({ ...response, user });
     })
     .catch((error) => {
       res.status(NOT_FOUND_ERROR).json({
@@ -102,10 +102,10 @@ const createPost = (req, res) => {
     id, title, content, userId, categoryId,
   }).into('post')
     .then((response) => {
-      res.status(201).json({ success: response });
+      res.status(CREATED_CODE).json({ success: response });
     })
     .catch((error) => {
-      res.status(422).json({ error });
+      res.status(USER_ERROR).json({ error });
     });
 };
 
@@ -119,10 +119,10 @@ const editPost = (req, res) => {
     .where({ id })
     .update({ title, content, updatedAt })
     .then((response) => {
-      res.status(200).json({ success: response });
+      res.status(SUCCESS_CODE).json({ success: response });
     })
     .catch((error) => {
-      res.status(422).json({ error });
+      res.status(USER_ERROR).json({ error });
     });
 };
 
@@ -133,10 +133,10 @@ const deletePost = (req, res) => {
     .where({ id })
     .del()
     .then((response) => {
-      res.status(200).json({ success: response });
+      res.status(SUCCESS_CODE).json({ success: response });
     })
     .catch((error) => {
-      res.status(422).json({ error });
+      res.status(USER_ERROR).json({ error });
     });
 };
 
