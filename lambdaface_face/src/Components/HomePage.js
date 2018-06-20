@@ -33,7 +33,7 @@ class HomePage extends React.Component {
 
   getPosts = () => {
     axios
-      .get(`${process.env.REACT_APP_URL}`.concat('api/posts'))
+      .get(`http://localhost:5000/api/posts`)
       .then(res => {
         // console.log(res.data);
         this.setState({ posts: res.data });

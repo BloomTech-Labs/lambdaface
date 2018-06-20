@@ -3,6 +3,7 @@ import { Route, BrowserRouter } from "react-router-dom";
 import Callback from "./Callback";
 import Auth from "./auth";
 import LandingPage from "./LandingPage";
+import openSocket from 'socket.io-client';
 
 const auth = new Auth();
 
@@ -13,6 +14,11 @@ const handleAuthentication = (nextState, replace) => {
 };
 
 const Routes = () => {
+  var socket = openSocket('http://localhost:5000');
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('my other event', { my: 'data' });
+  });
   return (
     <BrowserRouter>
       <div>
