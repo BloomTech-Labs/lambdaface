@@ -7,7 +7,7 @@ export default props => {
   return (
     <div>
       <img src={LambdaLogo} alt="logo" />
-      <Button onClick={props.changeCurrentCategory("User Settings")}>
+      <Button onClick={props.changeCurrentCategory(["User Settings", null])}>
         User Settings
       </Button>
     </div>

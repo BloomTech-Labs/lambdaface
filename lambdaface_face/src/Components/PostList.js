@@ -9,8 +9,8 @@ export default props => {
     props.category && (
       <div>
         <div>
-          <h1>{props.category}</h1>
-          <Button onClick={props.changeCurrentCategory("AddPost")}>
+          <h1>{props.category[0]}</h1>
+          <Button onClick={props.changeCurrentCategory(["AddPost", null])}>
             Add Post
           </Button>
         </div>
@@ -19,7 +19,7 @@ export default props => {
             return (
               <ListItem
                 key={Math.random()}
-                onClick={props.changeCurrentCategory("PostPage", post)}
+                onClick={props.changeCurrentCategory(["PostPage", null], post)}
               >
                 <ListItemText primary={post.title} />
               </ListItem>
