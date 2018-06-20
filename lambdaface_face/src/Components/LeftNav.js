@@ -9,7 +9,7 @@ const LeftNav = props => {
       {props.options.map((category, i) => {
         const image = require(`../Assets/${category}.svg`)
         return (
-          <ListItem button key={Math.random()} onClick={props.changeCurrentCategory(category)}>
+          <ListItem button key={Math.random()} onClick={props.changeCurrentCategory([category, i])}>
             <img src={image} alt={category} />
             <ListItemText primary={category} />
           </ListItem>
