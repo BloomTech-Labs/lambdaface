@@ -5,6 +5,7 @@ const getComments = (req, res) => {
   const { parentId } = req.params;
   knex('comment')
     .where({ parentId })
+    .orderBy('createdAt', 'desc')
     .then(async (response) => {
       // todo votes
       for (let comment of response) {
