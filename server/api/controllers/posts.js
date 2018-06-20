@@ -140,7 +140,6 @@ const deletePost = (req, res) => {
 
 module.exports = {
   getPosts,
-  getNewPosts,
   searchPosts,
   getPostById,
   createPost,
