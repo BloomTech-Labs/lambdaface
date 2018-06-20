@@ -38,7 +38,6 @@ const viewUsers = (req, res) => {
       res.status(200).json({ users: response })
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).json({ error: err });
     });
 };
