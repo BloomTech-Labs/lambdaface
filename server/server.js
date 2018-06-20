@@ -1,24 +1,12 @@
 const express = require('express');
 const cors = require('cors');
+const dotenv = require('dotenv');
 
-require('dotenv').config();
+dotenv.config();
 
 // todo properly set up working enviroment ie "development" and "production"
-const whitelist = [
-  'http://localhost:3000',
-  'http://lambdaface.s3-website.us-west-2.amazonaws.com/',
-];
 
 const port = process.env.PORT || 5000;
-const corsOptions = {
-  origin: (origin, callback) => {
-    whitelist.find(val => val === origin)
-      ? callback(null, true)
-      : callback(new Error('Not allowed by CORS.'))
-  },
-  credentials: true
-}
-
 const routes = require('./api/routes/routes');
 
 const server = express();
