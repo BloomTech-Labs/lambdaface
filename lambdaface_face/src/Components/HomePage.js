@@ -35,7 +35,7 @@ class HomePage extends React.Component {
     axios
       .get(`${process.env.REACT_APP_URL}`.concat('api/posts'))
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         this.setState({ posts: res.data });
       })
       .catch(err => {

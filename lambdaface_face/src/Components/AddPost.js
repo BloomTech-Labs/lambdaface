@@ -1,10 +1,10 @@
 import React from "react";
 import axios from "axios";
 
-import CategoryButton from "./CategoryButton";
 import Button from "@material-ui/core/Button";
-import "../Styles/AddPost.css";
+import CategoryButton from "./CategoryButton";
 import backArrow from "../Assets/BackArrow.svg";
+import "../Styles/AddPost.css";
 
 class AddPost extends React.Component {
   state = {
