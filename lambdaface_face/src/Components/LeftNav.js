@@ -7,7 +7,7 @@ const LeftNav = props => {
   return (
     <List component="nav">
       {props.options.map((category, i) => {
-        const image = require`../Assets/${category}.svg`;
+        const image = require(`../Assets/${category}.svg`);
         return (
           <ListItem
             button
