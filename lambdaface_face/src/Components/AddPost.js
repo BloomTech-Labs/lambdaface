@@ -2,13 +2,16 @@ import React from "react";
 import axios from "axios";
 
 import Button from "@material-ui/core/Button";
-import "../Styles/AddPost.css";
+import CategoryButton from "./CategoryButton";
 import backArrow from "../Assets/BackArrow.svg";
+import "../Styles/AddPost.css";
 
 class AddPost extends React.Component {
   state = {
     // TODO: figure out where title fits in with given Sketch
-    content: ""
+    content: "",
+    // get category from props, do not let AllPosts be an option
+    category: this.props.category[0] === "AllPosts" ? ["Announcements", 1] : this.props.category
   };
 
   handleChange = name => event => {
@@ -17,12 +20,23 @@ class AddPost extends React.Component {
     });
   };
 
+  changeCategory = category => {
+    this.setState({
+      category: category
+    });
+  }
+
   submitPost = () => event => {
     event.preventDefault();
-    const newPost = { content: this.state.content };
-    // TODO: ADD rest of newPost info here, title, content, user_id, category_id
+    const newPost = {
+      title: this.state.content.slice(0, 10),
+      content: this.state.content,
+      userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
+      categoryId: this.state.category[1],
+    };
+    // TODO: ADD dynamic userId
     axios
-      .post("https://localhost:5000/api/posts", newPost)
+      .post(`${process.env.REACT_APP_URL}`.concat('api/posts'), newPost)
       .then(res => {
         // console.log(res);
         this.setState({ content: "" });
@@ -34,6 +48,7 @@ class AddPost extends React.Component {
   };
 
   render() {
+    const category = this.state.category;
     return (
       <div className="add-post__container">
         <div className="container__left-col">
@@ -58,6 +73,7 @@ class AddPost extends React.Component {
               <div>List</div>
             </div>
             <div className="bottom-row__right">
+              <CategoryButton category={category} changeCategory={this.changeCategory} categories={this.props.options} />
               {/* TODO: get avatar & name dynamically */}
               <div className="bottom-row__right-circle" />
               <span>John Doe</span>

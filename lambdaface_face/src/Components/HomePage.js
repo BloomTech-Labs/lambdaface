@@ -11,7 +11,8 @@ import TopBar from "./TopBar";
 class HomePage extends React.Component {
   state = {
     // user: {},
-    currentCategory: "",
+    currentCategory: ['AllPosts', '0'],
+    previousCategory: [null, null],
     currentPost: {},
     posts: [],
     postOptions: [
@@ -27,26 +28,31 @@ class HomePage extends React.Component {
   };
 
   componentDidMount() {
+    this.getPosts();
+  }
+
+  getPosts = () => {
     axios
       .get(`${process.env.REACT_APP_URL}`.concat('api/posts'))
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         this.setState({ posts: res.data });
       })
       .catch(err => {
         console.error('Could not get posts: ', err);
-      })
-  }
+      });
+  };
 
   changeCurrentCategory = (category, post = null) => event => {
-    this.setState({ currentCategory: category.split(" ").join("") });
+    const noSpaces = [category[0].split(" ").join(""), category[1]];
+    this.setState({ previousCategory: this.state.currentCategory, currentCategory: noSpaces });
     if (post) this.setState({ currentPost: { ...post } });
   };
 
   categorySwitch = (currentCategory, currentPost) => {
-    switch (currentCategory) {
+    switch (currentCategory[0]) {
       case "AddPost":
-        return <AddPost />;
+        return <AddPost category={this.state.previousCategory} options={this.state.postOptions} />;
       case "UserSettings":
         return <UserSettings />;
       case "PostPage":
@@ -58,10 +64,10 @@ class HomePage extends React.Component {
             category={this.state.currentCategory}
             postsArr={this.state.posts.filter(
               post => {
-                if (this.state.currentCategory === 'AllPosts') return true;
+                if (this.state.currentCategory[0] === 'AllPosts') return true;
                 // TODO, DO NOT ALLOW post.categoryID to be 'null'
-                if (post.category === undefined) return true;
-                return post.category.split(" ").join("") === this.state.currentCategory
+                // if (post.category === undefined) return true;
+                return post.categoryId === this.state.currentCategory[1]
               }
             )}
           />

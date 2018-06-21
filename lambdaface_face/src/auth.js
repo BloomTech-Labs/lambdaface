@@ -1,11 +1,11 @@
 import auth0 from 'auth0-js';
-const s3url = "http://lambdaface.s3-website.us-west-2.amazonaws.com/"
+const s3url =   "http://lambdaface.s3-website.us-west-2.amazonaws.com/"  //"http://localhost:3000/"
 
 export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'lambda-face-test1.auth0.com',
     clientID: 'A86C7iFueySjvHsu5fhxq3SVJBNxo1CF',
-    redirectUri: s3url + '/callback',
+    redirectUri: s3url + 'callback',
     audience: 'https://lambda-face-test1.auth0.com/userinfo',
     responseType: 'token id_token',
     scope: 'openid'

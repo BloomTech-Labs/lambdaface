@@ -4,8 +4,15 @@ const uuidv4 = require('uuid/v4');
 const getComments = (req, res) => {
   const { parentId } = req.params;
   knex('comment')
-    .where('parentId', parentId)
-    .then((response) => {
+    .where({ parentId })
+    .orderBy('createdAt', 'desc')
+    .then(async (response) => {
+      // todo votes
+      for (let comment of response) {
+        const [ user ] = await knex('user')
+          .where({ id: comment.userId });
+        comment.user = user;
+      }
       res.status(200).json(response);
     })
     .catch((err) => {
