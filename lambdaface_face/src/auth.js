@@ -32,8 +32,8 @@ export default class Auth {
 
   // place auth response in user storage
   setSession = (authResult) => {
-    const { name: email, sub: id, picture } = jwt_decode(authResult.idToken);
-    const newUser = { id, email, picture, firstName: "Pablo", lastName: "Picasso" }
+    const { name: email, sub: id, picture: profilePicture } = jwt_decode(authResult.idToken);
+    const newUser = { id, email, profilePicture, firstName: "Pablo", lastName: "Picasso" }
     return axios
       .post(`${process.env.REACT_APP_URL}`.concat('api/users'), newUser)
       .then(res => {
