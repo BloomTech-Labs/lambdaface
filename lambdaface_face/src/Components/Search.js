@@ -9,17 +9,17 @@ class Search extends React.Component {
     results: [],
   };
 
-  getResults = () => {
-    axios
-      .get(`${process.env.REACT_APP_URL}api/posts/search?=`.concat(`${this.state.query}`))
-        .then((res) => {
-          this.setState({ results: res.data})
-        })
-        .catch((err) => {
-          console.log('ERROR', err);
-        })
+  // getResults = () => {
+  //   axios
+  //     .get(`${process.env.REACT_APP_URL}api/posts/search?=`.concat(`${this.state.query}`))
+  //       .then((res) => {
+  //         this.setState({ results: res.data})
+  //       })
+  //       .catch((err) => {
+  //         console.log('ERROR', err);
+  //       })
 
-  }
+  // }
 
   handleChange = (event) => {
     this.setState({
@@ -27,16 +27,16 @@ class Search extends React.Component {
     });
   };
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.onSubmit([`Search Results for: ${this.state.query}`]);
-  }
+  // handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   this.props.onSubmit([`Search Results for: ${this.state.query}`]);
+  // }
 
   render() {
     return (
       <div className="search">
         {/* <form onSubmit={this.handleSubmit}> */}
-        <form onSubmit={this.props.onSubmit([`Search Results for: ${this.state.query}`], this.state.results)}>
+        <form onSubmit={this.props.onSubmit([`Search Results for: ${this.state.query}`], null)}>
           <TextField 
             type="text"
             placeholder="Search"

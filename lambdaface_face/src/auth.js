@@ -7,7 +7,7 @@ export default class Auth {
     redirectUri: 'http://localhost:3000/callback',
     audience: 'https://lambda-face-test1.auth0.com/userinfo',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
   login = () => {

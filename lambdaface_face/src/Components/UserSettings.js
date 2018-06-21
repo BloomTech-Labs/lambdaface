@@ -29,7 +29,7 @@ class UserSettings extends React.Component {
     const userId = userInfo.userId;
     // console.log("updating Info!", userInfo);
     axios
-      .put(`${process.env.REACT_APP_URL}/users/${userId}`, userInfo)
+      .put(`${process.env.REACT_APP_URL}api/users/${userId}`, userInfo)
       .then(res => {
         console.log(res);
         // need to know what res looks like
