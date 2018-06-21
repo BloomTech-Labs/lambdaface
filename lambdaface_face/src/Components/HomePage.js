@@ -7,8 +7,6 @@ import AddPost from "./AddPost";
 import UserSettings from "./UserSettings";
 import PostPage from "./PostPage/PostPage";
 import TopBar from "./TopBar";
-import SearchResults from './SearchResults';
-import Search from "./Search";
 
 class HomePage extends React.Component {
   state = {
@@ -66,9 +64,6 @@ class HomePage extends React.Component {
     const noSpaces = [category[0].split(" ").join(""), category[1]];
     this.setState({ previousCategory: this.state.currentCategory, currentCategory: noSpaces });
     if (category[0].length > 16) {
-      console.log(category[0]);
-      console.log(category[0].length)
-      console.log(category[0].substring(0,6) === "Search");
       this.searchResults(category[0].slice(20, category[0].length));
     }
     if (post) this.setState({ currentPost: { ...post } });
@@ -94,7 +89,7 @@ class HomePage extends React.Component {
         return <UserSettings userInfo={this.state.user} />;
       case "PostPage":
         return <PostPage post={currentPost} />;
-      case (currentCategory[0].substring(0, 6) === "Search"):
+      case "SearchResultsfor:yo":
         return (<PostList 
           postsArr={this.state.searchResults} 
           category={this.state.currentCategory}
