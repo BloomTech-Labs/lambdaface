@@ -63,7 +63,7 @@ class HomePage extends React.Component {
     event.preventDefault();
     const noSpaces = [category[0].split(" ").join(""), category[1]];
     this.setState({ previousCategory: this.state.currentCategory, currentCategory: noSpaces });
-    if (category[0].length > 16) {
+    if (category[0].includes("Search")) {
       this.searchResults(category[0].slice(20, category[0].length));
     }
     if (post) this.setState({ currentPost: { ...post } });
@@ -82,14 +82,14 @@ class HomePage extends React.Component {
   };
 
   categorySwitch = (currentCategory, currentPost) => {
-    switch (currentCategory[0]) {
+    switch (currentCategory[0].substring(0,17)) {
       case "AddPost":
         return <AddPost category={this.state.previousCategory} options={this.state.postOptions} />;
       case "UserSettings":
         return <UserSettings userInfo={this.state.user} />;
       case "PostPage":
         return <PostPage post={currentPost} />;
-      case "SearchResultsfor:yo":
+      case "SearchResultsfor:":
         return (<PostList 
           postsArr={this.state.searchResults} 
           category={this.state.currentCategory}
