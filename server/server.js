@@ -14,7 +14,8 @@ dotenv.config();
 // todo properly set up working enviroment ie "development" and "production"
 
 const httpServer = http.Server(server);
-const io = socketIo(httpServer)
+const io = socketIo(httpServer);
+
 server.use(express.json());
 server.use(cors(corsOptions));
 
