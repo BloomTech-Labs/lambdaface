@@ -73,11 +73,10 @@ class HomePage extends React.Component {
     axios
     .get(`${process.env.REACT_APP_URL}api/posts/search?=`.concat(`${this.state.query}`))
       .then((res) => {
-        console.log("QUERY!", query);
         this.setState({ searchResults: res.data })
       })
       .catch((err) => {
-        console.log('ERROR', err);
+        console.error('ERROR', err);
       })
   };
 
@@ -114,7 +113,6 @@ class HomePage extends React.Component {
   };
 
   render() {
-    console.log(this.state);
     const currentCategory = this.state.currentCategory;
     const currentPost = this.state.currentPost;
     return (
