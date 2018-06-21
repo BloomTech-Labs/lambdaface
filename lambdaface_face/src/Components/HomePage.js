@@ -10,7 +10,7 @@ import TopBar from "./TopBar";
 
 class HomePage extends React.Component {
   state = {
-    // user: {},
+    user: {},
     currentCategory: ['AllPosts', '0'],
     previousCategory: [null, null],
     currentPost: {},
@@ -29,6 +29,7 @@ class HomePage extends React.Component {
 
   componentDidMount() {
     this.getPosts();
+    this.getUserInfo();
   }
 
   getPosts = () => {
@@ -43,7 +44,20 @@ class HomePage extends React.Component {
       });
   };
 
+  getUserInfo = () => {
+    const jwtDecode = require('jwt-decode');
+    const token = localStorage.getItem('id_token');
+
+    let userInfo = {sub: '', name: ''};
+  
+    if (token) {
+      userInfo = jwtDecode(token);
+      this.setState({ user: userInfo });
+    }
+  };
+
   changeCurrentCategory = (category, post = null) => event => {
+    event.preventDefault();
     const noSpaces = [category[0].split(" ").join(""), category[1]];
     this.setState({ previousCategory: this.state.currentCategory, currentCategory: noSpaces });
     if (post) this.setState({ currentPost: { ...post } });
@@ -54,7 +68,7 @@ class HomePage extends React.Component {
       case "AddPost":
         return <AddPost category={this.state.previousCategory} options={this.state.postOptions} />;
       case "UserSettings":
-        return <UserSettings />;
+        return <UserSettings userInfo={this.state.user} />;
       case "PostPage":
         return <PostPage post={currentPost} />;
       default:
@@ -78,10 +92,12 @@ class HomePage extends React.Component {
   render() {
     const currentCategory = this.state.currentCategory;
     const currentPost = this.state.currentPost;
-
     return (
       <div>
-        <TopBar changeCurrentCategory={this.changeCurrentCategory} />
+        <TopBar 
+          changeCurrentCategory={this.changeCurrentCategory}
+          userInfo={this.state.user}
+        />
         <div className="LeftNav">
           <LeftNav
             options={this.state.postOptions}
