@@ -10,6 +10,7 @@ import "../Styles/UserSettings.css";
 class UserSettings extends React.Component {
   state = {
     userId: this.props.userInfo.sub,
+    picture: this.props.userInfo.picture,
     firstname: "",
     lastname: "",
     email: this.props.userInfo.name,
@@ -40,6 +41,10 @@ class UserSettings extends React.Component {
   };
 
   render() {
+    const imageSize = {
+      width: '150px',
+      height: '150px',
+    };
     return (
       <div className="user-settings__container">
         {" "}
@@ -47,8 +52,11 @@ class UserSettings extends React.Component {
         <div className="user-settings__left-col">
           {" "}
           {/*left column*/}
-          <div className="left-col__picture" />
-  
+          {/* <div className="left-col__picture" /> */}
+          <div className="user-settings__profilepic">
+            <img src={this.state.picture} alt="profilepicture" style={imageSize} />
+          </div>
+
           <span>(change)</span>
         </div>
         <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
