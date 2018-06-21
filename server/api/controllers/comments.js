@@ -11,7 +11,10 @@ const getComments = (req, res) => {
       for (let comment of response) {
         const [ user ] = await knex('user')
           .where({ id: comment.userId });
+        
+        const [ commentCount ] = await knex('comment').where({ parentId: comment.id }) //.count('parentId as p');
         comment.user = user;
+        comment.commentCount = commentCount;
       }
       res.status(200).json(response);
     })
