@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import CategoryButton from "./CategoryButton";
 import backArrow from "../Assets/BackArrow.svg";
 import "../Styles/AddPost.css";
@@ -52,7 +53,9 @@ class AddPost extends React.Component {
     return (
       <div className="add-post__container">
         <div className="container__left-col">
-          <img src={backArrow} alt="Back" height="30px" width="30px" />
+          <IconButton onClick={this.props.changeCurrentCategory(this.props.category)}>
+            <img src={backArrow} alt="Back" height="30px" width="30px" />
+          </IconButton>
         </div>
 
         <div className="container__right-col">

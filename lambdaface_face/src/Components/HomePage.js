@@ -62,7 +62,8 @@ class HomePage extends React.Component {
   changeCurrentCategory = (category, post = null) => event => {
     event.preventDefault();
     const noSpaces = [category[0].split(" ").join(""), category[1]];
-    this.setState({ previousCategory: this.state.currentCategory, currentCategory: noSpaces });
+    this.setState({ currentCategory: noSpaces });
+    if (this.state.currentCategory[1] !== null) this.setState({ previousCategory: this.state.currentCategory });
     if (category[0].includes("Search")) {
       this.searchResults(category[0].slice(20, category[0].length));
     }
@@ -84,11 +85,11 @@ class HomePage extends React.Component {
   categorySwitch = (currentCategory, currentPost) => {
     switch (currentCategory[0].substring(0,17)) {
       case "AddPost":
-        return <AddPost category={this.state.previousCategory} options={this.state.postOptions} />;
+        return <AddPost category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} />;
       case "UserSettings":
-        return <UserSettings userInfo={this.state.user} />;
+        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
       case "PostPage":
-        return <PostPage post={currentPost} />;
+        return <PostPage post={currentPost} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} />;
       case "SearchResultsfor:":
         return (<PostList 
           postsArr={this.state.searchResults} 
