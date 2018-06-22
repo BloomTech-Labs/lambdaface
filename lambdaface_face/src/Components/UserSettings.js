@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 
+import PasswordReset from "./PasswordReset";
+
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
@@ -11,10 +13,11 @@ class UserSettings extends React.Component {
   state = {
     userId: this.props.userInfo.sub,
     picture: this.props.userInfo.picture,
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: this.props.userInfo.name,
-    password: "",
+    passwordResetEmail: this.props.userInfo.name,
+    passwordReset: false,
     selectedImage: null,
   };
 
@@ -23,6 +26,24 @@ class UserSettings extends React.Component {
       [name]: event.target.value
     });
   };
+
+  resetPassword = () => {
+    const userStuff = {
+      client_id: 'A86C7iFueySjvHsu5fhxq3SVJBNxo1CF',
+      // client_id: 'cFkSfN8JoM6pB2FJVORWqPcKBNxNTz0w',
+      email: this.state.passwordResetEmail,
+      connection: 'Username-Password-Authentication'}
+
+    axios.post('https://lambda-face-test1.auth0.com/dbconnections/change_password', userStuff)
+    // axios.post('https://kevc.auth0.com/dbconnections/change_password', userStuff)
+      .then((res) => {
+        this.setState({ passwordReset: true });
+        console.log({ success: res });
+      })
+      .catch((err) => {
+        console.error({ err });
+      })
+  }
 
   updateInfo = () => event => {
     event.preventDefault();
@@ -59,26 +80,28 @@ class UserSettings extends React.Component {
 
           <span>(change)</span>
         </div>
-        <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
+        <form className="user-settings__mid-col" onSubmit={this.updateInfo}>
           {" "}
           {/*middle column*/}
           <TextField
-            id="firstname-input"
+            id="firstName-input"
             label="First Name"
             // className={}
             type="text"
-            value={this.state.firstname}
-            onChange={this.handleChange("firstname")}
+            value={this.state.firstName}
+            onChange={this.handleChange("firstName")}
             margin="normal"
+            required
           />
           <TextField
-            id="lastname-input"
+            id="lastName-input"
             label="Last Name"
             // className={}
             type="text"
-            value={this.state.lastname}
-            onChange={this.handleChange("lastname")}
+            value={this.state.lastName}
+            onChange={this.handleChange("lastName")}
             margin="normal"
+            required
           />
           <TextField
             id="email-input"
@@ -88,8 +111,9 @@ class UserSettings extends React.Component {
             value={this.state.email}
             onChange={this.handleChange("email")}
             margin="normal"
+            required
           />
-          <TextField
+          {/* <TextField
             id="password-input"
             label="Password"
             // className={}
@@ -97,14 +121,20 @@ class UserSettings extends React.Component {
             value={this.state.password}
             onChange={this.handleChange("password")}
             margin="normal"
-          />
+          /> */}
+          <Button variant="contained" onClick={this.resetPassword}>
+            Reset Password
+          </Button>
           <Button variant="contained" type="submit">
             Save Settings
           </Button>
         </form>
         <div className="user-settings__right-col">
           {/*right column*/}
-          <div>...</div>
+          {/* <div>...</div> */}
+        </div>
+        <div className="user-settings__passwordReset">
+          {this.state.passwordReset ? <PasswordReset /> : null }
         </div>
       </div>
     );
