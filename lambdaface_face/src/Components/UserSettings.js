@@ -9,10 +9,13 @@ import "../Styles/UserSettings.css";
 
 class UserSettings extends React.Component {
   state = {
+    userId: this.props.userInfo.sub,
+    picture: this.props.userInfo.picture,
     firstname: "",
     lastname: "",
-    email: "",
-    password: ""
+    email: this.props.userInfo.name,
+    password: "",
+    selectedImage: null,
   };
 
   handleChange = name => event => {
@@ -24,10 +27,12 @@ class UserSettings extends React.Component {
   updateInfo = () => event => {
     event.preventDefault();
     const userInfo = { ...this.state };
+    const userId = userInfo.userId;
     // console.log("updating Info!", userInfo);
     axios
-      .put("urlgoeshere", userInfo)
+      .put(`${process.env.REACT_APP_URL}api/users/${userId}`, userInfo)
       .then(res => {
+        console.log(res);
         // need to know what res looks like
       })
       .catch(err => {
@@ -36,6 +41,10 @@ class UserSettings extends React.Component {
   };
 
   render() {
+    const imageSize = {
+      width: '150px',
+      height: '150px',
+    };
     return (
       <div className="user-settings__container">
         {" "}
@@ -43,8 +52,11 @@ class UserSettings extends React.Component {
         <div className="user-settings__left-col">
           {" "}
           {/*left column*/}
-          {/* <img className="left-col__picture" src="" alt=""/> */}
-          <div className="left-col__picture" />
+          {/* <div className="left-col__picture" /> */}
+          <div className="user-settings__profilepic">
+            <img src={this.state.picture} alt="profilepicture" style={imageSize} />
+          </div>
+
           <span>(change)</span>
         </div>
         <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>

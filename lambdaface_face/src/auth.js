@@ -1,5 +1,7 @@
 import auth0 from 'auth0-js';
 const s3url =   "http://lambdaface.s3-website.us-west-2.amazonaws.com/"  //"http://localhost:3000/"
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 export default class Auth {
   auth0 = new auth0.WebAuth({
@@ -8,7 +10,7 @@ export default class Auth {
     redirectUri: s3url + 'callback',
     audience: 'https://lambda-face-test1.auth0.com/userinfo',
     responseType: 'token id_token',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
   login = () => {
@@ -16,9 +18,9 @@ export default class Auth {
   };
 
   handleAuthentication = () => {
-    this.auth0.parseHash((err, authResult) => {
+    this.auth0.parseHash(async (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
+        await this.setSession(authResult);
         // TODO: find better way to redirect to main page;
         window.location.replace(s3url);
       } else if (err) {
@@ -31,10 +33,26 @@ export default class Auth {
 
   // place auth response in user storage
   setSession = (authResult) => {
-    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
+    const { name: email, sub: id, picture: profilePicture } = jwt_decode(authResult.idToken);
+    const newUser = { id, email, profilePicture, firstName: "Pablo", lastName: "Picasso" }
+    return axios
+      .post(`${process.env.REACT_APP_URL}`.concat('api/users'), newUser)
+      .then(res => {
+        // user was successfully created
+        const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+        localStorage.setItem('access_token', authResult.accessToken);
+        localStorage.setItem('id_token', authResult.idToken);
+        localStorage.setItem('expires_at', expiresAt);
+      })
+      .catch(err => {
+        // user had already been created, and is thus signing in
+        if (err.response.data.error.code === "ER_DUP_ENTRY" && err.response.status === 422) {
+          const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+          localStorage.setItem('access_token', authResult.accessToken);
+          localStorage.setItem('id_token', authResult.idToken);
+          localStorage.setItem('expires_at', expiresAt);
+        }
+      });
   };
 
   // Remove access items from local storage

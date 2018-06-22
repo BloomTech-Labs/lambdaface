@@ -15,12 +15,20 @@ class WriteComment extends React.Component {
   };
 
   submitComment = () => event => {
-    const newComment = { content: this.state.content };
+    const newComment = {
+      content: this.state.content,
+      // TODO, make user dynamic
+      userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
+      parentId: this.props.commentInfo.parentId,
+      parentType: this.props.commentInfo.parentType
+    };
+
     axios
-      .post("http://localhost5000/api/comments", newComment)
+      .post(`${process.env.REACT_APP_URL}`.concat('api/comments'), newComment)
       .then(res => {
         // TODO: do something with the response, preferably something useful
         this.setState({ content: "" });
+        this.props.reloadComments();
       })
       .catch(err => {
         console.error(err);

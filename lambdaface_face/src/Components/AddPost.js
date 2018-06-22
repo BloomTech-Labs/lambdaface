@@ -29,7 +29,7 @@ class AddPost extends React.Component {
   submitPost = () => event => {
     event.preventDefault();
     const newPost = {
-      title: this.state.content.slice(0, 10),
+      title: this.state.content.slice(0, 40),
       content: this.state.content,
       userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
       categoryId: this.state.category[1],
