@@ -18,7 +18,7 @@ class WriteComment extends React.Component {
     const newComment = {
       content: this.state.content,
       // TODO, make user dynamic
-      userId: this.props.userInfo.sub,
+      userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
       parentId: this.props.commentInfo.parentId,
       parentType: this.props.commentInfo.parentType
     };
@@ -47,7 +47,7 @@ class WriteComment extends React.Component {
         />
         <UserBar
           type="writecomment"
-          info={this.props.userInfo}
+          info={{ User: "rambo" }}
           submitComment={this.submitComment}
         />
       </form>
