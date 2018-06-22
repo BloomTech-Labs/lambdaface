@@ -22,7 +22,7 @@ class Search extends React.Component {
             placeholder="Search"
             onChange={this.handleChange}
           />
-          <button>Go</button>
+          <button disabled={!this.state.query}>Go</button>
         </form>
       </div>
     )

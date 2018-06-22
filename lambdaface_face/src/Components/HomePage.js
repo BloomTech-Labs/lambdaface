@@ -71,15 +71,17 @@ class HomePage extends React.Component {
   };
   
   searchResults = (query) => {
-    query = query.replace(/\s+/g, '%20');
-    axios
-    .get(`${process.env.REACT_APP_URL}api/search/`.concat(`${query}`))
-      .then((res) => {
-        this.setState({ searchResults: res.data })
-      })
-      .catch((err) => {
-        console.error('ERROR', err);
-      })
+    if (query) {
+      query = query.replace(/\s+/g, '%20');
+      axios
+      .get(`${process.env.REACT_APP_URL}api/search/`.concat(`${query}`))
+        .then((res) => {
+          this.setState({ searchResults: res.data })
+        })
+        .catch((err) => {
+          console.error('ERROR', err);
+        })
+    } console.error("Empty Query")
   };
 
   categorySwitch = (currentCategory, currentPost) => {
