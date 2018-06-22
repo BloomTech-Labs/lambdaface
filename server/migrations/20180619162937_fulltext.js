@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
 }
 
 exports.down = function(knex, Promise) {
-  let dropQuery = `ALTER TABLE post
-    DROP "FULLTEXT"`
-  return knex.raw(dropQuery);
+//   let dropQuery = `ALTER TABLE post
+//     DROP "FULLTEXT"`
+//   return knex.raw(dropQuery);
 }
