@@ -4,15 +4,17 @@ import axios from "axios";
 import PasswordReset from "./PasswordReset";
 
 import TextField from "@material-ui/core/TextField";
+import { IconButton } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
+import backArrow from "../Assets/BackArrow.svg";
 import "../Styles/UserSettings.css";
 
 
 class UserSettings extends React.Component {
   state = {
     userId: this.props.userInfo.sub,
-    picture: this.props.userInfo.picture,
+    profilePicture: this.props.userInfo.picture,
     firstName: "",
     lastName: "",
     email: this.props.userInfo.name,
@@ -30,12 +32,10 @@ class UserSettings extends React.Component {
   resetPassword = () => {
     const userStuff = {
       client_id: 'A86C7iFueySjvHsu5fhxq3SVJBNxo1CF',
-      // client_id: 'cFkSfN8JoM6pB2FJVORWqPcKBNxNTz0w',
       email: this.state.passwordResetEmail,
       connection: 'Username-Password-Authentication'}
 
     axios.post('https://lambda-face-test1.auth0.com/dbconnections/change_password', userStuff)
-    // axios.post('https://kevc.auth0.com/dbconnections/change_password', userStuff)
       .then((res) => {
         this.setState({ passwordReset: true });
         console.log({ success: res });
@@ -67,15 +67,16 @@ class UserSettings extends React.Component {
       height: '150px',
     };
     return (
-      <div className="user-settings__container">
-        {" "}
-        {/*container*/}
-        <div className="user-settings__left-col">
+      <div>
+        <IconButton onClick={this.props.changeCurrentCategory(this.props.category)}>
+          <img src={backArrow} alt="Back" height="30px" width="30px" />
+        </IconButton>
+        <div className="user-settings__container">
           {" "}
           {/*left column*/}
-          {/* <div className="left-col__picture" /> */}
-          <div className="user-settings__profilepic">
-            <img src={this.state.picture} alt="profilepicture" style={imageSize} />
+          <div className="user-settings__left-col">
+            <img src={this.state.profilePicture} alt="profilepicture" style={imageSize} className="left-col__picture" />
+            <span>(change)</span>
           </div>
 
           <span>(change)</span>
