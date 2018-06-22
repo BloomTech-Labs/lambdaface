@@ -70,8 +70,9 @@ class HomePage extends React.Component {
   };
   
   searchResults = (query) => {
+    query = query.replace(/\s+/g, '%20');
     axios
-    .get(`${process.env.REACT_APP_URL}api/posts/search?=`.concat(`${this.state.query}`))
+    .get(`${process.env.REACT_APP_URL}api/search/`.concat(`${query}`))
       .then((res) => {
         this.setState({ searchResults: res.data })
       })
