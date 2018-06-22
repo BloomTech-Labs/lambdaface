@@ -48,8 +48,8 @@ const getPosts = (req, res) => {
 };
 
 const searchPosts = (req, res) => {
-  const { q } = req.query;
-  const rawQuery =  'SELECT * FROM post WHERE MATCH (title, content) AGAINST ("' +q+ '" IN NATURAL LANGUAGE MODE)'
+  const { query } = req.params;
+  const rawQuery =  'SELECT * FROM post WHERE content LIKE "%' + query + '%"';
 
   knex.raw(rawQuery)
     .then(([response]) => {
