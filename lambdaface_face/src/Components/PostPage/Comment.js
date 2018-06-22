@@ -23,7 +23,7 @@ class Comment extends React.Component {
           info={this.props.comment}
           toggleReply={this.toggleReplyingTo}
         />
-        {replyingTo && <WriteReply />}
+        {replyingTo && <WriteReply userInfo={this.props.userInfo} commentInfo={{parentId: this.props.comment.id, parentType: 'comment'}} />}
       </div>
     );
   }
