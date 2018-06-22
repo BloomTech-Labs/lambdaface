@@ -33,7 +33,7 @@ class AddPost extends React.Component {
     const newPost = {
       title: this.state.content.slice(0, 40),
       content: this.state.content,
-      userId: this.props.userInfo.sub,
+      userId: this.state.userId,
       categoryId: this.state.category[1],
     };
     // TODO: ADD dynamic userId
