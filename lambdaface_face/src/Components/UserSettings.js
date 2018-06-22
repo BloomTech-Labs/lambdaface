@@ -11,10 +11,13 @@ import "../Styles/UserSettings.css";
 
 class UserSettings extends React.Component {
   state = {
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: ""
+    userId: this.props.userInfo.sub,
+    profilePicture: this.props.userInfo.picture,
+    firstName: "",
+    lastName: "",
+    email: this.props.userInfo.name,
+    password: "",
+    selectedImage: null,
   };
 
   handleChange = name => event => {
@@ -26,10 +29,12 @@ class UserSettings extends React.Component {
   updateInfo = () => event => {
     event.preventDefault();
     const userInfo = { ...this.state };
+    const userId = userInfo.userId;
     // console.log("updating Info!", userInfo);
     axios
-      .put("urlgoeshere", userInfo)
+      .put(`${process.env.REACT_APP_URL}api/users/${userId}`, userInfo)
       .then(res => {
+        console.log(res);
         // need to know what res looks like
       })
       .catch(err => {
@@ -38,6 +43,10 @@ class UserSettings extends React.Component {
   };
 
   render() {
+    const imageSize = {
+      width: '150px',
+      height: '150px',
+    };
     return (
       <div>
         <IconButton onClick={this.props.changeCurrentCategory(this.props.category)}>
@@ -45,12 +54,9 @@ class UserSettings extends React.Component {
         </IconButton>
         <div className="user-settings__container">
           {" "}
-          {/*container*/}
+          {/*left column*/}
           <div className="user-settings__left-col">
-            {" "}
-            {/*left column*/}
-            {/* <img className="left-col__picture" src="" alt=""/> */}
-            <div className="left-col__picture" />
+            <img src={this.state.profilePicture} alt="profilepicture" style={imageSize} className="left-col__picture" />
             <span>(change)</span>
           </div>
           <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
@@ -59,25 +65,25 @@ class UserSettings extends React.Component {
             <TextField
               id="firstname-input"
               label="First Name"
-              // className={}
+            // className={}
               type="text"
               value={this.state.firstname}
-              onChange={this.handleChange("firstname")}
+              onChange={this.handleChange("firstName")}
               margin="normal"
             />
             <TextField
               id="lastname-input"
               label="Last Name"
-              // className={}
+            // className={}
               type="text"
               value={this.state.lastname}
-              onChange={this.handleChange("lastname")}
+              onChange={this.handleChange("lastName")}
               margin="normal"
             />
             <TextField
               id="email-input"
               label="Email Address"
-              // className={}
+            // className={}
               type="email"
               value={this.state.email}
               onChange={this.handleChange("email")}
@@ -86,14 +92,14 @@ class UserSettings extends React.Component {
             <TextField
               id="password-input"
               label="Password"
-              // className={}
+            // className={}
               type="password"
               value={this.state.password}
               onChange={this.handleChange("password")}
               margin="normal"
             />
             <Button variant="contained" type="submit">
-              Save Settings
+            Save Settings
             </Button>
           </form>
           <div className="user-settings__right-col">

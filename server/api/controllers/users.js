@@ -2,11 +2,11 @@ const knex = require('../../database/db.js');
 
 const createUser = (req, res) => {
   const {
-    id, firstName, lastName, email,
+    id, firstName, lastName, email, profilePicture
   } = req.body;
 
   knex.insert({
-    id, firstName, lastName, email,
+    id, firstName, lastName, email, profilePicture
   }).into('user')
     .then((response) => {
       res.status(201).json({ success: response });
