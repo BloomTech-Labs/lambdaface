@@ -1,37 +1,46 @@
 const knex = require('../../database/db.js');
 const uuidv4 = require('uuid/v4');
 
-const getComments = (req, res) => {
-  const { parentId } = req.params;
-  
-  const child = req.path.indexOf('child') !== -1;
+const isChildComment = (req, res, next) => {
+  req.child = req.path.indexOf('child') !== -1
+    || req.body.parentType === 'comment';
 
-  const fetch = child
+  req.table  = req.child
     ? 'child_comment'
     : 'comment';
+  next();
+}
 
-  knex(fetch)
+const _joinUser = (table) => [
+  knex('user')
+  .select([ 'id as userId', 'firstName', 'lastName', 'profilePicture' ])
+  .groupBy('id').as('x'),
+  'x.userId',
+  `${table}.userId`
+];
+
+const getComments = (req, res) => {
+
+  const { table, child, params: { parentId }, } = req;
+
+  knex(table)
     .where({ parentId })
+    .join( ..._joinUser(table) )
     .orderBy('createdAt', 'desc')
     .then(async (response) => {
+      console.log(response)
       // todo votes
       for (let comment of response) {
-
-        const [ user ] = await knex('user')
-          .where({ id: comment.userId });
-
-        const [ commentCount ] = (() => {
+        comment.comments = await (() => {
           if (!child) {
-            return await knex('comment')
+            return knex('child_comment')
               .where({ parentId: comment.id })
+              .join( ..._joinUser('child_comment') );
           }
+          return [];
         })();
-
-        comment.user = user;
-        if (commentCount) {
-          comment.commentCount = commentCount;
-        }
       }
+  
       res.status(200).json(response);
     })
     .catch((err) => {
@@ -41,17 +50,20 @@ const getComments = (req, res) => {
 
 const createComment = (req, res) => {
   const id = uuidv4();
-  const {
+  const { table, child, body: {
     content, userId, parentId, parentType,
-  } = req.body;
+  }, } = req;
 
   knex.insert({
     id, content, userId, parentId, parentType,
-  }).into('comment')
+  }).into(table)
     .then(async (response) => {
-      await knex('post')
-        .where({ id: parentId })
-        .increment('commentCount', 1);
+
+      if (!child) {
+        await knex('post')
+          .where({ id: parentId })
+          .increment('commentCount', 1);
+      }
 
       res.status(201).json({ success: response });
     })
@@ -61,12 +73,16 @@ const createComment = (req, res) => {
 };
 
 const editComment = (req, res) => {
-  const { id } = req.params;
-  const comment = req.body;
+  const { 
+    table,
+    params: { id },
+    body: comment 
+  } = req;
 
-  knex('comment').where({ id }).update(comment)
+
+  knex(table).where({ id }).update(comment)
     .then((response) => {
-      res.status(200).json({ success: response });
+      res.status(204).json({ success: response });
     })
     .catch((err) => {
       res.status(422).json({ error: err });
@@ -74,12 +90,16 @@ const editComment = (req, res) => {
 };
 
 const deleteComment = (req, res) => {
-  const { id } = req.params;
+  const { 
+    table,
+    params: { id },
+  } = req;
+
   const content = 'Message Deleted';
 
-  knex('comment').where({ id }).update({ content })
+  knex(table).where({ id }).update({ content })
     .then((response) => {
-      res.status(200).json({ success: response });
+      res.status(204).json({ success: response });
     })
     .catch((err) => {
       res.status(422).json({ error: err });
@@ -87,6 +107,7 @@ const deleteComment = (req, res) => {
 };
 
 module.exports = {
+  isChildComment,
   getComments,
   createComment,
   editComment,
