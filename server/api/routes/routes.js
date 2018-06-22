@@ -16,7 +16,7 @@ const {
 } = require('../controllers');
 
 module.exports = (server) => {
-  server.route([ '/api/posts', '/api/posts/:filter'])
+  server.route([ '/api/posts', '/api/posts/:page', '/api/posts/:page/:filter'])
     .get(getPosts)
     .post(createPost);
   
@@ -28,7 +28,7 @@ module.exports = (server) => {
     .put(editPost)
     .delete(deletePost);
 
-  server.route('/api/comments/:parentId')
+  server.route('/api/comments/:parentId/')
     .get(getComments);
 
   server.route('/api/comments/:id')
