@@ -1,5 +1,6 @@
 
 exports.seed = (knex) => {
+  // Inserts seed entries
   return knex('votes').insert([
     {
       id: '1',

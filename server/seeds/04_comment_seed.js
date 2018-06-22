@@ -1,6 +1,6 @@
 
-exports.seed = function(knex) {
-  // Deletes ALL existing entries
+exports.seed = (knex) => {
+  // Inserts seed entries
   knex('comment').insert([
     {
       id: '1',
