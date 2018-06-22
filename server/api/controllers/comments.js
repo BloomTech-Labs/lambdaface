@@ -47,7 +47,6 @@ const getComments = (req, res) => {
     .orderBy('createdAt', 'asc')
     .then(async (response) => {
       // todo votes
-      console.log(response)
       if (!child) {
         for (let i = 0; i < response.length; i++) {
           response[i].comments = await knex('child_comment')
