@@ -81,8 +81,9 @@ class HomePage extends React.Component {
         .catch((err) => {
           console.error('ERROR', err);
         })
+    } else {
+      console.error("Empty Query")
     }
-    console.error("Empty Query")
   };
 
   categorySwitch = (currentCategory, currentPost) => {
