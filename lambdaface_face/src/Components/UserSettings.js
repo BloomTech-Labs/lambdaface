@@ -81,7 +81,7 @@ class UserSettings extends React.Component {
 
           <span>(change)</span>
         </div>
-        <form className="user-settings__mid-col" onSubmit={this.updateInfo}>
+        <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
           {" "}
           {/*middle column*/}
           <TextField

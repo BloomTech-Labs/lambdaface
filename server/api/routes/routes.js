@@ -12,6 +12,7 @@ const {
   createUser,
   viewUsers,
   editUser,
+  getUserById,
   postVote,
 } = require('../controllers');
 
@@ -41,6 +42,7 @@ module.exports = (server) => {
     .post(createComment);
 
   server.route('/api/users/:id')
+    .get(getUserById)
     .put(editUser);
 
   server.route('/api/users')

@@ -11,6 +11,7 @@ class AddPost extends React.Component {
   state = {
     // TODO: figure out where title fits in with given Sketch
     content: "",
+    userId: this.props.userInfo.sub,
     // get category from props, do not let AllPosts be an option
     category: this.props.category[0] === "AllPosts" ? ["Announcements", 1] : this.props.category
   };
@@ -32,7 +33,7 @@ class AddPost extends React.Component {
     const newPost = {
       title: this.state.content.slice(0, 40),
       content: this.state.content,
-      userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
+      userId: this.state.userId,
       categoryId: this.state.category[1],
     };
     // TODO: ADD dynamic userId
