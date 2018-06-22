@@ -1,5 +1,7 @@
-const knex = require('../../database/db.js');
 const uuidv4 = require('uuid/v4');
+
+const knex = require('../../database/db.js');
+const { _joinUser } = require('./helpers.js');
 
 /**
  * Middleware to set child flag.
@@ -18,19 +20,6 @@ const isChildComment = (req, res, next) => {
 }
 
 /**
- * Joins user to incomming query
- * @returns { array } Array representation of query join.
- */
-
-const _joinUser = (table) => [
-  knex('user')
-    .select([ 'id as userId', 'firstName', 'lastName', 'profilePicture' ])
-    .groupBy('id').as('x'),
-  'x.userId',
-  `${table}.userId`
-];
-
-/**
  * function for reading list of comments associated with a particular post.
  * @const { string } table - table name to query.
  * @const { boolean } child - flag if request is for a child comment.
@@ -46,7 +35,7 @@ const getComments = (req, res) => {
     .join( ..._joinUser(table) )
     .orderBy('createdAt', 'asc')
     .then(async (response) => {
-      // todo votes
+      // todo votes   
       if (!child) {
         for (let i = 0; i < response.length; i++) {
           response[i].comments = await knex('child_comment')
