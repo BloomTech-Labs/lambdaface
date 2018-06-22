@@ -1,6 +1,11 @@
 const knex = require('../../database/db.js');
 const uuidv4 = require('uuid/v4');
 
+/**
+ * middleware to set child flag.
+ * 
+ */
+
 const isChildComment = (req, res, next) => {
   req.child = req.path.indexOf('child') !== -1
     || req.body.parentType === 'comment';
