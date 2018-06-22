@@ -1,7 +1,7 @@
 const uuidv4 = require('uuid/v4');
 
 exports.seed = function(knex, Promise) {
-  // Deletes ALL existing entries
+  // Inserts seed entries
   return knex('post').insert([
     {
       id: '87925db7-fb1e-4847-b601-b688def0dbca',
