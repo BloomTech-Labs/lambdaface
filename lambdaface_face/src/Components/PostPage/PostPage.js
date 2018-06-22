@@ -1,8 +1,9 @@
 import React from "react";
 import axios from 'axios';
 
-import PostFull from "./PostFull";
+import IconButton from "@material-ui/core/IconButton";
 
+import PostFull from "./PostFull";
 import Comment from "./Comment";
 import WriteComment from "./WriteComment";
 
@@ -43,7 +44,9 @@ class PostPage extends React.Component {
     return (
       <div className="post-page__container">
         <div className="post-page__left-col">
-          <img src={backArrow} alt="Back" height="30px" width="30px" />
+          <IconButton onClick={this.props.changeCurrentCategory(this.props.category)}>
+            <img src={backArrow} alt="Back" height="30px" width="30px" />
+          </IconButton>
         </div>
 
         <div className="post-page__right-col">
