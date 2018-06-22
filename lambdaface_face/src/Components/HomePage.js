@@ -45,7 +45,8 @@ class HomePage extends React.Component {
 
   changeCurrentCategory = (category, post = null) => event => {
     const noSpaces = [category[0].split(" ").join(""), category[1]];
-    this.setState({ previousCategory: this.state.currentCategory, currentCategory: noSpaces });
+    this.setState({ currentCategory: noSpaces });
+    if (this.state.currentCategory[1] !== null) this.setState({ previousCategory: this.state.currentCategory });
     if (post) this.setState({ currentPost: { ...post } });
   };
 
