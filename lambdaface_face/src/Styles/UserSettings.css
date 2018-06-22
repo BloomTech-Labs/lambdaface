@@ -32,3 +32,10 @@
   margin-left: auto;
   width: 20%;
 }
+
+.user-settings__passwordReset {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+  width: 20%;
+}
