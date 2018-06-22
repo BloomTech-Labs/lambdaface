@@ -2,8 +2,9 @@ const knex = require('../../database/db.js');
 const uuidv4 = require('uuid/v4');
 
 /**
- * middleware to set child flag.
- * 
+ * Middleware to set child flag.
+ * @property { boolean } req.child - flag if comment is a child of a comment
+ * @property { string } req.table - the name of the table knex will query
  */
 
 const isChildComment = (req, res, next) => {
@@ -16,13 +17,25 @@ const isChildComment = (req, res, next) => {
   next();
 }
 
+/**
+ * Joins user to incomming query
+ * @returns { array } Array representation of query join.
+ */
+
 const _joinUser = (table) => [
   knex('user')
-  .select([ 'id as userId', 'firstName', 'lastName', 'profilePicture' ])
-  .groupBy('id').as('x'),
+    .select([ 'id as userId', 'firstName', 'lastName', 'profilePicture' ])
+    .groupBy('id').as('x'),
   'x.userId',
   `${table}.userId`
 ];
+
+/**
+ * function for reading list of comments associated with a particular post.
+ * @const { string } table - table name to query.
+ * @const { boolean } child - flag if request is for a child comment.
+ * @const { string } parentId - UUID associated to with parent post or comment.
+ */
 
 const getComments = (req, res) => {
 
@@ -31,25 +44,23 @@ const getComments = (req, res) => {
   knex(table)
     .where({ parentId })
     .join( ..._joinUser(table) )
-    .orderBy('createdAt', 'desc')
+    .orderBy('createdAt', 'asc')
     .then(async (response) => {
-      console.log(response)
       // todo votes
-      for (let comment of response) {
-        comment.comments = await (() => {
-          if (!child) {
-            return knex('child_comment')
-              .where({ parentId: comment.id })
-              .join( ..._joinUser('child_comment') );
-          }
-          return [];
-        })();
+      console.log(response)
+      if (!child) {
+        for (let i = 0; i < response.length; i++) {
+          response[i].comments = await knex('child_comment')
+          .where({ parentId: response[i].id })
+          .orderBy('createdAt', 'asc')
+          .join( ..._joinUser('child_comment') );
+        }
       }
   
       res.status(200).json(response);
     })
-    .catch((err) => {
-      res.status(422).json({ error: err });
+    .catch((error) => {
+      res.status(422).json({ error });
     });
 };
 
@@ -63,17 +74,16 @@ const createComment = (req, res) => {
     id, content, userId, parentId, parentType,
   }).into(table)
     .then(async (response) => {
-
       if (!child) {
-        await knex('post')
+        knex('post')
           .where({ id: parentId })
           .increment('commentCount', 1);
       }
 
       res.status(201).json({ success: response });
     })
-    .catch((err) => {
-      res.status(422).json({ error: err });
+    .catch((error) => {
+      res.status(422).json({ error });
     });
 };
 
@@ -89,8 +99,8 @@ const editComment = (req, res) => {
     .then((response) => {
       res.status(204).json({ success: response });
     })
-    .catch((err) => {
-      res.status(422).json({ error: err });
+    .catch((error) => {
+      res.status(422).json({ error });
     });
 };
 
@@ -106,8 +116,8 @@ const deleteComment = (req, res) => {
     .then((response) => {
       res.status(204).json({ success: response });
     })
-    .catch((err) => {
-      res.status(422).json({ error: err });
+    .catch((error) => {
+      res.status(422).json({ error });
     });
 };
 

@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import CategoryButton from "./CategoryButton";
 import backArrow from "../Assets/BackArrow.svg";
 import "../Styles/AddPost.css";
@@ -29,7 +30,7 @@ class AddPost extends React.Component {
   submitPost = () => event => {
     event.preventDefault();
     const newPost = {
-      title: this.state.content.slice(0, 10),
+      title: this.state.content.slice(0, 40),
       content: this.state.content,
       userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
       categoryId: this.state.category[1],
@@ -52,7 +53,9 @@ class AddPost extends React.Component {
     return (
       <div className="add-post__container">
         <div className="container__left-col">
-          <img src={backArrow} alt="Back" height="30px" width="30px" />
+          <IconButton onClick={this.props.changeCurrentCategory(this.props.category)}>
+            <img src={backArrow} alt="Back" height="30px" width="30px" />
+          </IconButton>
         </div>
 
         <div className="container__right-col">

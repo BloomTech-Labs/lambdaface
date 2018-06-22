@@ -30,7 +30,8 @@ const _responseHandler = async (response) => {
 };
 
 const getPosts = (req, res) => {
-  const { filter } = req.params;
+  const { page = 1, filter } = req.params;
+  const limit = 20;
 
   const fetch = (() => {
     if (typeof filter === 'number') {
@@ -42,14 +43,17 @@ const getPosts = (req, res) => {
     }
   })();
 
-  fetch.then(_responseHandler)
+  fetch
+    .limit(limit)
+    .offset((page - 1) * limit)
+    .then(_responseHandler)
     .then(response => res.status(SUCCESS_CODE).json(response))
     .catch(err => res.status(SERVER_ERRROR).json({ err }));
 };
 
 const searchPosts = (req, res) => {
-  const { q } = req.query;
-  const rawQuery =  'SELECT * FROM post WHERE MATCH (title, content) AGAINST ("' +q+ '" IN NATURAL LANGUAGE MODE)'
+  const { query } = req.params;
+  const rawQuery =  'SELECT * FROM post WHERE content LIKE "%' + query + '%"';
 
   knex.raw(rawQuery)
     .then(([response]) => {

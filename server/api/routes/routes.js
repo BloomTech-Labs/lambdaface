@@ -17,11 +17,11 @@ const {
 } = require('../controllers');
 
 module.exports = (server) => {
-  server.route([ '/api/posts', '/api/posts/:filter'])
+  server.route([ '/api/posts', '/api/posts/:page', '/api/posts/:page/:filter'])
     .get(getPosts)
     .post(createPost);
   
-  server.route('/api/posts/search/:terms')
+  server.route('/api/search/:query')
     .get(searchPosts);
 
   server.route('/api/post/:id')
