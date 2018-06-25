@@ -7,6 +7,7 @@ import UserBar from "./PostPage/UserBar";
 import "../Styles/PostList.css";
 
 export default props => {
+  console.log('PROPS', props)
   return (
     props.category && (
       <div>
@@ -26,7 +27,7 @@ export default props => {
                 onClick={props.changeCurrentCategory(["PostPage", null], post)}
               >
                 <ListItemText className="listItem__top" primary={post.title} />
-                <UserBar className="listItem__bottom" info={post} type="allposts" />
+                <UserBar className="listItem__bottom" info={post} currentUser={props.currentUser.sub} type="allposts" />
               </ListItem>
             );
           })}

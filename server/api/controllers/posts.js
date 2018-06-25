@@ -16,7 +16,7 @@ const _responseHandler = async (response) => {
   const sent = [];
   for (let i = 0; i < response.length; i++) {
     const { id, userId } = response[i];
-    const votes = await knex('votes').where({ parentId: id });
+    const votes = await knex('votes').distinct('userId').select().where({ parentId: id });
     const [ user ] = await knex('user').where({ id: userId });
 
     sent.push({

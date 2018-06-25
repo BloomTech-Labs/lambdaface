@@ -15,13 +15,23 @@ module.exports = {
   development: {
     client: 'mysql',
     connection: {
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      database: process.env.DB_NAME,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD
+      host: 'localhost',
+      port: 3306,
+      database: 'lambdaface',
+      user: 'root',
+      password: '12345678'
     }
   },
+  // development: {
+  //   client: 'mysql',
+  //   connection: {
+  //     host: process.env.DB_HOST,
+  //     port: process.env.DB_PORT,
+  //     database: process.env.DB_NAME,
+  //     user: process.env.DB_USER,
+  //     password: process.env.DB_PASSWORD
+  //   }
+  // },
   // todo:
   //  clean up file
   //  set up development
