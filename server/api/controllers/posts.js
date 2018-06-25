@@ -59,7 +59,8 @@ const searchPosts = (req, res) => {
 
   knex.raw(rawQuery)
     .join( ..._joinUser('post') )
-    .then(([response]) => {
+    .then(_responseHandler)
+    .then(([ response ]) => {
       res.status(SUCCESS_CODE).json(response);
     })
     .catch((error) => {
@@ -73,7 +74,7 @@ const getPostById = (req, res) => {
   knex('post')
     .where({ id })
     .join( ..._joinUser('post') )
-    .then(async ([ response ]) => {
+    .then(([ response ]) => {
 
       knex('post')
         .where({ id })

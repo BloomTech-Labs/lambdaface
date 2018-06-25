@@ -19,10 +19,6 @@ exports.up = function(knex, Promise) {
       .notNullable()
       .unique();
 
-    // tbl
-    //   .string('password', 125)
-    //   .notNullable();
-
     tbl
       .timestamp('createdAt')
       .defaultTo(knex.fn.now());
