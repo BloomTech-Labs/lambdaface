@@ -15,16 +15,9 @@ class WriteReply extends React.Component {
   };
 
   submitReply = () => event => {
-    const newReply = {
-      content: this.state.content,
-      // TODO, make user dynamic
-      userId: this.props.userInfo.sub,
-      parentId: this.props.commentInfo.parentId,
-      parentType: this.props.commentInfo.parentType
-    };
-
+    const newComment = { content: this.state.content };
     axios
-      .post(`${process.env.REACT_APP_URL}`.concat('api/comments'), newReply)
+      .post("http://localhost5000/api/comments", newComment)
       .then(res => {
         // TODO: do something with the response, preferably something useful
         this.setState({ content: "" });

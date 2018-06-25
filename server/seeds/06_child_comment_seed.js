@@ -1,5 +1,5 @@
-exports.seed = function(knex, Promise) {
-        // Inserts seed entries
+exports.seed = (knex) => {
+  // Inserts seed entries
   return knex('child_comment').insert([
     {
       id: '43270',

@@ -2,28 +2,29 @@
   For view count:
   Keep track of UserIDs on post
 */
-
-const knex = require('../../database/db.js');
 const uuidv4 = require('uuid/v4');
 
-const SUCCESS_CODE = 200;
-const CREATED_CODE = 201;
-const NOT_FOUND_ERROR = 404;
-const USER_ERROR = 422;
-const SERVER_ERRROR = 500;
+const knex = require('../../database/db.js');
+const { _joinUser, httpCodes } = require('./helpers.js')
+
+const {
+  SUCCESS_CODE,
+  CREATED_CODE,
+  NOT_FOUND_ERROR,
+  USER_ERROR,
+  SERVER_ERRROR,
+} = httpCodes;
 
 const _responseHandler = async (response) => {
   const sent = [];
   for (let i = 0; i < response.length; i++) {
-    const { id, userId } = response[i];
-    const votes = await knex('votes').where({ parentId: id });
-    const [ user ] = await knex('user').where({ id: userId });
+    const votes = await knex('votes')
+      .where({ parentId: response[i].id });
 
     sent.push({
       ...response[i],
       upvotes: votes.filter(v => v.voteType === 'INC').length,
       downvotes: votes.filter(v => v.voteType === 'DEC').length,
-      user,
     });
   }
   return sent;
@@ -46,6 +47,7 @@ const getPosts = (req, res) => {
   fetch
     .limit(limit)
     .offset((page - 1) * limit)
+    .join( ..._joinUser('post') )
     .then(_responseHandler)
     .then(response => res.status(SUCCESS_CODE).json(response))
     .catch(err => res.status(SERVER_ERRROR).json({ err }));
@@ -56,28 +58,31 @@ const searchPosts = (req, res) => {
   const rawQuery =  'SELECT * FROM post WHERE content LIKE "%' + query + '%"';
 
   knex.raw(rawQuery)
+    .join( ..._joinUser('post') )
     .then(([response]) => {
-      res.status(200).json(response);
+      res.status(SUCCESS_CODE).json(response);
     })
     .catch((error) => {
-      res.status(422).json(error);
+      res.status(USER_ERROR).json(error);
     })
 }
 
 const getPostById = (req, res) => {
   const { id } = req.params;
 
-  knex('post').where({ id })
+  knex('post')
+    .where({ id })
+    .join( ..._joinUser('post') )
     .then(async ([ response ]) => {
 
-      await knex('post')
+      knex('post')
         .where({ id })
         .update({ viewCount: ++response.viewCount });
       
-      const [ user ] = await knex('user')
-        .where({ id: response.userId });
+      // const [ user ] = await knex('user')
+      //   .where({ id: response.userId });
 
-      res.status(SUCCESS_CODE).json({ ...response, user });
+      res.status(SUCCESS_CODE).json({ ...response });
     })
     .catch((error) => {
       res.status(NOT_FOUND_ERROR).json({
