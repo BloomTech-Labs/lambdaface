@@ -7,10 +7,6 @@ exports.up = function(knex, Promise) {
         .notNullable();
 
       table
-        .string('title', 128)
-        .notNullable();
-
-      table
         .text('content')
         .notNullable();
 
