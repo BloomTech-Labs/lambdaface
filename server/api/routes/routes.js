@@ -15,6 +15,7 @@ const {
   editUser,
   getUserById,
   postVote,
+  signS3,
 } = require('../controllers');
 
 module.exports = (server) => {
@@ -52,4 +53,7 @@ module.exports = (server) => {
 
   server.route('/api/votes')
     .post(postVote);
+
+  server.route('/s3/sign')
+    .get(signS3);
 };
