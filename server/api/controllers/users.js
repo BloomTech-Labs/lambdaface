@@ -31,6 +31,18 @@ const editUser = (req, res) => {
     });
 }
 
+const getUserById = (req, res) => {
+  const { id } = req.params;
+  
+  knex('user').where({ id })
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      res.status(422).json({ error: err})
+    })
+}
+
 // For dev purposes
 const viewUsers = (req, res) => {
   knex('user')
@@ -46,4 +58,5 @@ module.exports = {
   createUser,
   viewUsers,
   editUser,
+  getUserById,
 };

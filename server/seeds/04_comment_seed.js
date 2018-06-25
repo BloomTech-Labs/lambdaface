@@ -1,7 +1,13 @@
 
+<<<<<<< HEAD
 exports.seed = function(knex, Promise) {
   // Inserts seed entries
   return knex('comment').insert([
+=======
+exports.seed = (knex) => {
+  // Inserts seed entries
+  knex('comment').insert([
+>>>>>>> c43dc0cc3312b65d6f977c07f9da252c1ddaf37b
     {
       id: '1',
       content: 'Test Comment',

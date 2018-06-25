@@ -70,15 +70,19 @@ class HomePage extends React.Component {
   };
   
   searchResults = (query) => {
-    query = query.replace(/\s+/g, '%20');
-    axios
-    .get(`${process.env.REACT_APP_URL}api/search/`.concat(`${query}`))
-      .then((res) => {
-        this.setState({ searchResults: res.data })
-      })
-      .catch((err) => {
-        console.error('ERROR', err);
-      })
+    if (query) {
+      query = query.replace(/\s+/g, '%20');
+      axios
+      .get(`${process.env.REACT_APP_URL}api/search/`.concat(`${query}`))
+        .then((res) => {
+          this.setState({ searchResults: res.data })
+        })
+        .catch((err) => {
+          console.error('ERROR', err);
+        })
+    } else {
+      console.error("Empty Query")
+    }
   };
 
   categorySwitch = (currentCategory, currentPost) => {
@@ -88,7 +92,7 @@ class HomePage extends React.Component {
       case "UserSettings":
         return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
       case "PostPage":
-        return <PostPage post={currentPost} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
+        return <PostPage post={currentPost} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} />;
       case "SearchResultsfor:":
         return (<PostList 
           postsArr={this.state.searchResults} 

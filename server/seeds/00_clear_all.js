@@ -1,4 +1,4 @@
-exports.seed = async function(knex, Promise) {
+exports.seed = async (knex) => {
   // Deletes existing entries from ALL tables
   await knex('votes').del();
   await knex('child_comment').del();
@@ -7,4 +7,3 @@ exports.seed = async function(knex, Promise) {
   await knex('category').del();
   await knex('user').del();
 };
-  

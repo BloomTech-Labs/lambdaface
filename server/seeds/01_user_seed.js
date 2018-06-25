@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 exports.seed = function(knex, Promise) {
+=======
+exports.seed = (knex) => {
+>>>>>>> c43dc0cc3312b65d6f977c07f9da252c1ddaf37b
   // Inserts seed entries
   return knex('user').insert([
     {
