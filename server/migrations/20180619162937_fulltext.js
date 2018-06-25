@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
   let createQuery = `ALTER TABLE post 
-    ADD FULLTEXT (title, content)`
+    ADD FULLTEXT (content)`
   return knex.raw(createQuery);
 }
 
