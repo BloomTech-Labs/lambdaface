@@ -18,19 +18,8 @@ const {
 const _responseHandler = async (response) => {
   const sent = [];
   for (let i = 0; i < response.length; i++) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    const { id, userId } = response[i];
-    const votes = await knex('votes').distinct('userId').select().where({ parentId: id });
-    const [ user ] = await knex('user').where({ id: userId });
-=======
-    const { id } = response[i];
-    const votes = await knex('votes').where({ parentId: response[i].id });
->>>>>>> c43dc0cc3312b65d6f977c07f9da252c1ddaf37b
-=======
     const votes = await knex('votes')
       .where({ parentId: response[i].id });
->>>>>>> e49df1b385c232379e9bd37ebc713d3f12817e97
 
     sent.push({
       ...response[i],
