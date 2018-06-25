@@ -1,20 +1,26 @@
 const knex = require('../../database/db.js');
 const uuidv4 = require('uuid/v4');
 
-const postVote = (req, res) => {
+const postVote = async (req, res) => {
   const id = uuidv4();
   const {
     userId, parentId, voteType,
   } = req.body;
 
-  knex.insert({
-    id, userId, parentId, voteType,
-  }).into('vote')
+  knex
+    .insert({ id, userId, parentId, voteType })
+    .into('vote')
     .then((response) => {
       res.status(201).json({ success: response });
     })
-    .catch((err) => {
-      res.status(422).json({ error: err });
+    .catch((error) => {
+      knex('vote')
+        .where({ userId, parentId})
+        .update({ voteType })
+        .then((response) => {
+          res.status(204).json({ success: response, success_type: 'updated' })
+        })
+        .catch((err) => res.status(422).json({ error, update_error: err }));
     });
 };
 
