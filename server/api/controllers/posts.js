@@ -18,7 +18,6 @@ const {
 const _responseHandler = async (response) => {
   const sent = [];
   for (let i = 0; i < response.length; i++) {
-    const { id } = response[i];
     const votes = await knex('votes')
       .where({ parentId: response[i].id });
 
@@ -83,7 +82,7 @@ const getPostById = (req, res) => {
       // const [ user ] = await knex('user')
       //   .where({ id: response.userId });
 
-      res.status(SUCCESS_CODE).json({ ...response, user });
+      res.status(SUCCESS_CODE).json({ ...response });
     })
     .catch((error) => {
       res.status(NOT_FOUND_ERROR).json({
