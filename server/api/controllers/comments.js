@@ -14,7 +14,7 @@ const isChildComment = (req, res, next) => {
     || req.body.parentType === 'comment';
 
   req.table  = req.child
-    ? 'child_comment'
+    ? 'reply'
     : 'comment';
   next();
 }
@@ -38,10 +38,10 @@ const getComments = (req, res) => {
       // todo votes   
       if (!child) {
         for (let i = 0; i < response.length; i++) {
-          response[i].comments = await knex('child_comment')
+          response[i].comments = await knex('reply')
           .where({ parentId: response[i].id })
           .orderBy('createdAt', 'asc')
-          .join( ..._joinUser('child_comment') );
+          .join( ..._joinUser('reply') );
         }
       }
   

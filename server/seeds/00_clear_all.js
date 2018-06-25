@@ -1,7 +1,7 @@
 exports.seed = async (knex) => {
   // Deletes existing entries from ALL tables
-  await knex('votes').del();
-  await knex('child_comment').del();
+  await knex('vote').del();
+  await knex('reply').del();
   await knex('comment').del();
   await knex('post').del();
   await knex('category').del();

@@ -18,7 +18,7 @@ const {
 const _responseHandler = async (response) => {
   const sent = [];
   for (let i = 0; i < response.length; i++) {
-    const votes = await knex('votes')
+    const votes = await knex('vote')
       .where({ parentId: response[i].id });
 
     sent.push({
@@ -35,7 +35,7 @@ const getPosts = (req, res) => {
   const limit = 20;
 
   const fetch = (() => {
-    if (typeof filter === 'number') {
+    if (filter.match(/[1-7]/) !== null) {
       return knex('post').where({ categoryId: filter });
     } else if (filter === 'newest') {
       return knex('post').orderBy('createdAt', 'desc');
@@ -59,7 +59,8 @@ const searchPosts = (req, res) => {
 
   knex.raw(rawQuery)
     .join( ..._joinUser('post') )
-    .then(([response]) => {
+    .then(_responseHandler)
+    .then(([ response ]) => {
       res.status(SUCCESS_CODE).json(response);
     })
     .catch((error) => {
@@ -73,21 +74,19 @@ const getPostById = (req, res) => {
   knex('post')
     .where({ id })
     .join( ..._joinUser('post') )
-    .then(async ([ response ]) => {
+    .then(([ response ]) => {
 
       knex('post')
         .where({ id })
         .update({ viewCount: ++response.viewCount });
-      
-      // const [ user ] = await knex('user')
-      //   .where({ id: response.userId });
 
-      res.status(SUCCESS_CODE).json({ ...response });
+      res.status(SUCCESS_CODE).json(response);
     })
     .catch((error) => {
       res.status(NOT_FOUND_ERROR).json({
         message: "The post was not found or no longer exists.",
         database_error: error,
+        error_code: NOT_FOUND_ERROR,
       });
     });
 };
@@ -95,18 +94,18 @@ const getPostById = (req, res) => {
 const createPost = (req, res) => {
   const id = uuidv4();
   const {
-    title, content, userId, categoryId,
+    content, userId, categoryId,
   } = req.body;
 
-  if (!title || !content ) {
+  if ( !content ) {
     return res.status(USER_ERROR).json({
-      error: 'Posts MUST contain a title and content',
-      title, content,
+      error: 'Posts MUST contain content',
+      content,
     });
   }
   
   knex.insert({
-    id, title, content, userId, categoryId,
+    id, content, userId, categoryId,
   }).into('post')
     .then((response) => {
       res.status(CREATED_CODE).json({ success: response });
@@ -118,13 +117,13 @@ const createPost = (req, res) => {
 
 const editPost = (req, res) => {
   const { id } = req.params;
-  const { title, content } = req.body;
+  const { content } = req.body;
 
   const updatedAt = knex.fn.now();
 
   knex('post')
     .where({ id })
-    .update({ title, content, updatedAt })
+    .update({ content, updatedAt })
     .then((response) => {
       res.status(SUCCESS_CODE).json({ success: response });
     })
