@@ -35,7 +35,7 @@ const getPosts = (req, res) => {
   const limit = 20;
 
   const fetch = (() => {
-    if (typeof filter === 'number') {
+    if (filter.match(/[1-7]/) !== null) {
       return knex('post').where({ categoryId: filter });
     } else if (filter === 'newest') {
       return knex('post').orderBy('createdAt', 'desc');
