@@ -140,7 +140,6 @@ class UserSettings extends React.Component {
             {this.state.passwordReset ? <PasswordReset /> : null }
           </div>
         </div>
-      </div>
     );
   }
 }

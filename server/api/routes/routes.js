@@ -15,11 +15,8 @@ const {
   editUser,
   getUserById,
   postVote,
-<<<<<<< HEAD
   signS3,
-=======
   getVotes
->>>>>>> c2d4a2c01f3b363c100ed5393c1578343c9ffb3c
 } = require('../controllers');
 
 module.exports = (server) => {
@@ -56,13 +53,9 @@ module.exports = (server) => {
     .post(createUser);
 
   server.route('/api/votes')
-<<<<<<< HEAD
-    .post(postVote);
+    .post(postVote)
+    .get(getVotes);
 
   server.route('/s3/sign')
     .get(signS3);
-=======
-    .post(postVote)
-    .get(getVotes);
->>>>>>> c2d4a2c01f3b363c100ed5393c1578343c9ffb3c
 };
