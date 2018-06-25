@@ -2,28 +2,35 @@
   For view count:
   Keep track of UserIDs on post
 */
-
-const knex = require('../../database/db.js');
 const uuidv4 = require('uuid/v4');
 
-const SUCCESS_CODE = 200;
-const CREATED_CODE = 201;
-const NOT_FOUND_ERROR = 404;
-const USER_ERROR = 422;
-const SERVER_ERRROR = 500;
+const knex = require('../../database/db.js');
+const { _joinUser, httpCodes } = require('./helpers.js')
+
+const {
+  SUCCESS_CODE,
+  CREATED_CODE,
+  NOT_FOUND_ERROR,
+  USER_ERROR,
+  SERVER_ERRROR,
+} = httpCodes;
 
 const _responseHandler = async (response) => {
   const sent = [];
   for (let i = 0; i < response.length; i++) {
+<<<<<<< HEAD
     const { id, userId } = response[i];
     const votes = await knex('votes').distinct('userId').select().where({ parentId: id });
     const [ user ] = await knex('user').where({ id: userId });
+=======
+    const { id } = response[i];
+    const votes = await knex('votes').where({ parentId: response[i].id });
+>>>>>>> c43dc0cc3312b65d6f977c07f9da252c1ddaf37b
 
     sent.push({
       ...response[i],
       upvotes: votes.filter(v => v.voteType === 'INC').length,
       downvotes: votes.filter(v => v.voteType === 'DEC').length,
-      user,
     });
   }
   return sent;
@@ -46,6 +53,7 @@ const getPosts = (req, res) => {
   fetch
     .limit(limit)
     .offset((page - 1) * limit)
+    .join( ..._joinUser('post') )
     .then(_responseHandler)
     .then(response => res.status(SUCCESS_CODE).json(response))
     .catch(err => res.status(SERVER_ERRROR).json({ err }));
@@ -67,15 +75,17 @@ const searchPosts = (req, res) => {
 const getPostById = (req, res) => {
   const { id } = req.params;
 
-  knex('post').where({ id })
+  knex('post')
+    .where({ id })
+    .join( ..._joinUser('post') )
     .then(async ([ response ]) => {
 
-      await knex('post')
+      knex('post')
         .where({ id })
         .update({ viewCount: ++response.viewCount });
       
-      const [ user ] = await knex('user')
-        .where({ id: response.userId });
+      // const [ user ] = await knex('user')
+      //   .where({ id: response.userId });
 
       res.status(SUCCESS_CODE).json({ ...response, user });
     })
