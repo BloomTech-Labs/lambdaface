@@ -25,13 +25,8 @@ export default props => {
                 key={post.id}
                 onClick={props.changeCurrentCategory(["PostPage", null], post)}
               >
-<<<<<<< HEAD
-                <ListItemText className="listItem__top" primary={post.title} />
-                <UserBar className="listItem__bottom" info={post} currentUser={props.currentUser.sub} type="allposts" />
-=======
                 <ListItemText className="listItem__top" primary={post.content.slice(0, 40)} />
-                <UserBar className="listItem__bottom" info={post} type="allposts" />
->>>>>>> c2d4a2c01f3b363c100ed5393c1578343c9ffb3c
+                <UserBar className="listItem__bottom" info={post} currentUser={props.currentUser.sub} type="allposts" />
               </ListItem>
             );
           })}

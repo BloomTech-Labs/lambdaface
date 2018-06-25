@@ -79,7 +79,6 @@ class UserSettings extends React.Component {
             <img src={this.state.profilePicture} alt="profilepicture" style={imageSize} />
             <span>(change)</span>
           </div>
-<<<<<<< HEAD
 
           <Uploader />
           <span>(change)</span>
@@ -90,14 +89,6 @@ class UserSettings extends React.Component {
           <TextField
             id="firstName-input"
             label="First Name"
-=======
-          <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
-            {" "}
-            {/*middle column*/}
-            <TextField
-              id="firstName-input"
-              label="First Name"
->>>>>>> c2d4a2c01f3b363c100ed5393c1578343c9ffb3c
             // className={}
               type="text"
               value={this.state.firstName}
