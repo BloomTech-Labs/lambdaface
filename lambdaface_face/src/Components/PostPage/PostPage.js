@@ -60,6 +60,7 @@ class PostPage extends React.Component {
           <div>Write a comment</div>
           <WriteComment
             commentInfo={{ parentId: this.props.post.id, parentType: 'post' }}
+            userInfo={this.props.userInfo}
             reloadComments={this.getComments}
           />
         </div>

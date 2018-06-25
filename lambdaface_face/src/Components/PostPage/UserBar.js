@@ -34,7 +34,7 @@ const UserBar = props => {
   if (props.info.firstName) {
     user = props.info.firstName.concat(` ${props.info.lastName}`);
   } else {
-    user = "Foobar Barfoo";
+    user = props.info.nickname;
   }
   return (
     <div className="userbar">
