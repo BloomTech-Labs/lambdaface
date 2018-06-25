@@ -78,16 +78,14 @@ const getPostById = (req, res) => {
       knex('post')
         .where({ id })
         .update({ viewCount: ++response.viewCount });
-      
-      // const [ user ] = await knex('user')
-      //   .where({ id: response.userId });
 
-      res.status(SUCCESS_CODE).json({ ...response });
+      res.status(SUCCESS_CODE).json(response);
     })
     .catch((error) => {
       res.status(NOT_FOUND_ERROR).json({
         message: "The post was not found or no longer exists.",
         database_error: error,
+        error_code: NOT_FOUND_ERROR,
       });
     });
 };
