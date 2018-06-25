@@ -12,7 +12,8 @@ exports.up = function(knex, Promise) {
 
     table
       .string('userId')
-      .references('user.id');
+      .references('user.id')
+      .unique();
 
     table
       .string('voteType')
