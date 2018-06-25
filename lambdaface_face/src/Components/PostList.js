@@ -7,7 +7,6 @@ import UserBar from "./PostPage/UserBar";
 import "../Styles/PostList.css";
 
 export default props => {
-  console.log('PROPS', props)
   return (
     props.category && (
       <div>

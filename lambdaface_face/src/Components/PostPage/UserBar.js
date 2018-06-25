@@ -9,7 +9,6 @@ import downvote from "../../Assets/downvote.svg";
 import "../../Styles/UserBar.css";
 
 const UserBar = props => {
-  console.log(props);
   let user
   if (props.info.user) {
     user = props.info.user.firstName.concat(` ${props.info.user.lastName}`);
