@@ -9,7 +9,6 @@ import "../Styles/AddPost.css";
 
 class AddPost extends React.Component {
   state = {
-    // TODO: figure out where title fits in with given Sketch
     content: "",
     userId: this.props.userInfo.sub,
     // get category from props, do not let AllPosts be an option
@@ -31,7 +30,6 @@ class AddPost extends React.Component {
   submitPost = () => event => {
     event.preventDefault();
     const newPost = {
-      title: this.state.content.slice(0, 40),
       content: this.state.content,
       userId: this.state.userId,
       categoryId: this.state.category[1],
