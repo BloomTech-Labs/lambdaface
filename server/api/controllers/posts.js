@@ -19,7 +19,8 @@ const _responseHandler = async (response) => {
   const sent = [];
   for (let i = 0; i < response.length; i++) {
     const { id } = response[i];
-    const votes = await knex('votes').where({ parentId: response[i].id });
+    const votes = await knex('votes')
+      .where({ parentId: response[i].id });
 
     sent.push({
       ...response[i],
@@ -58,11 +59,12 @@ const searchPosts = (req, res) => {
   const rawQuery =  'SELECT * FROM post WHERE content LIKE "%' + query + '%"';
 
   knex.raw(rawQuery)
+    .join( ..._joinUser('post') )
     .then(([response]) => {
-      res.status(200).json(response);
+      res.status(SUCCESS_CODE).json(response);
     })
     .catch((error) => {
-      res.status(422).json(error);
+      res.status(USER_ERROR).json(error);
     })
 }
 
