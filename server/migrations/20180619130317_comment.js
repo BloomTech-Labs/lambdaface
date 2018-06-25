@@ -16,7 +16,8 @@ exports.up = function(knex, Promise) {
 
       table
         .foreign('parentId')
-        .references('post.id');
+        .references('post.id')
+        .onDelete('CASCADE');
 
       table
         .string('userId')
@@ -24,6 +25,7 @@ exports.up = function(knex, Promise) {
       table
         .foreign('userId')
         .references('user.id')
+        .onDelete('SET NULL');
 
       table
         .timestamp('createdAt')
@@ -41,8 +43,7 @@ exports.up = function(knex, Promise) {
         .string('parentType')
         .notNullable();
     });
-  })
-  // .finally(() => knex.raw('SET foreign_key_checks = 0;'));
+  });
 };
 
 exports.down = function(knex, Promise) {

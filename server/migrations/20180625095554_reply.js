@@ -1,7 +1,7 @@
 
 exports.up = function(knex, Promise) {
   return knex.raw('SET foreign_key_checks = 0;').then(() => {
-    return knex.schema.createTable('child_comment', (table) => {
+    return knex.schema.createTable('reply', (table) => {
       table
         .uuid('id')
         .primary()
@@ -45,5 +45,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTableIfExists('child_comment');
+  return knex.schema.dropTableIfExists('reply');
 };

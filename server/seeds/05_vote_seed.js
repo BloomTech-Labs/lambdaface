@@ -1,7 +1,7 @@
 
 exports.seed = (knex) => {
   // Inserts seed entries
-  return knex('votes').insert([
+  return knex('vote').insert([
     {
       id: '1',
       parentId: '87925db7-fb1e-4847-b601-b688def0dbca',
