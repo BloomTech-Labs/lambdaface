@@ -18,7 +18,7 @@ const {
 const _responseHandler = async (response) => {
   const sent = [];
   for (let i = 0; i < response.length; i++) {
-    const votes = await knex('votes')
+    const votes = await knex('vote')
       .where({ parentId: response[i].id });
 
     sent.push({
@@ -94,18 +94,18 @@ const getPostById = (req, res) => {
 const createPost = (req, res) => {
   const id = uuidv4();
   const {
-    title, content, userId, categoryId,
+    content, userId, categoryId,
   } = req.body;
 
-  if (!title || !content ) {
+  if ( !content ) {
     return res.status(USER_ERROR).json({
-      error: 'Posts MUST contain a title and content',
-      title, content,
+      error: 'Posts MUST contain content',
+      content,
     });
   }
   
   knex.insert({
-    id, title, content, userId, categoryId,
+    id, content, userId, categoryId,
   }).into('post')
     .then((response) => {
       res.status(CREATED_CODE).json({ success: response });
@@ -117,13 +117,13 @@ const createPost = (req, res) => {
 
 const editPost = (req, res) => {
   const { id } = req.params;
-  const { title, content } = req.body;
+  const { content } = req.body;
 
   const updatedAt = knex.fn.now();
 
   knex('post')
     .where({ id })
-    .update({ title, content, updatedAt })
+    .update({ content, updatedAt })
     .then((response) => {
       res.status(SUCCESS_CODE).json({ success: response });
     })

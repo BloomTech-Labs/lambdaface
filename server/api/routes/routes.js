@@ -15,6 +15,7 @@ const {
   editUser,
   getUserById,
   postVote,
+  getVotes
 } = require('../controllers');
 
 module.exports = (server) => {
@@ -51,5 +52,6 @@ module.exports = (server) => {
     .post(createUser);
 
   server.route('/api/votes')
-    .post(postVote);
+    .post(postVote)
+    .get(getVotes);
 };

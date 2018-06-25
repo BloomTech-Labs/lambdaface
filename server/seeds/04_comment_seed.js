@@ -1,7 +1,7 @@
 
 exports.seed = (knex) => {
   // Inserts seed entries
-  knex('comment').insert([
+  return knex('comment').insert([
     {
       id: '1',
       content: 'Test Comment',

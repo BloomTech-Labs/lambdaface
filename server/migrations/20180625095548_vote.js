@@ -3,8 +3,10 @@ exports.up = function(knex, Promise) {
   return knex.schema.createTable('vote', (table) => {
     table
       .uuid('id')
-      .primary()
       .notNullable();
+
+    table
+      .primary(['parentId', 'userId']);
 
     table
       .string('parentId')
@@ -12,8 +14,7 @@ exports.up = function(knex, Promise) {
 
     table
       .string('userId')
-      .references('user.id')
-      .unique();
+      .references('user.id');
 
     table
       .string('voteType')

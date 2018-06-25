@@ -9,7 +9,7 @@ const postVote = (req, res) => {
 
   knex.insert({
     id, userId, parentId, voteType,
-  }).into('votes')
+  }).into('vote')
     .then((response) => {
       res.status(201).json({ success: response });
     })
@@ -18,6 +18,13 @@ const postVote = (req, res) => {
     });
 };
 
+/* development only */
+const getVotes = (req, res) => {
+  knex('vote')
+   .then(response => res.status(200).json(response));
+}
+
 module.exports = {
   postVote,
+  getVotes,
 };
