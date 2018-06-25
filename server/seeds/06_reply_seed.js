@@ -1,6 +1,6 @@
 exports.seed = (knex) => {
   // Inserts seed entries
-  return knex('child_comment').insert([
+  return knex('reply').insert([
     {
       id: '43270',
       content: 'Test Comment',

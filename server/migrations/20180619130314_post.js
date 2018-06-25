@@ -1,14 +1,9 @@
-
 exports.up = function(knex, Promise) {
   return knex.raw('SET foreign_key_checks = 0;').then(() => {
     return knex.schema.createTable('post', (table) => {
       table
         .uuid('id')
         .primary()
-        .notNullable();
-
-      table
-        .string('title', 128)
         .notNullable();
 
       table
@@ -20,14 +15,16 @@ exports.up = function(knex, Promise) {
 
       table
         .foreign('userId')
-        .references('user.id');
+        .references('user.id')
+        .onDelete('CASCADE');
 
       table
         .integer('categoryId');
 
       table
         .foreign('categoryId')
-        .references('category.id');
+        .references('category.id')
+        .onDelete('CASCADE');
 
       table
         .timestamp('createdAt')
@@ -45,9 +42,8 @@ exports.up = function(knex, Promise) {
         .integer('commentCount')
         .defaultTo(0);
     });
-  })
-  // .finally(() => knex.raw('SET foreign_key_checks = 0;'));
-}
+  });
+};
 
 exports.down = function(knex, Promise) {
   return knex.schema.dropTableIfExists('post');
