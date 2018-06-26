@@ -5,7 +5,8 @@ import "../Styles/Uploader.css";
 
 class Uploader extends React.Component {
   state = {
-    profilePicture: "https://i.stack.imgur.com/34AD2.jpg"
+    userId: this.props.userId,
+    profilePicture: this.props.profilePicture,
   }
   fileChange = event => {
     let file = event.target.files[0];
@@ -25,11 +26,11 @@ class Uploader extends React.Component {
       axios.put(signedUrl, file, options)
       .then((result) => {
         console.log(result);
-        axios.put(`http://localhost:5000/api/users/${this.props.userId}`, {
-          profilePicture: `https://s3-us-west-2.amazonaws.com/lf-photos/${this.props.userId}`
+        axios.put(`http://localhost:5000/api/users/${this.state.userId}`, {
+          profilePicture: `https://s3-us-west-2.amazonaws.com/lf-photos/photos/${this.state.userId}`
         })
         .then((result) => {
-          this.setState({profilePicture: `https://s3-us-west-2.amazonaws.com/lf-photos/photos/${this.props.userId}`});
+          this.setState({profilePicture: `https://s3-us-west-2.amazonaws.com/lf-photos/photos/${this.state.userId}`});
           console.log('Success?', result);
         })
         .catch(err => {

@@ -5,7 +5,7 @@ import LambdaLogo from "../Assets/LambdaLogo.svg";
 import Search from "./Search";
 
 export default props => {
-  const profilePic = 'https://i.stack.imgur.com/34AD2.jpg';
+  const profilePic = props.userInfo.profilePicture;
   return (
     <div className="top-bar">
       <img src={LambdaLogo} alt="logo" className="top-bar__logo" />

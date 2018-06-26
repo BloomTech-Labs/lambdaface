@@ -15,7 +15,7 @@ import backArrow from "../Assets/BackArrow.svg";
 class UserSettings extends React.Component {
   state = {
     userId: this.props.userInfo.sub,
-    profilePicture: "https://i.stack.imgur.com/34AD2.jpg",
+    profilePicture: this.props.userInfo.profilePicture,
     firstName: "",
     lastName: "",
     email: this.props.userInfo.name,
@@ -72,7 +72,7 @@ class UserSettings extends React.Component {
           {" "}
           {/*left column*/}
           <div className="user-settings__left-col">
-            <Uploader userId={this.state.userId} />
+            <Uploader userId={this.state.userId} profilePicture={this.state.profilePicture} />
           </div>
           <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
             {" "}
