@@ -5,7 +5,6 @@ import TextField from "@material-ui/core/TextField";
 import { IconButton } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
-import Uploader from "./Uploader";
 import PasswordReset from "./PasswordReset";
 
 import backArrow from "../Assets/BackArrow.svg";
@@ -79,8 +78,6 @@ class UserSettings extends React.Component {
             <img src={this.state.profilePicture} alt="profilepicture" style={imageSize} />
             <span>(change)</span>
           </div>
-
-          <Uploader />
           <span>(change)</span>
         </div>
         <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
@@ -95,7 +92,7 @@ class UserSettings extends React.Component {
             onChange={this.handleChange("firstName")}
             margin="normal"
             required
-            />
+          />
           <TextField
             id="lastName-input"
             label="Last Name"
