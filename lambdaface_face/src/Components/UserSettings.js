@@ -5,8 +5,8 @@ import TextField from "@material-ui/core/TextField";
 import { IconButton } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
-import Uploader from "./Uploader";
 import PasswordReset from "./PasswordReset";
+import Uploader from "./Uploader";
 
 import backArrow from "../Assets/BackArrow.svg";
 import "../Styles/UserSettings.css";
@@ -92,7 +92,7 @@ class UserSettings extends React.Component {
             onChange={this.handleChange("firstName")}
             margin="normal"
             required
-            />
+          />
           <TextField
             id="lastName-input"
             label="Last Name"

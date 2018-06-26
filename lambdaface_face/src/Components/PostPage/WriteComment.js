@@ -47,7 +47,7 @@ class WriteComment extends React.Component {
         />
         <UserBar
           type="writecomment"
-          info={{ User: "rambo" }}
+          info={this.props.userInfo}
           submitComment={this.submitComment}
         />
       </form>

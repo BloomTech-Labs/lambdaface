@@ -3,5 +3,4 @@ module.exports = {
   ...require('./users'),
   ...require('./comments'),
   ...require('./posts'),
-  ...require('./s3'),
 };
