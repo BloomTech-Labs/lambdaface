@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import CategoryButton from "./CategoryButton";
 import backArrow from "../Assets/BackArrow.svg";
-import "../Styles/AddPost.css";
+// import "../Styles/AddPost.css";
 
 class AddPost extends React.Component {
   state = {

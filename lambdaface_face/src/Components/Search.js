@@ -15,7 +15,7 @@ class Search extends React.Component {
 
   render() {
     return (
-      <div className="search">
+      <div className="top-bar__search">
         <form onSubmit={this.props.onSubmit([`Search Results for: ${this.state.query}`, null])}>
           <TextField 
             type="text"

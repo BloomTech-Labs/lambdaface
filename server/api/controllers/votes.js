@@ -4,7 +4,7 @@ const uuidv4 = require('uuid/v4');
 const postVote = async (req, res) => {
   const id = uuidv4();
   const {
-    userId, parentId, voteType,
+    userId, parentId, voteType, parentType,
   } = req.body;
 
   knex

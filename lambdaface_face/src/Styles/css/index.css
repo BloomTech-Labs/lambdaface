@@ -1,0 +1,282 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+* {
+  box-sizing: border-box;
+}
+/*
+	Example usage:
+	.some-element {
+		@media @tablet {
+			width: 100%;
+		}
+		@media @phone {
+			width: 50%;
+		}
+	}
+*/
+/* less-watch-compiler less css index.less */
+.user-settings__container {
+  display: flex;
+  width: 1031px;
+  height: 281px;
+  background-color: #fbfcfd;
+}
+.user-settings__left-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+}
+.user-settings__picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-top: 15%;
+}
+.user-settings__mid-col {
+  display: flex;
+  width: 40%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.user-settings__right-col {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+  width: 20%;
+}
+.user-settings__passwordReset {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+  width: 20%;
+}
+.user-bar__container {
+  display: flex;
+}
+.user-bar__info {
+  display: flex;
+}
+.user-bar__info > div {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.user-bar__info > img {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.post-page__container {
+  display: flex;
+}
+.post-page__left-col {
+  display: flex;
+}
+.post-page__right-col {
+  display: flex;
+}
+.reply__container {
+  margin-left: 30px;
+  border-left-width: 3px;
+  border-left-color: #f3f5f8;
+  border-left-style: solid;
+}
+.postList__listItem {
+  display: flex;
+  flex-direction: column;
+}
+.add-post__container {
+  display: flex;
+}
+.add-post__container .container__left-col {
+  display: flex;
+  justify-content: center;
+}
+.add-post__container .container__right-col .right-col__text-area {
+  height: 300px;
+  width: 940px;
+  background-color: #fdfdfe;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #f7f8fb;
+}
+.add-post__container .container__right-col .right-col__bottom-row {
+  display: flex;
+  height: 45px;
+  width: 100%;
+  margin-top: -3px;
+  background-color: #f7f8fb;
+}
+.add-post__container .container__right-col .right-col__bottom-row .bottom-row__left {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  justify-content: space-around;
+}
+.add-post__container .container__right-col .right-col__bottom-row .bottom-row__right {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  justify-content: flex-end;
+  justify-content: space-around;
+}
+.add-post__container .container__right-col .right-col__bottom-row .bottom-row__right-circle {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background-color: green;
+}
+.top-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.top-bar__logo {
+  margin-left: 2.5%;
+  margin-right: auto;
+}
+.top-bar__user-button {
+  margin-left: 5%;
+}
+.top-bar__user-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.top-bar__search {
+  margin-left: 55%;
+}
+.home-page__bottom {
+  display: flex;
+}
+.home-page__bottom .home-page__left-nav {
+  width: 20%;
+}
+.home-page__bottom .home-page__main {
+  width: 50%;
+}
