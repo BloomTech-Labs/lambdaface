@@ -10,7 +10,7 @@ const imageSize = {
 };
 
 export default props => {
-  const profilePic = props.userInfo.picture;
+  const profilePic = 'https://i.stack.imgur.com/34AD2.jpg';
   return (
     <div>
       <img src={LambdaLogo} alt="logo" />

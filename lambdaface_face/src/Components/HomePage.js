@@ -52,6 +52,7 @@ class HomePage extends React.Component {
   
     if (token) {
       userInfo = jwtDecode(token);
+      console.log(userInfo)
       this.setState({ user: userInfo });
     }
   };

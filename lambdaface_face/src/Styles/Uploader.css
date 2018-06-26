@@ -6,3 +6,15 @@
 	position: absolute;
 	z-index: -1;
 }
+
+label {
+	cursor:pointer;
+}
+
+label:hover {
+	color: blue;
+}
+
+.profile-picture {
+	border-radius: 50%
+}
