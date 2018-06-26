@@ -28,18 +28,6 @@ exports.up = function(knex, Promise) {
       table
         .timestamp('createdAt')
         .defaultTo(knex.fn.now());
-
-      table
-        .integer('upvotes')
-        .defaultTo(0);
-
-      table
-        .integer('downvotes')
-        .defaultTo(0);
-
-      table
-        .string('parentType')
-        .notNullable();
     });
   })
 };

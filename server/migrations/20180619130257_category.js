@@ -1,11 +1,16 @@
+/** 
+ * category schema
+ *    id    - integer, primary key
+ *    name  - 128 character length
+ */
 
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('category', (tbl) => {
-    tbl
+  return knex.schema.createTable('category', (table) => {
+    table
       .integer('id')
       .primary();
 
-    tbl
+    table
       .string('name', 128);
   });
 };

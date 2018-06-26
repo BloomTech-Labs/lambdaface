@@ -1,7 +1,7 @@
 import React from 'react';
 
 import UserBar from './UserBar';
-import "../../Styles/Reply.css";
+// import "../../Styles/Reply.css";
 
 const Reply = props => {
 

@@ -1,29 +1,38 @@
 
+/** 
+ * user schema
+ *    id          - integer, primary key
+ *    firstName   - 64 character length
+ *    lastName    - 64 character length
+ *    email       - 125 character length
+ *    createdAt   - Auto Generated ke
+ */
+
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('user', (tbl) => {
-    tbl
+  return knex.schema.createTable('user', (table) => {
+    table
       .uuid('id')
       .primary()
       .notNullable();
 
-    tbl
+    table
       .string('firstName', 64)
       .notNullable();
 
-    tbl
+    table
       .string('lastName', 64)
       .notNullable();
 
-    tbl
+    table
       .string('email', 125)
       .notNullable()
       .unique();
 
-    tbl
+    table
       .timestamp('createdAt')
       .defaultTo(knex.fn.now());
 
-    tbl
+    table
       .text('profilePicture');
   });
 };

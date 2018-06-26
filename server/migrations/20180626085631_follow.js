@@ -1,6 +1,6 @@
 
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('vote', (table) => {
+  return knex.schema.createTable('follow', (table) => {
     table
       .uuid('id')
       .notNullable();
@@ -10,30 +10,20 @@ exports.up = function(knex, Promise) {
 
     table
       .string('parentId')
-      .notNullable();
+      .references('post.id')
+      .onDelete('CASCADE');
 
     table
       .string('userId')
-      .references('user.id');
-
-    table
-      .string('voteType')
-      .notNullable();
+      .references('user.id')
+      .onDelete('CASCADE');
     
-    table
-      .string('parentType')
-      .notNullable();
-
     table
       .timestamp('createdAt')
       .defaultTo(knex.fn.now());
-    
-    table
-      .timestamp('updatedAt')
-      .defaultTo(null);
   });
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTableIfExists('vote');
+  return knex.schema.dropTableIfExists('follow');
 };

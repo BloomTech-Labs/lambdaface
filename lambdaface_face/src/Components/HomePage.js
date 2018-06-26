@@ -123,19 +123,25 @@ class HomePage extends React.Component {
     const currentCategory = this.state.currentCategory;
     const currentPost = this.state.currentPost;
     return (
-      <div>
-        <TopBar 
-          changeCurrentCategory={this.changeCurrentCategory}
-          userInfo={this.state.user}
-        />
-        <div className="LeftNav">
-          <LeftNav
-            options={this.state.postOptions}
-            posts={this.state.posts}
+      <div className="home-page">
+        <div className="home-page__top-bar">
+          <TopBar 
             changeCurrentCategory={this.changeCurrentCategory}
+            userInfo={this.state.user}
           />
         </div>
-        <div>{this.categorySwitch(currentCategory, currentPost)}</div>
+        <div className="home-page__bottom">
+          <div className="home-page__left-nav">
+            <LeftNav
+              options={this.state.postOptions}
+              posts={this.state.posts}
+              changeCurrentCategory={this.changeCurrentCategory}
+            />
+          </div>
+          <div className="home-page__main">
+            {this.categorySwitch(currentCategory, currentPost)}
+          </div>
+        </div>
       </div>
     );
   }
