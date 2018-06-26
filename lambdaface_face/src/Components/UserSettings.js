@@ -72,24 +72,7 @@ class UserSettings extends React.Component {
           {" "}
           {/*left column*/}
           <div className="user-settings__left-col">
-<<<<<<< HEAD
             <Uploader userId={this.state.userId} />
-          </div>
-        </div>
-        <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
-          {" "}
-          {/*middle column*/}
-          <TextField
-            id="firstName-input"
-            label="First Name"
-=======
-            <img
-              src={this.state.profilePicture}
-              alt="profilepicture"
-              style={imageSize}
-              className="user-settings__picture"
-            />
-            <span>(change)</span>
           </div>
           <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
             {" "}
@@ -97,7 +80,6 @@ class UserSettings extends React.Component {
             <TextField
               id="firstName-input"
               label="First Name"
->>>>>>> d6ca0a514bc253b05d57f5f847f49f46130405f5
             // className={}
               type="text"
               value={this.state.firstName}

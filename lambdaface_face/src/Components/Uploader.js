@@ -24,17 +24,17 @@ class Uploader extends React.Component {
       }
       axios.put(signedUrl, file, options)
       .then((result) => {
-        this.setState({profilePicture: `https://s3-us-west-2.amazonaws.com/lf-photos/photos/${this.props.userId}`});
         console.log(result);
-        // axios.put(`http://localhost:5000/api/users/${this.props.userId}`, {
-        //   profilePicture: `https://s3-us-west-2.amazonaws.com/lf-photos/${this.props.userId}`
-        // })
-        // .then((result) => {
-        //   console.log(result);
-        // })
-        // .catch(err => {
-        //   console.error(err);
-        // })
+        axios.put(`http://localhost:5000/api/users/${this.props.userId}`, {
+          profilePicture: `https://s3-us-west-2.amazonaws.com/lf-photos/${this.props.userId}`
+        })
+        .then((result) => {
+          this.setState({profilePicture: `https://s3-us-west-2.amazonaws.com/lf-photos/photos/${this.props.userId}`});
+          console.log('Success?', result);
+        })
+        .catch(err => {
+          console.error(err);
+        })
       })
       .catch((err) => {
         console.error(err);
