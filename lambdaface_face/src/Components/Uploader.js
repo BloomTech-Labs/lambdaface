@@ -1,13 +1,14 @@
-import Dropzone from 'react-dropzone';
 import React from 'react';
 import axios from 'axios';
 
+import "../Styles/Uploader.css";
+
 class Uploader extends React.Component {
-  onDrop = (files) => {
-    let file = files[0];
+  fileChange = event => {
+    let file = event.target.files[0];
     axios.get('http://localhost:5000/s3/sign', {
       params: {
-        filename: file.name,
+        filename: this.props.userId,
         filetype: file.type
       }
     })
@@ -31,14 +32,12 @@ class Uploader extends React.Component {
     })
   };
 
-
   render() {
     return (
       <section>
-        <div className="dropzone">
-          <Dropzone onDrop={this.onDrop}>
-            <p>Try dropping some files here, or click to select files to upload.</p>
-          </Dropzone>
+        <div>
+          <input className="inputfile" id="file" name="file" type="file" accept="image/*" onChange={this.fileChange} />
+          <label htmlFor="file">Change</label>
         </div>
       </section>
     );

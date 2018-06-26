@@ -77,11 +77,8 @@ class UserSettings extends React.Component {
           {/*left column*/}
           <div className="user-settings__left-col">
             <img src={this.state.profilePicture} alt="profilepicture" style={imageSize} />
-            <span>(change)</span>
+            <Uploader userId={this.state.userId} />
           </div>
-
-          <Uploader />
-          <span>(change)</span>
         </div>
         <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
           {" "}
