@@ -9,7 +9,7 @@ import PasswordReset from "./PasswordReset";
 import Uploader from "./Uploader";
 
 import backArrow from "../Assets/BackArrow.svg";
-import "../Styles/UserSettings.css";
+// import "../Styles/css/index.css";
 
 
 class UserSettings extends React.Component {
@@ -72,6 +72,7 @@ class UserSettings extends React.Component {
           {" "}
           {/*left column*/}
           <div className="user-settings__left-col">
+<<<<<<< HEAD
             <Uploader userId={this.state.userId} />
           </div>
         </div>
@@ -81,34 +82,50 @@ class UserSettings extends React.Component {
           <TextField
             id="firstName-input"
             label="First Name"
+=======
+            <img
+              src={this.state.profilePicture}
+              alt="profilepicture"
+              style={imageSize}
+              className="user-settings__picture"
+            />
+            <span>(change)</span>
+          </div>
+          <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
+            {" "}
+            {/*middle column*/}
+            <TextField
+              id="firstName-input"
+              label="First Name"
+>>>>>>> d6ca0a514bc253b05d57f5f847f49f46130405f5
             // className={}
-            type="text"
-            value={this.state.firstName}
-            onChange={this.handleChange("firstName")}
-            margin="normal"
-            required
-          />
-          <TextField
-            id="lastName-input"
-            label="Last Name"
+              type="text"
+              value={this.state.firstName}
+              onChange={this.handleChange("firstName")}
+              margin="normal"
+              required
+            />
+            <TextField
+              id="lastName-input"
+              label="Last Name"
           // className={}
-            type="text"
-            value={this.state.lastName}
-            onChange={this.handleChange("lastName")}
-            margin="normal"
-            required
-          />
-          <TextField
-            id="email-input"
-            label="Email Address"
+              type="text"
+              value={this.state.lastName}
+              onChange={this.handleChange("lastName")}
+              margin="normal"
+              required
+            />
+            <TextField
+              id="email-input"
+              label="Email Address"
           // className={}
-            type="email"
-            value={this.state.email}
-            onChange={this.handleChange("email")}
-            margin="normal"
-            required
-          />
-          {/* <TextField
+              type="email"
+              value={this.state.email}
+              onChange={this.handleChange("email")}
+              margin="normal"
+              required
+            />
+            {/* <TextField
           id="password-input"
           label="Password"
           // className={}
@@ -117,19 +134,20 @@ class UserSettings extends React.Component {
           onChange={this.handleChange("password")}
           margin="normal"
         /> */}
-          <Button variant="contained" onClick={this.resetPassword}>
+            <Button variant="contained" onClick={this.resetPassword}>
             Reset Password
-          </Button>
-          <Button variant="contained" type="submit">
+            </Button>
+            <Button variant="contained" type="submit">
             Save Settings
-          </Button>
-        </form>
-        <div className="user-settings__right-col">
-          {/*right column*/}
-          {/* <div>...</div> */}
-        </div>
-        <div className="user-settings__passwordReset">
-          {this.state.passwordReset ? <PasswordReset /> : null }
+            </Button>
+          </form>
+          <div className="user-settings__right-col">
+            {/*right column*/}
+            {/* <div>...</div> */}
+          </div>
+          <div className="user-settings__passwordReset">
+            {this.state.passwordReset ? <PasswordReset /> : null }
+          </div>
         </div>
       </div>
     );

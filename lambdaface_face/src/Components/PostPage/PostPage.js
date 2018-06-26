@@ -7,7 +7,7 @@ import PostFull from "./PostFull";
 import Comment from "./Comment";
 import WriteComment from "./WriteComment";
 
-import "../../Styles/PostPage.css";
+// import "../../Styles/PostPage.css";
 import backArrow from "../../Assets/BackArrow.svg";
 
 class PostPage extends React.Component {
