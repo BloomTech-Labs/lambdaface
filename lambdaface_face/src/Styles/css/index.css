@@ -251,3 +251,32 @@ table {
   border-radius: 50%;
   background-color: green;
 }
+.top-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.top-bar__logo {
+  margin-left: 2.5%;
+  margin-right: auto;
+}
+.top-bar__user-button {
+  margin-left: 5%;
+}
+.top-bar__user-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.top-bar__search {
+  margin-left: 55%;
+}
+.home-page__bottom {
+  display: flex;
+}
+.home-page__bottom .home-page__left-nav {
+  width: 20%;
+}
+.home-page__bottom .home-page__main {
+  width: 50%;
+}
