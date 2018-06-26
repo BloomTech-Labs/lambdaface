@@ -2,6 +2,7 @@ import React from "react";
 
 import UserBar from "./UserBar";
 import WriteReply from "./WriteReply";
+import Reply from "./Reply";
 
 class Comment extends React.Component {
   state = {
@@ -14,6 +15,7 @@ class Comment extends React.Component {
 
   render() {
     const replyingTo = this.state.replyingTo;
+    // console.log(this.props.comment);
 
     return (
       <div>
@@ -23,7 +25,14 @@ class Comment extends React.Component {
           info={this.props.comment}
           toggleReply={this.toggleReplyingTo}
         />
-        {replyingTo && <WriteReply />}
+        {this.props.comment.comments.map(elem => <Reply key={elem.id} replyInfo={elem} toggleReplyingTo={this.toggleReplyingTo} /> )}
+        {replyingTo && 
+          <WriteReply 
+            userInfo={this.props.userInfo}
+            commentInfo={{parentId: this.props.comment.id, parentType: 'comment'}}
+            reloadComments={this.props.reloadComments}
+            toggleReplyingTo={this.toggleReplyingTo}
+          />}
       </div>
     );
   }

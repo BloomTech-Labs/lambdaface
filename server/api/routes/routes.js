@@ -15,7 +15,7 @@ const {
   editUser,
   getUserById,
   postVote,
-  getVotes
+  getVotes,
 } = require('../controllers');
 
 module.exports = (server) => {

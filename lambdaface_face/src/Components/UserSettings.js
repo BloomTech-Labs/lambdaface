@@ -78,7 +78,6 @@ class UserSettings extends React.Component {
             <img src={this.state.profilePicture} alt="profilepicture" style={imageSize} />
             <span>(change)</span>
           </div>
-
           <span>(change)</span>
         </div>
         <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
@@ -97,7 +96,7 @@ class UserSettings extends React.Component {
           <TextField
             id="lastName-input"
             label="Last Name"
-            // className={}
+          // className={}
             type="text"
             value={this.state.lastName}
             onChange={this.handleChange("lastName")}
@@ -107,7 +106,7 @@ class UserSettings extends React.Component {
           <TextField
             id="email-input"
             label="Email Address"
-            // className={}
+          // className={}
             type="email"
             value={this.state.email}
             onChange={this.handleChange("email")}
@@ -115,14 +114,14 @@ class UserSettings extends React.Component {
             required
           />
           {/* <TextField
-            id="password-input"
-            label="Password"
-            // className={}
-            type="password"
-            value={this.state.password}
-            onChange={this.handleChange("password")}
-            margin="normal"
-          /> */}
+          id="password-input"
+          label="Password"
+          // className={}
+          type="password"
+          value={this.state.password}
+          onChange={this.handleChange("password")}
+          margin="normal"
+        /> */}
           <Button variant="contained" onClick={this.resetPassword}>
             Reset Password
           </Button>
