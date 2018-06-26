@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import upvote from "../../Assets/upvote.svg";
 import downvote from "../../Assets/downvote.svg";
 
-import "../../Styles/UserBar.css";
+// import "../../Styles/UserBar.css";
 
 const categories = [
   "All Posts",
@@ -57,11 +57,11 @@ const UserBar = props => {
       })
   }
   return (
-    <div className="userbar">
+    <div className="user-bar__container">
       <div />
       <span>{user}</span>
       {props.type === "allposts" && (
-        <div className="toolbar">
+        <div className="user-bar__info">
           {/* TODO: make this dynamic */}
           <img src={upvote} alt="Upvotes" height="13px" width="11px" />
           <div>{props.info.upvotes}</div>
@@ -74,7 +74,7 @@ const UserBar = props => {
         </div>
       )}
       {props.type === "singlepost" && (
-        <div className="toolbar">
+        <div className="user-bar__info">
           <div>{props.info.upvotes}</div>
           <img src={upvote} onClick={vote('INC')} alt="Upvotes" height="13px" width="11px" />
           <img src={downvote} onClick={vote('DEC')} alt="Downvotes" height="13px" width="11px" />
@@ -84,7 +84,7 @@ const UserBar = props => {
         </div>
       )}
       {props.type === "comment" && (
-        <div className="toolbar">
+        <div className="user-bar__info">
           <Button onClick={props.toggleReply}>Reply</Button>
           <div>{props.info.upvotes}</div>
           <img src={upvote} onClick={vote('INC')} alt="Upvotes" height="13px" width="11px" />
@@ -93,12 +93,12 @@ const UserBar = props => {
         </div>
       )}
       {props.type === "writecomment" && (
-        <div className="toolbar">
+        <div className="user-bar__info">
           <Button onClick={props.submitComment()}>Post Comment</Button>
         </div>
       )}
       {props.type === "writereply" && (
-        <div className="toolbar">
+        <div className="user-bar__info">
           <Button onClick={props.submitReply()}>Post Reply</Button>
         </div>
       )}
