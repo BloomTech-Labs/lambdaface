@@ -5,6 +5,8 @@ import TextField from "@material-ui/core/TextField";
 import { IconButton } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
+import PasswordReset from "./PasswordReset";
+
 import backArrow from "../Assets/BackArrow.svg";
 import "../Styles/UserSettings.css";
 
@@ -16,7 +18,8 @@ class UserSettings extends React.Component {
     firstName: "",
     lastName: "",
     email: this.props.userInfo.name,
-    password: "",
+    passwordResetEmail: this.props.userInfo.name,
+    passwordReset: false,
     selectedImage: null,
   };
 
@@ -25,6 +28,22 @@ class UserSettings extends React.Component {
       [name]: event.target.value
     });
   };
+
+  resetPassword = () => {
+    const userStuff = {
+      client_id: 'A86C7iFueySjvHsu5fhxq3SVJBNxo1CF',
+      email: this.state.passwordResetEmail,
+      connection: 'Username-Password-Authentication'}
+
+    axios.post('https://lambda-face-test1.auth0.com/dbconnections/change_password', userStuff)
+      .then((res) => {
+        this.setState({ passwordReset: true });
+        console.log({ success: res });
+      })
+      .catch((err) => {
+        console.error({ err });
+      })
+  }
 
   updateInfo = () => event => {
     event.preventDefault();
@@ -56,56 +75,66 @@ class UserSettings extends React.Component {
           {" "}
           {/*left column*/}
           <div className="user-settings__left-col">
-            <img src={this.state.profilePicture} alt="profilepicture" style={imageSize} className="left-col__picture" />
+            <img src={this.state.profilePicture} alt="profilepicture" style={imageSize} />
             <span>(change)</span>
           </div>
-          <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
-            {" "}
-            {/*middle column*/}
-            <TextField
-              id="firstname-input"
-              label="First Name"
+          <span>(change)</span>
+        </div>
+        <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
+          {" "}
+          {/*middle column*/}
+          <TextField
+            id="firstName-input"
+            label="First Name"
             // className={}
-              type="text"
-              value={this.state.firstname}
-              onChange={this.handleChange("firstName")}
-              margin="normal"
-            />
-            <TextField
-              id="lastname-input"
-              label="Last Name"
-            // className={}
-              type="text"
-              value={this.state.lastname}
-              onChange={this.handleChange("lastName")}
-              margin="normal"
-            />
-            <TextField
-              id="email-input"
-              label="Email Address"
-            // className={}
-              type="email"
-              value={this.state.email}
-              onChange={this.handleChange("email")}
-              margin="normal"
-            />
-            <TextField
-              id="password-input"
-              label="Password"
-            // className={}
-              type="password"
-              value={this.state.password}
-              onChange={this.handleChange("password")}
-              margin="normal"
-            />
-            <Button variant="contained" type="submit">
+            type="text"
+            value={this.state.firstName}
+            onChange={this.handleChange("firstName")}
+            margin="normal"
+            required
+          />
+          <TextField
+            id="lastName-input"
+            label="Last Name"
+          // className={}
+            type="text"
+            value={this.state.lastName}
+            onChange={this.handleChange("lastName")}
+            margin="normal"
+            required
+          />
+          <TextField
+            id="email-input"
+            label="Email Address"
+          // className={}
+            type="email"
+            value={this.state.email}
+            onChange={this.handleChange("email")}
+            margin="normal"
+            required
+          />
+          {/* <TextField
+          id="password-input"
+          label="Password"
+          // className={}
+          type="password"
+          value={this.state.password}
+          onChange={this.handleChange("password")}
+          margin="normal"
+        /> */}
+          <Button variant="contained" onClick={this.resetPassword}>
+            Reset Password
+          </Button>
+          <Button variant="contained" type="submit">
             Save Settings
-            </Button>
-          </form>
-          <div className="user-settings__right-col">
-            {/*right column*/}
-            <div>...</div>
-          </div>
+          </Button>
+        </form>
+        <div className="user-settings__right-col">
+          {/*right column*/}
+          {/* <div>...</div> */}
+        </div>
+        <div className="user-settings__passwordReset">
+          {this.state.passwordReset ? <PasswordReset /> : null }
         </div>
       </div>
     );

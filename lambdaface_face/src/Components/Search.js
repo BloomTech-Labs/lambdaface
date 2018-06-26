@@ -16,13 +16,13 @@ class Search extends React.Component {
   render() {
     return (
       <div className="search">
-        <form onSubmit={this.props.onSubmit([`Search Results for: ${this.state.query}`], null)}>
+        <form onSubmit={this.props.onSubmit([`Search Results for: ${this.state.query}`, null])}>
           <TextField 
             type="text"
             placeholder="Search"
             onChange={this.handleChange}
           />
-          <button>Go</button>
+          <button style={{display: "none"}} disabled={!this.state.query}>Go</button>
         </form>
       </div>
     )

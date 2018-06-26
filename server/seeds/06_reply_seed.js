@@ -1,34 +1,34 @@
-
 exports.seed = (knex) => {
   // Inserts seed entries
-  return knex('comment').insert([
+  return knex('reply').insert([
     {
-      id: '1',
+      id: '43270',
       content: 'Test Comment',
-      parentId: '87925db7-fb1e-4847-b601-b688def0dbca',
+      parentId: '3',
       userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
-      parentType: 'post',
+      parentType: 'comment',
     },
     {
-      id: '2',
+      id: '34217605786320',
       content: 'Test Comment 1',
-      parentId: '87925db7-fb1e-4847-b601-b688def0dbca',
+      parentId: '3',
       userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
-      parentType: 'post',
+      parentType: 'comment',
     },
     {
-      id: '3',
+      id: '123456',
       content: 'Test Comment 2',
-      parentId: '87925db7-fb1e-4847-b601-b688def0dbca',
+      parentId: '5555',
       userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
-      parentType: 'post',
+      parentType: 'comment',
     },
     {
-      id: '5555',
+      id: '99999999999999999999999999999999',
       content: 'Test Comment 5',
-      parentId: '87925db7-fb1e-4847-b601-b688def0dbca',
+      parentId: '5555',
       userId: 'e143939c-f8ef-4737-a168-8c2a1e47eea7',
-      parentType: 'post',
+      parentType: 'comment',
     },
   ]);
 };
+  

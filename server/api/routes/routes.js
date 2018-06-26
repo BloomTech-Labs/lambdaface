@@ -5,6 +5,7 @@ const {
   createPost,
   editPost,
   deletePost,
+  isChildComment,
   getComments,
   editComment,
   createComment,
@@ -12,11 +13,13 @@ const {
   createUser,
   viewUsers,
   editUser,
+  getUserById,
   postVote,
+  getVotes,
 } = require('../controllers');
 
 module.exports = (server) => {
-  server.route([ '/api/posts', '/api/posts/:filter'])
+  server.route([ '/api/posts', '/api/posts/:page', '/api/posts/:page/:filter'])
     .get(getPosts)
     .post(createPost);
   
@@ -28,19 +31,20 @@ module.exports = (server) => {
     .put(editPost)
     .delete(deletePost);
 
-  server.route('/api/comments/:parentId')
-    .get(getComments);
+  server.route(['/api/comments/:parentId', '/api/comments/child/:parentId'])
+    .get(isChildComment, getComments);
 
   server.route('/api/comments/:id')
-    .put(editComment);
+    .put(isChildComment, editComment);
 
   server.route('/api/comments/delete/:id')
-    .put(deleteComment);
+    .put(isChildComment, deleteComment);
 
   server.route('/api/comments')
-    .post(createComment);
+    .post(isChildComment, createComment);
 
   server.route('/api/users/:id')
+    .get(getUserById)
     .put(editUser);
 
   server.route('/api/users')
@@ -48,5 +52,6 @@ module.exports = (server) => {
     .post(createUser);
 
   server.route('/api/votes')
-    .post(postVote);
+    .post(postVote)
+    .get(getVotes);
 };
