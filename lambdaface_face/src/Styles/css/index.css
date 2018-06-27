@@ -193,12 +193,16 @@ table {
 }
 .post-page__container {
   display: flex;
+  flex-direction: column;
 }
-.post-page__left-col {
+.post-page__container .post-page__post {
   display: flex;
 }
-.post-page__right-col {
-  display: flex;
+.post-page__container .post-page__post .post__left-col {
+  width: 10%;
+}
+.post-page__container .post-page__comments {
+  margin-left: 10%;
 }
 .reply__container {
   margin-left: 30px;
