@@ -44,7 +44,7 @@ const UserBar = props => {
     }
     event.stopPropagation();
     axios
-      .post('http://localhost:5000/api/votes', voteBody)
+      .post(`${process.env.REACT_APP_URL}`.concat('api/votes'), voteBody)
       .then((res) => {
         if (voteType === "INC") {
           console.log("Upboated!");
