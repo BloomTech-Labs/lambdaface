@@ -10,7 +10,7 @@ class Uploader extends React.Component {
   }
   fileChange = event => {
     let file = event.target.files[0];
-    axios.get('http://localhost:5000/s3/sign', {
+    axios.get(`${process.env.REACT_APP_URL}`.concat('s3/sign'), {
       params: {
         filename: this.props.userId,
         filetype: file.type

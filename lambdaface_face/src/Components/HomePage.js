@@ -52,7 +52,7 @@ class HomePage extends React.Component {
   
     if (token) {
       userInfo = jwtDecode(token);
-      axios.get(`http://localhost:5000/api/users/${userInfo.sub}`)
+      axios.get(`${process.env.REACT_APP_URL}`.concat(`api/users/${userInfo.sub}`))
         .then((response) => {
           userInfo.profilePicture = response.data[0].profilePicture;
           this.setState({ user: userInfo });
