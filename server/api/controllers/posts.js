@@ -15,22 +15,6 @@ const {
   SERVER_ERRROR,
 } = httpCodes;
 
-const _responseHandler = async (response) => {
-  const sent = [];
-  for (let i = 0; i < response.length; i++) {
-      const votes = await knex('vote')
-        .where({ parentId: response[i].id });
-
-    sent.push({
-      ...response[i],
-      // upvotes: votes.filter(v => v.voteType === 'INC').length,
-      // downvotes: votes.filter(v => v.voteType === 'DEC').length,
-      // votes,
-    });
-  }
-  return sent;
-};
-
 const getPosts = (req, res) => {
   const { page = 1, filter = '' } = req.params;
   const limit = 20;
@@ -50,7 +34,6 @@ const getPosts = (req, res) => {
     .join( ..._joinUser('post') )
     .leftJoin( ..._joinVote('post', 'INC') )
     .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
-    .then(_responseHandler)
     .then(response => res.status(SUCCESS_CODE).json(response))
     .catch(err => res.status(SERVER_ERRROR).json({ error: err.message }));
 };
@@ -61,7 +44,8 @@ const searchPosts = (req, res) => {
   knex('post')
     .where(knex.raw('content LIKE "%' + query + '%"'))
     .join( ..._joinUser('post') )
-    .then(_responseHandler)
+    .leftJoin( ..._joinVote('post', 'INC') )
+    .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
     .then((response) => {
       res.status(SUCCESS_CODE).json(response);
     })
@@ -76,7 +60,8 @@ const getPostById = (req, res) => {
   knex('post')
     .where({ id })
     .join( ..._joinUser('post') )
-    .then( _responseHandler )
+    .leftJoin( ..._joinVote('post', 'INC') )
+    .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
     .then(async ([ response ]) => {
 
       await knex('post')
