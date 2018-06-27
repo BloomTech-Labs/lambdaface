@@ -221,14 +221,17 @@ table {
 }
 .add-post__container {
   display: flex;
+  font-family: sans-serif;
 }
 .add-post__container .container__left-col {
   display: flex;
   justify-content: center;
 }
 .add-post__container .container__right-col .right-col__text-area {
+  margin-top: 10px;
+  font-size: 1.5em;
   height: 300px;
-  width: 940px;
+  width: 800px;
   background-color: #fdfdfe;
   border-style: solid;
   border-width: 1px;

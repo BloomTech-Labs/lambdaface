@@ -49,7 +49,6 @@ class AddPost extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const category = this.state.category;
     return (
       <div className="add-post__container">
