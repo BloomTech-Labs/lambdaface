@@ -73,7 +73,6 @@ const getPosts = (req, res) => {
 
 const searchPosts = (req, res) => {
   const { query } = req.params;
-  const rawQuery =  'SELECT * FROM post WHERE content LIKE "%' + query + '%"';
 
   knex('post')
     .where(knex.raw('content LIKE "%' + query + '%"'))
