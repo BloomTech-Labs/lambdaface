@@ -37,7 +37,7 @@ class HomePage extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('just updated', Math.random());
+    // console.log('just updated');
     if (!this.state.postsLoaded) {
       this.getPosts();
     }
