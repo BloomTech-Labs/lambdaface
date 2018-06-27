@@ -71,19 +71,23 @@ class HomePage extends React.Component {
   };
 
   changeCurrentCategory = (category, post = null) => event => {
-    if (this.state.postsLoaded) {
+    /* Posts must be loaded, or the given category must not be part of NavBar options */
+    if (this.state.postsLoaded || category[1] === null) {
       if (event) event.preventDefault();
       // TODO: do nothing if given category is same as current
       const noSpaces = [category[0].split(" ").join(""), category[1]];
       this.setState({ currentCategory: noSpaces });
-      /* reset posts if the given category is unloaded, part of navBar */
+      /* reset posts if the given category is part of NavBar options (this.state.postOptions) */
       if (category[1] !== null) {
         this.setState({ posts: [], postsLoaded: false })
       }
+      /* Only NavBar options can be a previous category */
       if (this.state.currentCategory[1] !== null) this.setState({ previousCategory: this.state.currentCategory });
+      // TODO: Move search outside of changeCurrentCategory
       if (category[0].includes("Search")) {
         this.searchResults(category[0].slice(20, category[0].length));
       }
+      /* set currentPost to given post (default is null) */
       if (post) this.setState({ currentPost: { ...post } });
     }
   };
