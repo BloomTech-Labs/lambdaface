@@ -40,7 +40,8 @@ class AddPost extends React.Component {
       .then(res => {
         // console.log(res);
         this.setState({ content: "" });
-        // TODO: ADD redirect to last page
+        // redirect to last page
+        this.props.changeCurrentCategory([...this.state.category])();
       })
       .catch(err => {
         console.error(err);

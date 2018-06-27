@@ -43,19 +43,23 @@ class PostPage extends React.Component {
 
     return (
       <div className="post-page__container">
-        <div className="post-page__left-col">
-          <IconButton onClick={this.props.changeCurrentCategory(this.props.category)}>
-            <img src={backArrow} alt="Back" height="30px" width="30px" />
-          </IconButton>
-        </div>
+        <div className="post-page__post">
+          <div className="post__left-col">
+            <IconButton onClick={this.props.changeCurrentCategory(this.props.category)}>
+              <img src={backArrow} alt="Back" height="30px" width="30px" />
+            </IconButton>
+          </div>
 
-        <div className="post-page__right-col">
-          <PostFull post={this.props.post} />
+          <div className="post__right-col">
+            <PostFull post={this.props.post} />
+          </div>
+        </div>
+        <div className="post-page__comments">
           <div>Comments</div>
           {commentsLoaded &&
-            comments.map((elem, i) => (
-              <Comment key={elem.id} comment={elem} userInfo={this.props.userInfo} reloadComments={this.getComments} />
-            ))}
+          comments.map((elem, i) => (
+            <Comment key={elem.id} comment={elem} userInfo={this.props.userInfo} reloadComments={this.getComments} />
+          ))}
           {/* {!commentsLoaded && <div>Loading Comments...</div>} */}
           <div>Write a comment</div>
           <WriteComment

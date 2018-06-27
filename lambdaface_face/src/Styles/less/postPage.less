@@ -1,11 +1,22 @@
 .post-page {
   &__container {
     display: flex;
-  }
-  &__left-col {
-    display: flex;
-  }
-  &__right-col {
-    display: flex;
+    flex-direction: column;
+
+    .post-page__post {
+      display: flex;
+
+      .post__left-col {
+        width: 10%;
+      }
+
+      .post__right-col {
+
+      }
+    }
+
+    .post-page__comments {
+      margin-left: 10%;
+    }
   }
 }

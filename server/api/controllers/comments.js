@@ -35,13 +35,25 @@ const getComments = (req, res) => {
     .join( ..._joinUser(table) )
     .orderBy('createdAt', 'asc')
     .then(async (response) => {
-      // todo votes   
+      // todo votes
+      for (let i = 0; i < response.length; i++) {
+        const votes = await knex('vote')
+          .where({ parentId: response[i].id })
+        response.upvotes = votes.filter(v => v.voteType === 'INC').length;
+        response.downvotes = votes.length - response.upvotes.length;
+      }
       if (!child) {
         for (let i = 0; i < response.length; i++) {
-          response[i].comments = await knex('reply')
-          .where({ parentId: response[i].id })
-          .orderBy('createdAt', 'asc')
-          .join( ..._joinUser('reply') );
+          const comments = await knex('reply')
+            .where({ parentId: response[i].id })
+            .orderBy('createdAt', 'asc')
+            .join( ..._joinUser('reply') );
+
+          for (let j = 0; j < comments.length; j++) {
+
+          }
+
+          response[i].comments = comments;
         }
       }
   
