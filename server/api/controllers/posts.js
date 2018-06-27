@@ -48,24 +48,8 @@ const getPosts = (req, res) => {
     .limit(limit)
     .offset((page - 1) * limit)
     .join( ..._joinUser('post') )
-    .leftJoin( ..._joinVote('post', 'INC')
-      // knex('vote')
-      //   .select('parentId as voteId', 'voteType')
-      //   .count({ upvotes: ['voteType'] })
-      //   .where({ voteType: 'INC' })
-      //   .groupBy('voteId').as('v'),
-      // 'post.id',
-      // 'v.voteId'
-    )
-    .leftJoin( ..._joinVote('post', 'DEC', 'dv')
-      // knex('vote')
-      //   .select('parentId as voteId', 'voteType')
-      //   .count({ downvotes: ['voteType'] })
-      //   .where({ voteType: 'DEC' })
-      //   .groupBy('voteId').as('dv'),
-      // 'post.id',
-      // 'dv.voteId'
-    )
+    .leftJoin( ..._joinVote('post', 'INC') )
+    .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
     .then(_responseHandler)
     .then(response => res.status(SUCCESS_CODE).json(response))
     .catch(err => res.status(SERVER_ERRROR).json({ error: err.message }));
