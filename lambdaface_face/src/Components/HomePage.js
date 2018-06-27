@@ -7,6 +7,7 @@ import AddPost from "./AddPost";
 import UserSettings from "./UserSettings";
 import PostPage from "./PostPage/PostPage";
 import TopBar from "./TopBar";
+import Footer from "./Footer";
 
 class HomePage extends React.Component {
   state = {
@@ -151,6 +152,9 @@ class HomePage extends React.Component {
           <div className="home-page__main">
             {this.categorySwitch(currentCategory, currentPost)}
           </div>
+        </div>
+        <div className="home-page__footer">
+          <Footer />
         </div>
       </div>
     );
