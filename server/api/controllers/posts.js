@@ -34,8 +34,12 @@ const getPosts = (req, res) => {
     .join( ..._joinUser('post') )
     .leftJoin( ..._joinVote('post', 'INC') )
     .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
-    .then(response => res.status(SUCCESS_CODE).json(response))
-    .catch(err => res.status(SERVER_ERRROR).json({ error: err.message }));
+    .then((response) => {
+      res.status(SUCCESS_CODE).json(response)
+    })
+    .catch((error) => {
+      res.status(SERVER_ERRROR).json({ error })
+    });
 };
 
 const searchPosts = (req, res) => {
