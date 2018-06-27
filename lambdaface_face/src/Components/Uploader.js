@@ -26,7 +26,7 @@ class Uploader extends React.Component {
       axios.put(signedUrl, file, options)
       .then((result) => {
         console.log(result);
-        axios.put(`http://localhost:5000/api/users/${this.state.userId}`, {
+        axios.put(`${process.env.REACT_APP_URL}`.concat(`api/users/${this.state.userId}`), {
           profilePicture: `https://s3-us-west-2.amazonaws.com/lf-photos/photos/${this.state.userId}`
         })
         .then((result) => {
