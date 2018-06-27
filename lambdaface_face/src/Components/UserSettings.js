@@ -30,6 +30,12 @@ class UserSettings extends React.Component {
     });
   };
 
+  closePasswordModal = () => {
+    this.setState({
+      passwordReset: false
+    })
+  }
+
   resetPassword = () => {
     const userStuff = {
       client_id: 'A86C7iFueySjvHsu5fhxq3SVJBNxo1CF',
@@ -79,6 +85,7 @@ class UserSettings extends React.Component {
             {/*middle column*/}
             <TextField
               id="firstName-input"
+              className="user-settings__text-field"
               label="First Name"
             // className={}
               type="text"
@@ -89,6 +96,7 @@ class UserSettings extends React.Component {
             />
             <TextField
               id="lastName-input"
+              className="user-settings__text-field"
               label="Last Name"
           // className={}
               type="text"
@@ -99,6 +107,7 @@ class UserSettings extends React.Component {
             />
             <TextField
               id="email-input"
+              className="user-settings__text-field"
               label="Email Address"
           // className={}
               type="email"
@@ -116,19 +125,17 @@ class UserSettings extends React.Component {
           onChange={this.handleChange("password")}
           margin="normal"
         /> */}
-            <Button variant="contained" onClick={this.resetPassword}>
+            <Button className="user-settings__reset-btn" variant="contained" color="primary" size="medium" onClick={this.resetPassword}>
             Reset Password
             </Button>
-            <Button variant="contained" type="submit">
+            <Button className="user-settings__save-btn" variant="contained" color="primary" size="medium" type="submit">
             Save Settings
             </Button>
           </form>
           <div className="user-settings__right-col">
             {/*right column*/}
             {/* <div>...</div> */}
-          </div>
-          <div className="user-settings__passwordReset">
-            {this.state.passwordReset ? <PasswordReset /> : null }
+            {this.state.passwordReset ? <PasswordReset handlePW={this.closePasswordModal} /> : null }
           </div>
         </div>
       </div>
