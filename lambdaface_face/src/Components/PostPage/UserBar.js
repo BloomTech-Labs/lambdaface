@@ -56,7 +56,6 @@ const UserBar = props => {
         console.error(err);
       })
   }
-  console.log('PROPS', props);
   return (
     <div className="user-bar__container">
       <div />
