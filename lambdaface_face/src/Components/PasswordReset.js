@@ -1,7 +1,6 @@
 import React from 'react';
 
 const PasswordReset = (props) => {
-  console.log(props);
   return (
     <div className="password-reset__backdrop" onClick={props.handlePW}>
       <div className="password-reset">
