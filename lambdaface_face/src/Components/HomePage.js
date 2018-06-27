@@ -46,7 +46,7 @@ class HomePage extends React.Component {
     return axios
       .get(`${process.env.REACT_APP_URL}api/posts/${this.state.currentPage}/${this.state.currentCategory[1]}`)
       .then(res => {
-        this.setState({ posts: res.data, postsLoaded: true });
+        if (!this.state.postsLoaded) this.setState({ posts: res.data, postsLoaded: true });
       })
       .catch(err => {
         console.error('Could not get posts: ', err);
@@ -70,19 +70,21 @@ class HomePage extends React.Component {
   };
 
   changeCurrentCategory = (category, post = null) => event => {
-    if (event) event.preventDefault();
-    // TODO: do nothing if given category is same as current
-    const noSpaces = [category[0].split(" ").join(""), category[1]];
-    this.setState({ currentCategory: noSpaces });
-    /* reset posts if the given category is unloaded, part of navBar */
-    if (category[1] !== null && category[1] !== this.state.previousCategory[1]) {
-      this.setState({ posts: [], postsLoaded: false })
+    if (this.state.postsLoaded) {
+      if (event) event.preventDefault();
+      // TODO: do nothing if given category is same as current
+      const noSpaces = [category[0].split(" ").join(""), category[1]];
+      this.setState({ currentCategory: noSpaces });
+      /* reset posts if the given category is unloaded, part of navBar */
+      if (category[1] !== null) {
+        this.setState({ posts: [], postsLoaded: false })
+      }
+      if (this.state.currentCategory[1] !== null) this.setState({ previousCategory: this.state.currentCategory });
+      if (category[0].includes("Search")) {
+        this.searchResults(category[0].slice(20, category[0].length));
+      }
+      if (post) this.setState({ currentPost: { ...post } });
     }
-    if (this.state.currentCategory[1] !== null) this.setState({ previousCategory: this.state.currentCategory });
-    if (category[0].includes("Search")) {
-      this.searchResults(category[0].slice(20, category[0].length));
-    }
-    if (post) this.setState({ currentPost: { ...post } });
   };
   
   searchResults = (query) => {
