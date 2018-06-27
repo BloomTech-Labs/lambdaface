@@ -5,7 +5,7 @@
 const uuidv4 = require('uuid/v4');
 
 const knex = require('../../database/db.js');
-const { _joinUser, httpCodes } = require('./helpers.js')
+const { _joinUser, httpCodes, _joinVote } = require('./helpers.js')
 
 const {
   SUCCESS_CODE,
@@ -14,22 +14,6 @@ const {
   USER_ERROR,
   SERVER_ERRROR,
 } = httpCodes;
-
-const _responseHandler = async (response) => {
-  const sent = [];
-  for (let i = 0; i < response.length; i++) {
-      const votes = await knex('vote')
-        .where({ parentId: response[i].id });
-
-    sent.push({
-      ...response[i],
-      // upvotes: votes.filter(v => v.voteType === 'INC').length,
-      // downvotes: votes.filter(v => v.voteType === 'DEC').length,
-      // votes,
-    });
-  }
-  return sent;
-};
 
 const getPosts = (req, res) => {
   const { page = 1, filter = '' } = req.params;
@@ -48,27 +32,14 @@ const getPosts = (req, res) => {
     .limit(limit)
     .offset((page - 1) * limit)
     .join( ..._joinUser('post') )
-    .leftJoin(
-      knex('vote')
-        .select('parentId as voteId', 'voteType')
-        .count({ upvotes: ['voteType'] })
-        .where({ voteType: 'INC' })
-        .groupBy('voteId').as('v'),
-      'post.id',
-      'v.voteId'
-    )
-    .leftJoin(
-      knex('vote')
-        .select('parentId as voteId', 'voteType')
-        .count({ downvotes: ['voteType'] })
-        .where({ voteType: 'DEC' })
-        .groupBy('voteId').as('dv'),
-      'post.id',
-      'dv.voteId'
-    )
-    .then(_responseHandler)
-    .then(response => res.status(SUCCESS_CODE).json(response))
-    .catch(err => res.status(SERVER_ERRROR).json({ error: err.message }));
+    .leftJoin( ..._joinVote('post', 'INC') )
+    .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
+    .then((response) => {
+      res.status(SUCCESS_CODE).json(response)
+    })
+    .catch((error) => {
+      res.status(SERVER_ERRROR).json({ error })
+    });
 };
 
 const searchPosts = (req, res) => {
@@ -77,7 +48,8 @@ const searchPosts = (req, res) => {
   knex('post')
     .where(knex.raw('content LIKE "%' + query + '%"'))
     .join( ..._joinUser('post') )
-    .then(_responseHandler)
+    .leftJoin( ..._joinVote('post', 'INC') )
+    .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
     .then((response) => {
       res.status(SUCCESS_CODE).json(response);
     })
@@ -92,7 +64,8 @@ const getPostById = (req, res) => {
   knex('post')
     .where({ id })
     .join( ..._joinUser('post') )
-    .then( _responseHandler )
+    .leftJoin( ..._joinVote('post', 'INC') )
+    .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
     .then(async ([ response ]) => {
 
       await knex('post')
