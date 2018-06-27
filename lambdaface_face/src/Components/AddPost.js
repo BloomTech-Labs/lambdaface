@@ -49,6 +49,7 @@ class AddPost extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     const category = this.state.category;
     return (
       <div className="add-post__container">
@@ -79,7 +80,7 @@ class AddPost extends React.Component {
               <CategoryButton category={category} changeCategory={this.changeCategory} categories={this.props.options} />
               {/* TODO: get avatar & name dynamically */}
               <div className="bottom-row__right-circle" />
-              <span>John Doe</span>
+              <span>{this.props.userInfo.firstName} {this.props.userInfo.lastName}</span>
               <Button
                 variant="contained"
                 color="primary"

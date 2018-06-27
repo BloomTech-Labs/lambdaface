@@ -64,6 +64,8 @@ class HomePage extends React.Component {
       userInfo = jwtDecode(token);
       return axios.get(`${process.env.REACT_APP_URL}`.concat(`api/users/${userInfo.sub}`))
         .then((response) => {
+          userInfo.firstName = response.data[0].firstName;
+          userInfo.lastName = response.data[0].lastName;
           userInfo.profilePicture = response.data[0].profilePicture;
           this.setState({ user: userInfo });
         })
