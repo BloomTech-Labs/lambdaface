@@ -70,7 +70,7 @@ class HomePage extends React.Component {
   };
 
   changeCurrentCategory = (category, post = null) => event => {
-    event.preventDefault();
+    if (event) event.preventDefault();
     // TODO: do nothing if given category is same as current
     const noSpaces = [category[0].split(" ").join(""), category[1]];
     this.setState({ currentCategory: noSpaces });
