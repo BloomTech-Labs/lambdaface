@@ -5,7 +5,7 @@
 const uuidv4 = require('uuid/v4');
 
 const knex = require('../../database/db.js');
-const { _joinUser, httpCodes } = require('./helpers.js')
+const { _joinUser, httpCodes, _joinVote } = require('./helpers.js')
 
 const {
   SUCCESS_CODE,
@@ -48,23 +48,23 @@ const getPosts = (req, res) => {
     .limit(limit)
     .offset((page - 1) * limit)
     .join( ..._joinUser('post') )
-    .leftJoin(
-      knex('vote')
-        .select('parentId as voteId', 'voteType')
-        .count({ upvotes: ['voteType'] })
-        .where({ voteType: 'INC' })
-        .groupBy('voteId').as('v'),
-      'post.id',
-      'v.voteId'
+    .leftJoin( ..._joinVote('post', 'INC')
+      // knex('vote')
+      //   .select('parentId as voteId', 'voteType')
+      //   .count({ upvotes: ['voteType'] })
+      //   .where({ voteType: 'INC' })
+      //   .groupBy('voteId').as('v'),
+      // 'post.id',
+      // 'v.voteId'
     )
-    .leftJoin(
-      knex('vote')
-        .select('parentId as voteId', 'voteType')
-        .count({ downvotes: ['voteType'] })
-        .where({ voteType: 'DEC' })
-        .groupBy('voteId').as('dv'),
-      'post.id',
-      'dv.voteId'
+    .leftJoin( ..._joinVote('post', 'DEC', 'dv')
+      // knex('vote')
+      //   .select('parentId as voteId', 'voteType')
+      //   .count({ downvotes: ['voteType'] })
+      //   .where({ voteType: 'DEC' })
+      //   .groupBy('voteId').as('dv'),
+      // 'post.id',
+      // 'dv.voteId'
     )
     .then(_responseHandler)
     .then(response => res.status(SUCCESS_CODE).json(response))
