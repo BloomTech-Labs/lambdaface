@@ -33,7 +33,7 @@ export default class Auth {
   // place auth response in user storage
   setSession = (authResult) => {
     const { name: email, sub: id } = jwt_decode(authResult.idToken);
-    const defaultProfilePic = 'https://t3.ftcdn.net/jpg/00/64/67/52/240_F_64675209_7ve2XQANuzuHjMZXP3aIYIpsDKEbF5dD.jpg'
+    const defaultProfilePic = 'https://s3-us-west-2.amazonaws.com/lambdaface-photos/photos/defaultProfile.jpg'
     const newUser = { id, email, profilePicture: defaultProfilePic, firstName: "Pablo", lastName: "Picasso" }
     return axios
       .post(`${process.env.REACT_APP_URL}`.concat('api/users'), newUser)
