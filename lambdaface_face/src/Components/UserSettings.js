@@ -6,6 +6,7 @@ import { IconButton } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
 import PasswordReset from "./PasswordReset";
+import Uploader from "./Uploader";
 
 import backArrow from "../Assets/BackArrow.svg";
 // import "../Styles/css/index.css";
@@ -14,7 +15,7 @@ import backArrow from "../Assets/BackArrow.svg";
 class UserSettings extends React.Component {
   state = {
     userId: this.props.userInfo.sub,
-    profilePicture: this.props.userInfo.picture,
+    profilePicture: this.props.userInfo.profilePicture,
     firstName: "",
     lastName: "",
     email: this.props.userInfo.name,
@@ -62,10 +63,6 @@ class UserSettings extends React.Component {
   };
 
   render() {
-    const imageSize = {
-      width: '150px',
-      height: '150px',
-    };
     return (
       <div>
         <IconButton onClick={this.props.changeCurrentCategory(this.props.category)}>
@@ -75,13 +72,7 @@ class UserSettings extends React.Component {
           {" "}
           {/*left column*/}
           <div className="user-settings__left-col">
-            <img
-              src={this.state.profilePicture}
-              alt="profilepicture"
-              style={imageSize}
-              className="user-settings__picture"
-            />
-            <span>(change)</span>
+            <Uploader userId={this.state.userId} profilePicture={this.state.profilePicture} />
           </div>
           <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
             {" "}
