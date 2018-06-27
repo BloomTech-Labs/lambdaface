@@ -55,15 +55,15 @@ const getComments = (req, res) => {
 const createComment = (req, res) => {
   const id = uuidv4();
   const { table, child, body: {
-    content, userId, parentId, parentType,
+    content, userId, parentId,
   }, } = req;
 
-  knex.insert({
-    id, content, userId, parentId, parentType,
-  }).into(table)
+  knex
+    .insert({ id, content, userId, parentId })
+    .into(table)
     .then(async (response) => {
       if (!child) {
-        knex('post')
+       await knex('post')
           .where({ id: parentId })
           .increment('commentCount', 1);
       }

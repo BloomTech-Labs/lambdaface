@@ -33,8 +33,9 @@ export default class Auth {
 
   // place auth response in user storage
   setSession = (authResult) => {
-    const { name: email, sub: id, picture: profilePicture } = jwt_decode(authResult.idToken);
-    const newUser = { id, email, profilePicture, firstName: "Pablo", lastName: "Picasso" }
+    const { name: email, sub: id } = jwt_decode(authResult.idToken);
+    const defaultProfilePic = 'https://s3-us-west-2.amazonaws.com/lambdaface-photos/photos/defaultProfile.jpg'
+    const newUser = { id, email, profilePicture: defaultProfilePic, firstName: "Pablo", lastName: "Picasso" }
     return axios
       .post(`${process.env.REACT_APP_URL}`.concat('api/users'), newUser)
       .then(res => {
@@ -51,7 +52,7 @@ export default class Auth {
           localStorage.setItem('access_token', authResult.accessToken);
           localStorage.setItem('id_token', authResult.idToken);
           localStorage.setItem('expires_at', expiresAt);
-        
+        // }
       });
   };
 
