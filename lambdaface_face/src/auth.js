@@ -46,12 +46,12 @@ export default class Auth {
       })
       .catch(err => {
         // user had already been created, and is thus signing in
-        if (err.response.data.error.code === "ER_DUP_ENTRY" && err.response.status === 422) {
+        // if (err.response.data.error.code === "ER_DUP_ENTRY" && err.response.status === 422) {
           const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
           localStorage.setItem('access_token', authResult.accessToken);
           localStorage.setItem('id_token', authResult.idToken);
           localStorage.setItem('expires_at', expiresAt);
-        }
+        
       });
   };
 
