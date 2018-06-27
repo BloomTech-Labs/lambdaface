@@ -275,6 +275,21 @@ table {
 }
 .top-bar__search {
   margin-left: 55%;
+  border-radius: 15px;
+  background-color: #fbfcfd;
+  padding: 5px 5px 5px 25px;
+}
+.top-bar__search-icon {
+  margin: 0px 10px -5px -9px;
+}
+.top-bar__search-input {
+  color: black;
+  background-color: #fbfcfd;
+  border-style: none;
+  margin-left: -5px;
+}
+.top-bar__search-input:focus {
+  outline-width: 0;
 }
 .home-page__bottom {
   display: flex;

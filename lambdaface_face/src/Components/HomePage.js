@@ -148,7 +148,7 @@ class HomePage extends React.Component {
           </div>
         </div>
         <div className="home-page__footer">
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </div>
     );
