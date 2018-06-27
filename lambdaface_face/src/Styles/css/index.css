@@ -280,3 +280,29 @@ table {
 .home-page__bottom .home-page__main {
   width: 50%;
 }
+.uploader__container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.uploader__container .uploader__picture {
+  margin-left: 15%;
+  border-radius: 50%;
+  width: 100%;
+}
+.uploader__container .uploader__inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.uploader__container .uploader__label {
+  color: blue;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5%;
+  cursor: pointer;
+  font-family: sans-serif;
+}
