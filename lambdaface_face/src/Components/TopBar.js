@@ -30,7 +30,7 @@ const NotificationsMenu = (notifications, clearNotifications) => {
       : content
   );
   return (
-    <div className="notifications-menu">
+    <div id="notifications-menu" className="notifications-menu">
       <div className="notifications-menu__header">
         <span>notifications</span>
         <button onClick={clearNotifications}>clear</button>
@@ -87,9 +87,25 @@ class Notifications extends Component {
   clearNotifications = () => {
     this.setState({ notifications: [] });
   }
+  handleNotificationsDisplay = (e) => {
+    if (this.state.displayNotificationsMenu) {
+      const test1 = document.getElementById('notifications-menu').contains(e.target);
+      const test2 = document.getElementById('notifications-icon').contains(e.target);
+      if (!test1 && !test2){
+        this.setState({ displayNotificationsMenu: false });
+      }
+    }
+  }
+  componentDidMount() {
+    window.addEventListener('click', this.handleNotificationsDisplay);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('click', this.handleNotificationsDisplay);
+  }
   render() {
     return (
       <div
+        id="notifications-icon"
         className="top-bar__notifications"
         onClick={ this.toggleNotificationMenu }
       >
