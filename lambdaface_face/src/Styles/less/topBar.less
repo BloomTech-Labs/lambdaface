@@ -1,5 +1,6 @@
 .top-bar {
   display: flex;
+  position: relative;
   align-items: center;
   width: 100%;
 
@@ -37,6 +38,77 @@
     }
   }
   &__notifications {
-    
+    position: relative;
+    padding: 10px;
+    padding-bottom: 0;
+
+    &__icon {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      & > img {
+        width: 20px;
+      }
+      & > span {
+        position: absolute;
+        color: white;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        right: 6px;
+        top: 1px;
+      }
+    }
+    &__bell {
+      width: 25px;
+    }
+  }
+}
+.notifications-menu {
+  position: absolute;
+  width: 315px;
+  right: -50px;
+  background-color: white;
+  padding: 10px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 5px 5px 20px lightgray;
+  &__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    & > button {
+      background-color: inherit;
+      font-family: inherit;
+      border: none;
+      color: blue;
+    }
+  }
+  &__item {
+    &__user {
+      display: flex;
+      align-content: center;
+      padding: 3px;
+      &-image{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;   
+      }
+      & > strong {
+        padding: 5px;
+        font-weight: bold;
+      }
+    }
+    padding: 10px;
+    &--dark {
+      background-color: #EEEEEE;
+    }
+    &--light {
+      background-color: white;
+    }
+    &__text {
+      & > strong {
+        font-weight: bold;
+      }
+    }
   }
 }
