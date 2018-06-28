@@ -17,7 +17,7 @@ class Search extends React.Component {
   render() {
     return (
       <div className="top-bar__search">
-        <form onSubmit={this.props.onSubmit([`Search Results for: ${this.state.query}`, null])}>
+        <form onSubmit={this.props.onSubmit([`Search Results For: ${this.state.query}`, null])}>
           <img src={SearchIcon} alt="SearchIcon" className="top-bar__search-icon" />
           <input
             className="top-bar__search-input"
