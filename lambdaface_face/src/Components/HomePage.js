@@ -64,6 +64,8 @@ class HomePage extends React.Component {
       userInfo = jwtDecode(token);
       return axios.get(`${process.env.REACT_APP_URL}`.concat(`api/users/${userInfo.sub}`))
         .then((response) => {
+          userInfo.firstName = response.data[0].firstName;
+          userInfo.lastName = response.data[0].lastName;
           userInfo.profilePicture = response.data[0].profilePicture;
           this.setState({ user: userInfo });
         })
@@ -118,7 +120,6 @@ class HomePage extends React.Component {
         return <PostPage post={currentPost} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
       case "SearchResultsfor:":
         return (<PostList 
-          currentUser={this.state.user}
           postsArr={this.state.searchResults} 
           category={this.state.currentCategory}
           changeCurrentCategory={this.changeCurrentCategory}
@@ -126,7 +127,6 @@ class HomePage extends React.Component {
       default:
         return (
           <PostList
-            currentUser={this.state.user}
             changeCurrentCategory={this.changeCurrentCategory}
             category={this.state.currentCategory}
             postsArr={this.state.posts}
