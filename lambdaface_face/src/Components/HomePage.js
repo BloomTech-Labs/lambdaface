@@ -118,7 +118,7 @@ class HomePage extends React.Component {
         return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
       case "PostPage":
         return <PostPage post={currentPost} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
-      case "SearchResultsfor:":
+      case "SearchResultsFor:":
         return (<PostList 
           postsArr={this.state.searchResults} 
           category={this.state.currentCategory}

@@ -25,9 +25,9 @@ class Comment extends React.Component {
           info={this.props.comment}
           toggleReply={this.toggleReplyingTo}
         />
-        {this.props.comment.comments.map(elem => <Reply key={elem.id} replyInfo={elem} toggleReplyingTo={this.toggleReplyingTo} /> )}
+        {this.props.comment.comments.map(elem => <Reply key={elem.id} replyInfo={elem} toggleReplyingTo={this.toggleReplyingTo} currentUser={this.props.userInfo.sub} /> )}
         {replyingTo && 
-          <WriteReply 
+          <WriteReply
             userInfo={this.props.userInfo}
             commentInfo={{parentId: this.props.comment.id, parentType: 'comment'}}
             reloadComments={this.props.reloadComments}
