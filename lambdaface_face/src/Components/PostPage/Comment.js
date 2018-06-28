@@ -16,11 +16,11 @@ class Comment extends React.Component {
   render() {
     const replyingTo = this.state.replyingTo;
     // console.log(this.props.comment);
-
     return (
       <div>
         <div>{this.props.comment.content}</div>
         <UserBar
+          currentUser={this.props.userInfo.sub}
           type="comment"
           info={this.props.comment}
           toggleReply={this.toggleReplyingTo}
