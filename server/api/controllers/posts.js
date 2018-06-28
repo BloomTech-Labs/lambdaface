@@ -5,7 +5,7 @@
 const uuidv4 = require('uuid/v4');
 
 const knex = require('../../database/db.js');
-const { _joinUser, httpCodes } = require('./helpers.js')
+const { _joinUser, httpCodes, _joinVote } = require('./helpers.js')
 
 const {
   SUCCESS_CODE,
@@ -14,21 +14,6 @@ const {
   USER_ERROR,
   SERVER_ERRROR,
 } = httpCodes;
-
-const _responseHandler = async (response) => {
-  const sent = [];
-  for (let i = 0; i < response.length; i++) {
-    const votes = await knex('vote')
-      .where({ parentId: response[i].id });
-
-    sent.push({
-      ...response[i],
-      upvotes: votes.filter(v => v.voteType === 'INC').length,
-      downvotes: votes.filter(v => v.voteType === 'DEC').length,
-    });
-  }
-  return sent;
-};
 
 const getPosts = (req, res) => {
   const { page = 1, filter = '' } = req.params;
@@ -46,22 +31,26 @@ const getPosts = (req, res) => {
   fetch
     .limit(limit)
     .offset((page - 1) * limit)
-    .join(
-      ..._joinUser('post')
-    )
-    .then(_responseHandler)
-    .then(response => res.status(SUCCESS_CODE).json(response))
-    .catch(err => res.status(SERVER_ERRROR).json({ error: err.message }));
+    .join( ..._joinUser('post') )
+    .leftJoin( ..._joinVote('post', 'INC') )
+    .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
+    .then((response) => {
+      res.status(SUCCESS_CODE).json(response)
+    })
+    .catch((error) => {
+      res.status(SERVER_ERRROR).json({ error })
+    });
 };
 
 const searchPosts = (req, res) => {
   const { query } = req.params;
-  const rawQuery =  'SELECT * FROM post WHERE content LIKE "%' + query + '%"';
 
-  knex.raw(rawQuery)
+  knex('post')
+    .where(knex.raw('content LIKE "%' + query + '%"'))
     .join( ..._joinUser('post') )
-    .then(_responseHandler)
-    .then(([ response ]) => {
+    .leftJoin( ..._joinVote('post', 'INC') )
+    .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
+    .then((response) => {
       res.status(SUCCESS_CODE).json(response);
     })
     .catch((error) => {
@@ -75,9 +64,11 @@ const getPostById = (req, res) => {
   knex('post')
     .where({ id })
     .join( ..._joinUser('post') )
-    .then(([ response ]) => {
+    .leftJoin( ..._joinVote('post', 'INC') )
+    .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
+    .then(async ([ response ]) => {
 
-      knex('post')
+      await knex('post')
         .where({ id })
         .update({ viewCount: ++response.viewCount });
 

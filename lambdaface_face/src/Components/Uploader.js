@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import "../Styles/Uploader.css";
+// import "../Styles/Uploader.css";
 
 class Uploader extends React.Component {
   state = {
@@ -52,10 +52,10 @@ class Uploader extends React.Component {
       height: '175px',
     };
     return (
-      <div className="upload-container">
-        <img src={this.state.profilePicture} alt="profilepicture" style={imageSize} className="profile-picture" />
-        <input className="inputfile" id="file" name="file" type="file" accept="image/*" onChange={this.fileChange} />
-        <label htmlFor="file">Change</label>
+      <div className="uploader__container">
+        <img src={this.state.profilePicture} alt="profilepicture" style={imageSize} className="uploader__picture" />
+        <input className="uploader__inputfile" id="file" name="file" type="file" accept="image/*" onChange={this.fileChange} />
+        <label className="uploader__label" htmlFor="file">Change</label>
       </div>
     );
   }

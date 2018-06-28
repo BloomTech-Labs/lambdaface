@@ -13,6 +13,22 @@ const _joinUser = (table) => [
   `${table}.userId`
 ];
 
+const _joinVote = (table, voteType, t = 'v') => {
+  const voteName = voteType === 'INC'
+    ? "upvotes"
+    : "downvotes";
+  
+  return [
+    knex('vote')
+      .select('parentId as voteId', 'voteType')
+      .count({ [ voteName ]: ['voteType'] })
+      .where({ voteType })
+      .groupBy('voteId').as(t),
+    `${table}.id`,
+    `${t}.voteId`
+  ];
+};
+
 module.exports = {
   httpCodes: {
     SUCCESS_CODE: 200,
@@ -22,4 +38,5 @@ module.exports = {
     SERVER_ERRROR: 500,
   },
   _joinUser,
+  _joinVote,
 };
