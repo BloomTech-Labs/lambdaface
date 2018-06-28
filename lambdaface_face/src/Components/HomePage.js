@@ -72,6 +72,18 @@ class HomePage extends React.Component {
     }
   };
 
+  getNewestPosts = () => {
+    axios
+      .get(`${process.env.REACT_APP_URL}api/posts/1/newest`)
+      .then((res) => {
+        this.setState({ currentCategory: ["Newest", '0'] })
+        this.setState({ posts: res.data })
+      })
+      .catch((err) => {
+        console.error('ERROR', err)
+      })
+  }
+
   changeCurrentCategory = (category, post = null) => event => {
     /* Posts must be loaded, or the given category must not be part of NavBar options */
     if (this.state.postsLoaded || category[1] === null) {
@@ -119,7 +131,8 @@ class HomePage extends React.Component {
       case "PostPage":
         return <PostPage post={currentPost} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
       case "SearchResultsFor:":
-        return (<PostList 
+        return (<PostList
+          handleNewest={this.getNewestPosts}
           postsArr={this.state.searchResults} 
           category={this.state.currentCategory}
           changeCurrentCategory={this.changeCurrentCategory}
@@ -127,6 +140,7 @@ class HomePage extends React.Component {
       default:
         return (
           <PostList
+            handleNewest={this.getNewestPosts}
             changeCurrentCategory={this.changeCurrentCategory}
             category={this.state.currentCategory}
             postsArr={this.state.posts}
