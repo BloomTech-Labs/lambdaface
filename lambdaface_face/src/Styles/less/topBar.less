@@ -37,6 +37,29 @@
     }
   }
   &__notifications {
-    
+    position: relative;
+    padding: 10px;
+    padding-bottom: 0;
+
+    &__icon {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      & > img {
+        width: 20px;
+      }
+      & > span {
+        position: absolute;
+        color: white;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        right: 6px;
+        top: 1px;
+      }
+    }
+    &__bell {
+      width: 25px;
+    }
   }
 }
