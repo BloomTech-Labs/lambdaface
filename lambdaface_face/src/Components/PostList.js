@@ -19,7 +19,7 @@ export default props => {
           <Button onClick={props.changeCurrentCategory(["AddPost", null])}>
             Add Post
           </Button>
-          <FilterMenu />
+          <FilterMenu handleNewest={props.handleNewest} />
         </div>
         <List>
           {props.postsArr.map((post, i) => {

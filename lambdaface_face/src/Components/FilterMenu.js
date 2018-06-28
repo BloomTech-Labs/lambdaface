@@ -37,8 +37,13 @@ class FilterMenu extends React.Component {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}>Newest</MenuItem>
-          <MenuItem onClick={this.handleClose}>Top</MenuItem>
+          <MenuItem onClick={() => {
+            this.props.handleNewest();
+            this.handleClose();
+        }}>
+            Newest
+          </MenuItem>
+          {/* <MenuItem onClick={this.handleClose}>Top</MenuItem> */}
         </Menu>
       </div>
     );
