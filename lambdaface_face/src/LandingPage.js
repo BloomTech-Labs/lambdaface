@@ -16,21 +16,27 @@ class LandingPage extends React.Component {
   render() {
     const { isAuthenticated } = this.props.auth;
     return (
-      <div>
-        {!isAuthenticated() && (
-          <Button variant="contained" color="primary" onClick={this.login()}>
-            Login
-          </Button>
-        )}
-        {isAuthenticated() && (
-          <div>
-            <span>User is now logged in.</span>
-            <Button variant="contained" color="primary" onClick={this.logout()}>
-              Logout
-            </Button>
-            <HomePage />
-          </div>
-        )}
+      <div className="landing-page__container">
+        <div className="landing-page__no-login">
+          {!isAuthenticated() && (
+            <div>
+              <h1>Welcome to LambdaFace</h1>
+              <h3>Please Login or Register</h3>
+              <Button className="landing-page__login-btn" variant="contained" color="primary" onClick={this.login()}>
+                Login
+              </Button>
+            </div>
+          )}
+          {isAuthenticated() && (
+            <div>
+              <span>User is now logged in.</span>
+              <Button className="landing-page__logout-btn" variant="contained" color="primary" onClick={this.logout()}>
+                Logout
+              </Button>
+              <HomePage />
+            </div>
+          )}
+        </div>
       </div>
     );
   }

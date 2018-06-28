@@ -1,7 +1,7 @@
 const uuidv4 = require('uuid/v4');
 
 const knex = require('../../database/db.js');
-const { _joinUser } = require('./helpers.js');
+const { _joinUser, _joinVote } = require('./helpers.js');
 
 const { sendOrStore } = require('../controllers/webSockets');
 
@@ -35,27 +35,18 @@ const getComments = (req, res) => {
   knex(table)
     .where({ parentId })
     .join( ..._joinUser(table) )
+    .leftJoin( ..._joinVote(table, 'INC') )
+    .leftJoin( ..._joinVote(table, 'DEC', 'dv') )
     .orderBy('createdAt', 'asc')
     .then(async (response) => {
-      // todo votes
-      for (let i = 0; i < response.length; i++) {
-        const votes = await knex('vote')
-          .where({ parentId: response[i].id })
-        response.upvotes = votes.filter(v => v.voteType === 'INC').length;
-        response.downvotes = votes.length - response.upvotes.length;
-      }
       if (!child) {
         for (let i = 0; i < response.length; i++) {
-          const comments = await knex('reply')
+          response[i].comments = await knex('reply')
             .where({ parentId: response[i].id })
             .orderBy('createdAt', 'asc')
-            .join( ..._joinUser('reply') );
-
-          for (let j = 0; j < comments.length; j++) {
-
-          }
-
-          response[i].comments = comments;
+            .join( ..._joinUser('reply') )
+            .leftJoin( ..._joinVote('reply', 'INC') )
+            .leftJoin( ..._joinVote('reply', 'DEC', 'dv') );
         }
       }
   

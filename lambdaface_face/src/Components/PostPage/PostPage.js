@@ -24,14 +24,18 @@ class PostPage extends React.Component {
     // console.log(this.props.post);
     const parentId = this.props.post.id;
     axios
-      .get(`${process.env.REACT_APP_URL}`.concat(`api/comments/${parentId}`))
+      .get(`${process.env.REACT_APP_URL}`.concat(`api/post/${parentId}`))
       .then(res => {
-        // console.log(res.data);
-        this.setState({ comments: [...res.data], commentsLoaded: true })
+        axios
+          .get(`${process.env.REACT_APP_URL}`.concat(`api/comments/${parentId}`))
+          .then(res => {
+            // console.log(res.data);
+            this.setState({ comments: [...res.data], commentsLoaded: true })
+          })
+          .catch(err => {
+            console.error(err);
+          });
       })
-      .catch(err => {
-        console.error(err);
-      });
     // this.setState({ comments: [...testcomments], commentsLoaded: true });
   };
 
@@ -40,7 +44,6 @@ class PostPage extends React.Component {
     const commentsLoaded = this.state.commentsLoaded;
     // console.log("rendered post page");
     // console.log(this.state.comments);
-
     return (
       <div className="post-page__container">
         <div className="post-page__post">
@@ -51,7 +54,7 @@ class PostPage extends React.Component {
           </div>
 
           <div className="post__right-col">
-            <PostFull post={this.props.post} />
+            <PostFull post={this.props.post} currentUser={this.props.userInfo.sub} />
           </div>
         </div>
         <div className="post-page__comments">

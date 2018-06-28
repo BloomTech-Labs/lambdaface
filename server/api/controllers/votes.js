@@ -8,7 +8,7 @@ const postVote = async (req, res) => {
   } = req.body;
 
   knex
-    .insert({ id, userId, parentId, voteType })
+    .insert({ id, userId, parentId, voteType, parentType })
     .into('vote')
     .then((response) => {
       res.status(201).json({ success: response });
