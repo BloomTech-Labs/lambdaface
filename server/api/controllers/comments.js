@@ -79,7 +79,6 @@ const createComment = (req, res) => {
           .where({ id: parentId })
           .select('post.userId as targetId')
           .then(res => {
-            console.log('Were a comment, so res looks like:', res);
             targetId = res[0].targetId;
           });
       } else {
@@ -94,7 +93,7 @@ const createComment = (req, res) => {
           })
       }
 
-      sendOrStore(userId, { sourceId, targetId, postId, type }); 
+      if (sourceId !== targetId) sendOrStore(userId, { sourceId, targetId, postId, type }); 
       res.status(201).json({ success: response });
     })
     .catch((error) => {
