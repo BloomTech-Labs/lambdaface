@@ -3,7 +3,9 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
+
 import UserBar from "./PostPage/UserBar";
+import FilterMenu from "./FilterMenu";
 // import "../Styles/PostList.css";
 
 export default props => {
@@ -17,6 +19,7 @@ export default props => {
           <Button onClick={props.changeCurrentCategory(["AddPost", null])}>
             Add Post
           </Button>
+          <FilterMenu />
         </div>
         <List>
           {props.postsArr.map((post, i) => {
