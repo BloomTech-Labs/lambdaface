@@ -40,7 +40,6 @@ class PostPage extends React.Component {
     const commentsLoaded = this.state.commentsLoaded;
     // console.log("rendered post page");
     // console.log(this.state.comments);
-
     return (
       <div className="post-page__container">
         <div className="post-page__post">
@@ -51,7 +50,7 @@ class PostPage extends React.Component {
           </div>
 
           <div className="post__right-col">
-            <PostFull post={this.props.post} />
+            <PostFull post={this.props.post} currentUser={this.props.userInfo.sub} />
           </div>
         </div>
         <div className="post-page__comments">
