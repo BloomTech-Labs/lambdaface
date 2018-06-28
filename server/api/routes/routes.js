@@ -16,7 +16,8 @@ const {
   getUserById,
   postVote,
   getVotes,
-  signS3
+  signS3,
+  getReplyById
 } = require('../controllers');
 
 module.exports = (server) => {
@@ -57,5 +58,8 @@ module.exports = (server) => {
     .get(getVotes);
 
   server.route('/s3/sign')
-    .get(signS3)
+    .get(signS3);
+
+  server.route('/api/replies/:id')
+    .get(getReplyById);
 };
