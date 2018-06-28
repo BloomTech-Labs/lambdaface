@@ -16,6 +16,7 @@ class HomePage extends React.Component {
     previousCategory: [null, null],
     currentPost: {},
     posts: [],
+    notifications: [],
     postsLoaded: false,
     currentPage: 1,
     searchResults: [],
@@ -34,6 +35,7 @@ class HomePage extends React.Component {
   async componentDidMount() {
     await this.getPosts();
     await this.getUserInfo();
+    this.openWS();
   }
 
   componentDidUpdate() {
@@ -69,6 +71,41 @@ class HomePage extends React.Component {
         })
     }
   };
+
+  openWS = () => {
+    window.WebSocket = window.WebSocket || window.MozWebSocket;
+    
+    if (!window.WebSocket) {
+      console.log('Brower doesn\'t support web sockets');
+    }
+
+    const connection = new WebSocket('ws://localhost:5000/ws');
+    connection.onopen = () => {
+      // console.log('connection opened');
+      // console.log(this.state.user);
+      connection.send(JSON.stringify({type:'userConnecting', data:this.state.user}));
+    }
+
+    connection.onmessage = message => {
+      const json = JSON.parse(message.data);
+      if (json.type && json.type === 'notifications') {
+        try {
+          // console.log(json.data);
+          this.updateNotifications(json.data);
+        } catch (e) {
+          // console.log('Invalid JSON: ', message.data);
+          return;
+        }
+      }
+      else if (json.type) {
+        console.log(json.data);
+      }
+    }
+  }
+
+  updateNotifications = (arr) => {
+    if (arr.length > 0) this.setState({ notifications: [...arr] })
+  }
 
   changeCurrentCategory = (category, post = null) => event => {
     /* Posts must be loaded, or the given category must not be part of NavBar options */
