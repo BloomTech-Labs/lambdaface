@@ -215,9 +215,38 @@ table {
   border-left-color: #f3f5f8;
   border-left-style: solid;
 }
-.postList__listItem {
+body {
+  font-family: sans-serif;
+}
+.filtermenu__container {
+  margin-left: auto;
+  margin-right: 5px;
+}
+.postList__container {
+  margin-top: 2%;
+  width: 100%;
+}
+.postList__header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding-left: 2%;
+}
+.postList__header-category {
+  font-size: 3em;
+  width: 70%;
+}
+.postList__listItem-even {
   display: flex;
   flex-direction: column;
+  background-color: #ffffff;
+  padding-left: 0px;
+}
+.postList__listItem-odd {
+  display: flex;
+  flex-direction: column;
+  background-color: #fbfcfd;
+  padding-left: 0px;
 }
 .add-post__container {
   display: flex;
@@ -305,7 +334,7 @@ table {
   width: 20%;
 }
 .home-page__bottom .home-page__main {
-  width: 50%;
+  width: 75%;
 }
 .uploader__container {
   display: flex;

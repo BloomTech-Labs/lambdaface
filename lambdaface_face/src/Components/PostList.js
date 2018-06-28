@@ -8,25 +8,34 @@ import UserBar from "./PostPage/UserBar";
 import FilterMenu from "./FilterMenu";
 // import "../Styles/PostList.css";
 
+const className = (i) => {
+  if (i % 2 !== 0) {
+    return "postList__listItem-odd"
+  } else
+    return "postList__listItem-even"
+}
+
 export default props => {
   let category = props.category[0];
-  category = category.replace(/([A-Z])/g, ' $1').trim()
+  // if (category.length > 2) {
+  //   category = category.replace(/([A-Z])/g, ' $1').trim();
+  // }
   return (
     props.category && (
-      <div>
-        <div>
-          <h1>{category}</h1>
-          <Button onClick={props.changeCurrentCategory(["AddPost", null])}>
+      <div className="postList__container">
+        <div className="postList__header">
+          <h1 className="postList__header-category">{category}</h1>
+          <FilterMenu className="postList__header-filter" handleNewest={props.handleNewest} />
+          <Button className="postList__header-addPost" variant="contained" color="primary" onClick={props.changeCurrentCategory(["AddPost", null])}>
             Add Post
           </Button>
-          <FilterMenu handleNewest={props.handleNewest} />
         </div>
         <List>
           {props.postsArr.map((post, i) => {
             return (
               <ListItem
-                className="postList__listItem"
-                style={{ alignItems: "flex-start" }}
+                className={className(i)}
+                style={{ alignItems: "flex-start"}}
                 key={post.id}
                 onClick={props.changeCurrentCategory(["PostPage", null], post)}
               >
