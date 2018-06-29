@@ -32,6 +32,10 @@ export default props => {
         </div>
         <List>
           {props.postsArr.map((post, i) => {
+            let postPreview = post.content.slice(0, 140);
+            if (post.content.length > 140) {
+              postPreview = postPreview + '...'
+            }
             return (
               <ListItem
                 className={className(i)}
@@ -39,7 +43,8 @@ export default props => {
                 key={post.id}
                 onClick={props.changeCurrentCategory(["PostPage", null], post)}
               >
-                <ListItemText className="listItem__top" primary={post.content.slice(0, 40)} />
+                <ListItemText className="listItem__top" primary={postPreview} />
+                {/* <ListItemText className="listItem__top" primary={post.content.slice(0, 40)} /> */}
                 <UserBar className="listItem__bottom" info={post} type="allposts" />
               </ListItem>
             );

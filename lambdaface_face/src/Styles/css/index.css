@@ -302,16 +302,12 @@ body {
   margin-left: 2.5%;
   margin-right: auto;
 }
-.top-bar__user-button {
-  margin-left: 5%;
-}
 .top-bar__user-image {
   width: 50px;
   height: 50px;
   border-radius: 50%;
 }
 .top-bar__search {
-  margin-left: 55%;
   border-radius: 15px;
   background-color: #fbfcfd;
   padding: 5px 5px 5px 25px;
@@ -354,6 +350,7 @@ body {
   width: 25px;
 }
 .notifications-menu {
+  z-index: 1;
   position: absolute;
   width: 315px;
   right: -50px;
@@ -474,4 +471,24 @@ body {
   font-size: 15px;
   color: white;
   text-align: center;
+}
+.landing-page__container .landing-page__topbar {
+  display: flex;
+  width: 100%;
+}
+.landing-page__container .landing-page__topbar .landing-page__logo {
+  margin-left: 2.5%;
+}
+.landing-page__container .landing-page__main {
+  margin: 5% 0 0 2.5%;
+  line-height: 1.5;
+}
+.landing-page__container .landing-page__main h1 {
+  font-size: 1.5em;
+}
+.landing-page__container .landing-page__main h3 {
+  width: 20%;
+}
+.landing-page__container .landing-page__main .landing-page__login-btn {
+  margin-top: 2%;
 }
