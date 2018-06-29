@@ -12,6 +12,8 @@ const Reply = props => {
         type="comment"
         info={props.replyInfo}
         toggleReply={props.toggleReplyingTo}
+        // parentFirstName={props.replyInfo.firstName}
+        // parentLastName={props.replyInfo.lastName}
       />
     </div>
   );
