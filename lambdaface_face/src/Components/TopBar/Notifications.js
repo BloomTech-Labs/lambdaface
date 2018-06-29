@@ -1,12 +1,12 @@
 import React from 'react';
 
 import notificationBell from '../../Assets/notificationBell.svg';
-import notificationCircle from '../../Assets/notificationCircle.svg';
+// import notificationCircle from '../../Assets/notificationCircle.svg';
 
 const NoticeMeSenpi = (numb) => (
   <div className="top-bar__notifications__icon">
     <span>{numb}</span>
-    <img src={notificationCircle} alt={`${numb} new notifications`} />
+    {/* <img src={notificationCircle} alt={`${numb} new notifications`} /> */}
   </div>
 );
 
