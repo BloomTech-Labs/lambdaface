@@ -1,4 +1,4 @@
-import React, { Component, Fragment} from "react";
+import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
 import LambdaLogo from "../Assets/LambdaLogo.svg";
 import notificationBell from '../Assets/notificationBell.svg';
@@ -14,33 +14,48 @@ const NoticeMeSenpi = (numb) => (
 );
 
 const NotificationsMenu = (notifications, clearNotifications) => {
+
   const grammarParser = (type) => {
     switch(type) {
       case 'comment':
-        return [' commented on', 'post'];
+        return ['commented on', 'post'];
       case 'reply':
-        return [' replied to', 'comment'];
+        return ['replied to', 'comment'];
       default:
-        return [' missing', 'missing'];
-    };
+        return ['missing', 'missing'];
+    }
   }
-  const contentParser = (content) => (
-    content.length > 25 
-      ? content.substring(0, content.indexOf(" ", 25))
-      : content
-  );
+
+  const contentParser = (content) => {
+    if (content.length > 25) {
+      const end = content.indexOf(' ', 25);
+      return content.substring(0, end);
+    }
+    return content;
+  }
+
   return (
     <div id="notifications-menu" className="notifications-menu">
       <div className="notifications-menu__header">
         <span>notifications</span>
         <button onClick={clearNotifications}>clear</button>
       </div>
-      { notifications.map(({ sourceFirstName, sourceLastName, sourceProfilePicture, postContent, notificationType }, i) => {
+      { notifications.map((notification, i) => {
+
+        const {
+          sourceFirstName,
+          sourceLastName,
+          sourceProfilePicture,
+          postContent,
+          notificationType,
+        } = notification;
+
         const [ grammar, parentType ] = grammarParser(notificationType);
+
         return (
-          <div className={ "notifications-menu__item notifications-menu__item" + (i % 2 ? "--light" : "--dark")}>
+          <div className={"notifications-menu__item notifications-menu__item" + (i % 2 ? "--light" : "--dark")}>
             <div className="notifications-menu__item__user">
-              <img className="notifications-menu__item__user-image" src={sourceProfilePicture} alt={`${sourceFirstName} ${sourceLastName}'s photo`} />
+              <img className="notifications-menu__item__user-image" src={sourceProfilePicture} alt={`${sourceFirstName} ${sourceLastName}`} />
               <strong>{`${sourceFirstName} ${sourceLastName}`}</strong>
             </div>
             <p className="notifications-menu__item__text">
@@ -77,6 +92,12 @@ class Notifications extends Component {
       displayNotificationsMenu: false
     };
   }
+  componentDidMount() {
+    window.addEventListener('click', this.handleNotificationsDisplay);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('click', this.handleNotificationsDisplay);
+  }
   toggleNotificationMenu = () => {
     if (this.state.notifications.length) {
       this.setState(({displayNotificationsMenu}) => ({
@@ -96,18 +117,13 @@ class Notifications extends Component {
       }
     }
   }
-  componentDidMount() {
-    window.addEventListener('click', this.handleNotificationsDisplay);
-  }
-  componentWillUnmount() {
-    window.removeEventListener('click', this.handleNotificationsDisplay);
-  }
   render() {
     return (
       <div
         id="notifications-icon"
         className="top-bar__notifications"
-        onClick={ this.toggleNotificationMenu }
+        onClick={this.toggleNotificationMenu}
+        roll="menuitem"
       >
         { this.state.notifications && this.state.notifications.length
             ? NoticeMeSenpi(this.state.notifications.length)

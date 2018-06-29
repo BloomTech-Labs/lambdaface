@@ -333,6 +333,9 @@ table {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-shadow: 5px 5px 20px lightgray;
 }
+.notifications-menu strong {
+  font-weight: bold;
+}
 .notifications-menu__header {
   width: 100%;
   display: flex;
@@ -342,7 +345,7 @@ table {
   background-color: inherit;
   font-family: inherit;
   border: none;
-  color: blue;
+  color: #418dcf;
 }
 .notifications-menu__item {
   padding: 10px;
@@ -352,23 +355,19 @@ table {
   align-content: center;
   padding: 3px;
 }
+.notifications-menu__item__user > strong {
+  padding: 5px;
+}
 .notifications-menu__item__user-image {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-}
-.notifications-menu__item__user > strong {
-  padding: 5px;
-  font-weight: bold;
 }
 .notifications-menu__item--dark {
   background-color: #EEEEEE;
 }
 .notifications-menu__item--light {
   background-color: white;
-}
-.notifications-menu__item__text > strong {
-  font-weight: bold;
 }
 .home-page__bottom {
   display: flex;

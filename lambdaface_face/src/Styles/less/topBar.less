@@ -72,43 +72,42 @@
   padding: 10px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-shadow: 5px 5px 20px lightgray;
+  & strong {
+    font-weight: bold;
+  }
   &__header {
     width: 100%;
     display: flex;
     justify-content: space-between;
+  
     & > button {
       background-color: inherit;
       font-family: inherit;
       border: none;
-      color: blue;
+      color: #418dcf;
     }
   }
   &__item {
+    padding: 10px;
     &__user {
       display: flex;
       align-content: center;
       padding: 3px;
-      &-image{
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;   
-      }
+
       & > strong {
         padding: 5px;
-        font-weight: bold;
       }
     }
-    padding: 10px;
+    &__user-image {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;   
+    }
     &--dark {
       background-color: #EEEEEE;
     }
     &--light {
       background-color: white;
-    }
-    &__text {
-      & > strong {
-        font-weight: bold;
-      }
     }
   }
 }
