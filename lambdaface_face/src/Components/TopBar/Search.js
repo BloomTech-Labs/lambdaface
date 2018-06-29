@@ -1,7 +1,7 @@
 import React from 'react';
 
 // import TextField from '@material-ui/core/TextField';
-import SearchIcon from "../Assets/search.svg";
+import SearchIcon from "../../Assets/search.svg";
 
 class Search extends React.Component {
   state = {

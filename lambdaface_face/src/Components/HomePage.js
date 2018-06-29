@@ -118,7 +118,11 @@ class HomePage extends React.Component {
   }
 
   updateNotifications = (arr) => {
-    if (arr.length > 0) this.setState({ notifications: [...arr] })
+    if (arr.length > 0) this.setState({ notifications: [...arr] });
+  }
+
+  clearNotifications = () => {
+    if (this.state.notifications.length) this.setState({ notifications: [] });
   }
 
   changeCurrentCategory = (category, post = null) => event => {
@@ -195,6 +199,8 @@ class HomePage extends React.Component {
           <TopBar 
             changeCurrentCategory={this.changeCurrentCategory}
             userInfo={this.state.user}
+            notifications={[...this.state.notifications]}
+            clearNotifications={this.clearNotifications}
           />
         </div>
         <div className="home-page__bottom">
