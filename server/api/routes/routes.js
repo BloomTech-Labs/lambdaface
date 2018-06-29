@@ -16,7 +16,8 @@ const {
   getUserById,
   postVote,
   getVotes,
-  signS3
+  signS3,
+  webSocketConnect,
 } = require('../controllers');
 
 module.exports = (server) => {
@@ -58,4 +59,9 @@ module.exports = (server) => {
 
   server.route('/s3/sign')
     .get(signS3)
+
+  const expressWs = require('express-ws')(server);  
+
+  server.ws('/ws', webSocketConnect)
+
 };
