@@ -36,11 +36,11 @@ class LandingPage extends React.Component {
           )}
           {isAuthenticated() && (
             <div>
-              <span>User is now logged in.</span>
-              <Button className="landing-page__logout-btn" variant="contained" color="primary" onClick={this.logout()}>
+              {/* <span>User is now logged in.</span> */}
+              {/* <Button className="landing-page__logout-btn" variant="contained" color="primary" onClick={this.logout()}>
                 Logout
-              </Button>
-              <HomePage />
+              </Button> */}
+              <HomePage logout={this.logout} />
             </div>
           )}
         </div>
