@@ -71,14 +71,14 @@ class AddPost extends React.Component {
           <div className="right-col__bottom-row">
             <div className="bottom-row__left">
               {/* TODO: make these elements format textarea text */}
-              <span>B</span>
+              {/* <span>B</span>
               <div>List</div>
-              <div>List</div>
+              <div>List</div> */}
             </div>
             <div className="bottom-row__right">
               <CategoryButton category={category} changeCategory={this.changeCategory} categories={this.props.options} />
               {/* TODO: get avatar & name dynamically */}
-              <div className="bottom-row__right-circle" />
+              <img src={this.props.userInfo.profilePicture} alt="AddPost-ProfilePic" className="bottom-row__right-picture" />
               <span>{this.props.userInfo.firstName} {this.props.userInfo.lastName}</span>
               <Button
                 variant="contained"
