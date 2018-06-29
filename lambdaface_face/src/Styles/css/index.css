@@ -276,27 +276,27 @@ body {
 }
 .add-post__container .container__right-col .right-col__bottom-row {
   display: flex;
-  height: 45px;
+  height: 55px;
   width: 100%;
   margin-top: -3px;
   background-color: #f7f8fb;
 }
 .add-post__container .container__right-col .right-col__bottom-row .bottom-row__left {
   display: flex;
-  width: 50%;
+  width: 40%;
   align-items: center;
   justify-content: space-around;
 }
 .add-post__container .container__right-col .right-col__bottom-row .bottom-row__right {
   display: flex;
-  width: 50%;
+  width: 60%;
   align-items: center;
   justify-content: flex-end;
   justify-content: space-around;
 }
 .add-post__container .container__right-col .right-col__bottom-row .bottom-row__right-picture {
-  height: 24px;
-  width: 24px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
 }
 .top-bar {

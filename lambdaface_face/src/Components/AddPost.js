@@ -71,9 +71,9 @@ class AddPost extends React.Component {
           <div className="right-col__bottom-row">
             <div className="bottom-row__left">
               {/* TODO: make these elements format textarea text */}
-              <span>B</span>
+              {/* <span>B</span>
               <div>List</div>
-              <div>List</div>
+              <div>List</div> */}
             </div>
             <div className="bottom-row__right">
               <CategoryButton category={category} changeCategory={this.changeCategory} categories={this.props.options} />
