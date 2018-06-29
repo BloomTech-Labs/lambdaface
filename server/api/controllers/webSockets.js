@@ -80,7 +80,7 @@ const webSocketConnect = (ws, req) => {
   })
 
   ws.on('close', connection => {
-    console.log(`${new Date()} Peer ${connection.remoteAddress} disconnected.`);
+    console.log(`${new Date()} Peer ${userId} disconnected.`);
     delete connectedUsers[userId];
   });
 }

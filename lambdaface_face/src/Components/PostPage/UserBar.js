@@ -82,7 +82,7 @@ const UserBar = props => {
           <img src={downvote} onClick={vote('DEC', 'post')} alt="Downvotes" height="13px" width="11px" />
           <div>{props.info.downvotes}</div>
           <div>{props.info.commentCount} Comments</div>
-          <Button>Follow thread</Button>
+          <Button variant="contained" color="primary">Follow thread</Button>
         </div>
       )}
       {props.type === "comment" && (
