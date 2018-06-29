@@ -3,6 +3,8 @@ const uuidv4 = require('uuid/v4');
 const knex = require('../../database/db.js');
 const { _joinUser, _joinVote } = require('./helpers.js');
 
+const { sendOrStore } = require('../controllers/webSockets');
+
 /**
  * Middleware to set child flag.
  * @property { boolean } req.child - flag if comment is a child of a comment
@@ -65,12 +67,33 @@ const createComment = (req, res) => {
     .insert({ id, content, userId, parentId })
     .into(table)
     .then(async (response) => {
+      const sourceId = userId;
+      let targetId, postId, type
       if (!child) {
-       await knex('post')
+        type = 'comment';
+        postId = parentId;
+        await knex('post')
           .where({ id: parentId })
-          .increment('commentCount', 1);
+          .increment('commentCount', 1)
+        await knex('post')
+          .where({ id: parentId })
+          .select('post.userId as targetId')
+          .then(res => {
+            targetId = res[0].targetId;
+          });
+      } else {
+        type = 'reply'
+        await knex('comment')
+          .where('comment.id', parentId)
+          .join('post', 'comment.parentId', '=', 'post.id')
+          .select('post.id as postId', 'comment.userId as targetId')
+          .then(res => {
+            postId = res[0].postId;
+            targetId = res[0].targetId;
+          })
       }
 
+      if (sourceId !== targetId) sendOrStore(userId, { sourceId, targetId, postId, type }); 
       res.status(201).json({ success: response });
     })
     .catch((error) => {

@@ -16,6 +16,7 @@ class HomePage extends React.Component {
     previousCategory: [null, null],
     currentPost: {},
     posts: [],
+    notifications: [],
     postsLoaded: false,
     currentPage: 1,
     searchResults: [],
@@ -34,6 +35,7 @@ class HomePage extends React.Component {
   async componentDidMount() {
     await this.getPosts();
     await this.getUserInfo();
+    this.openWS();
   }
 
   componentDidUpdate() {
@@ -64,11 +66,60 @@ class HomePage extends React.Component {
       userInfo = jwtDecode(token);
       return axios.get(`${process.env.REACT_APP_URL}`.concat(`api/users/${userInfo.sub}`))
         .then((response) => {
+          userInfo.firstName = response.data[0].firstName;
+          userInfo.lastName = response.data[0].lastName;
           userInfo.profilePicture = response.data[0].profilePicture;
           this.setState({ user: userInfo });
         })
     }
   };
+
+  getNewestPosts = () => {
+    axios
+      .get(`${process.env.REACT_APP_URL}api/posts/1/newest`)
+      .then((res) => {
+        this.setState({ currentCategory: ["Newest", '0'] })
+        this.setState({ posts: res.data })
+      })
+      .catch((err) => {
+        console.error('ERROR', err)
+      })
+  }
+
+  openWS = () => {
+    window.WebSocket = window.WebSocket || window.MozWebSocket;
+    
+    if (!window.WebSocket) {
+      console.log('Brower doesn\'t support web sockets');
+    }
+
+    const connection = new WebSocket('ws://localhost:5000/ws');
+    connection.onopen = () => {
+      // console.log('connection opened');
+      // console.log(this.state.user);
+      connection.send(JSON.stringify({type:'userConnecting', data:this.state.user}));
+    }
+
+    connection.onmessage = message => {
+      const json = JSON.parse(message.data);
+      if (json.type && json.type === 'notifications') {
+        try {
+          // console.log(json.data);
+          this.updateNotifications(json.data);
+        } catch (e) {
+          // console.log('Invalid JSON: ', message.data);
+          return;
+        }
+      }
+      else if (json.type) {
+        console.log(json.data);
+      }
+    }
+  }
+
+  updateNotifications = (arr) => {
+    if (arr.length > 0) this.setState({ notifications: [...arr] })
+  }
 
   changeCurrentCategory = (category, post = null) => event => {
     /* Posts must be loaded, or the given category must not be part of NavBar options */
@@ -116,9 +167,9 @@ class HomePage extends React.Component {
         return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
       case "PostPage":
         return <PostPage post={currentPost} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
-      case "SearchResultsfor:":
-        return (<PostList 
-          currentUser={this.state.user}
+      case "SearchResultsFor:":
+        return (<PostList
+          handleNewest={this.getNewestPosts}
           postsArr={this.state.searchResults} 
           category={this.state.currentCategory}
           changeCurrentCategory={this.changeCurrentCategory}
@@ -126,7 +177,7 @@ class HomePage extends React.Component {
       default:
         return (
           <PostList
-            currentUser={this.state.user}
+            handleNewest={this.getNewestPosts}
             changeCurrentCategory={this.changeCurrentCategory}
             category={this.state.currentCategory}
             postsArr={this.state.posts}
