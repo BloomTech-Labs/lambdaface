@@ -51,16 +51,22 @@ const NotificationsMenu = (notifications, clearNotifications) => {
         } = notification;
 
         const [ grammar, parentType ] = grammarParser(notificationType);
+        const replier = `${sourceFirstName} ${sourceLastName}`;
+        const nClass = "notifications-menu__item";
 
         return (
-          <div className={"notifications-menu__item notifications-menu__item" + (i % 2 ? "--light" : "--dark")}>
-            <div className="notifications-menu__item__user">
-              <img className="notifications-menu__item__user-image" src={sourceProfilePicture} alt={`${sourceFirstName} ${sourceLastName}`} />
-              <strong>{`${sourceFirstName} ${sourceLastName}`}</strong>
+          <div className={`${nClass} ${nClass + (i % 2 ? "--light" : "--dark")}`}>
+            <div className={`${nClass}__user`}>
+              <img
+                className={`${nClass}__user-image`}
+                src={sourceProfilePicture}
+                alt="profile photo"
+              />
+              <strong>{replier}</strong>
             </div>
-            <p className="notifications-menu__item__text">
+            <p className={`${nClass}__text`}>
               { grammar } your { parentType }
-              <strong> { contentParser(postContent) }</strong>
+              <strong>{contentParser(postContent)}</strong>
             </p>
           </div>
         );
