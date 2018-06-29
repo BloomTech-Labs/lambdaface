@@ -39,6 +39,8 @@ class WriteComment extends React.Component {
     return (
       <form>
         <textarea
+          className="write-comment__textarea"
+          placeholder="Write your comment"
           style={{ resize: "none" }}
           value={this.state.content}
           onChange={this.handleChange("content")}

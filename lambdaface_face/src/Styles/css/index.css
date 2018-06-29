@@ -214,6 +214,13 @@ table {
 .post-page__container .post-page__comments {
   margin-left: 10%;
 }
+.post-page__container .post-page__comments-header {
+  margin-bottom: 1.5%;
+}
+.post-page__container .post-page__comments .post-page__new-comment-header {
+  font-size: 1.25em;
+  margin: 1.5% 0;
+}
 .reply__container {
   margin-left: 30px;
   border-left-width: 3px;
@@ -501,4 +508,24 @@ body {
 }
 .landing-page__container .landing-page__main .landing-page__login-btn {
   margin-top: 2%;
+}
+.write-comment__textarea {
+  width: 80%;
+  font-size: 1.1em;
+  background-color: #fbfcfd;
+  border-style: none;
+  padding: 1.5%;
+}
+.write-comment__textarea:focus {
+  outline-width: 0;
+}
+.write-reply__textarea {
+  width: 60%;
+  font-size: 1.1em;
+  background-color: #fbfcfd;
+  border-style: none;
+  padding: 1.5%;
+}
+.write-reply__textarea:focus {
+  outline-width: 0;
 }

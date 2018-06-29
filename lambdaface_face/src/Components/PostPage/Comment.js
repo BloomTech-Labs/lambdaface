@@ -29,7 +29,12 @@ class Comment extends React.Component {
         {replyingTo && 
           <WriteReply
             userInfo={this.props.userInfo}
-            commentInfo={{parentId: this.props.comment.id, parentType: 'comment'}}
+            commentInfo={{
+              parentId: this.props.comment.id, 
+              parentType: 'comment', 
+              parentFirstName: this.props.comment.firstName, 
+              parentLastName: this.props.comment.lastName 
+            }}
             reloadComments={this.props.reloadComments}
             toggleReplyingTo={this.toggleReplyingTo}
           />}
