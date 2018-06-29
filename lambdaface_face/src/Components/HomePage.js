@@ -93,7 +93,7 @@ class HomePage extends React.Component {
       console.log('Brower doesn\'t support web sockets');
     }
 
-    const connection = new WebSocket(`ws://${process.env.REACT_APP_WSURL}/ws`);
+    const connection = new WebSocket(`ws://lambdaserver.bgmi3t5yei.us-west-2.elasticbeanstalk.com/ws`);
     connection.onopen = () => {
       // console.log('connection opened');
       // console.log(this.state.user);
