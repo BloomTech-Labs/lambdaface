@@ -338,13 +338,20 @@ body {
 }
 .top-bar__notifications__icon > img {
   width: 20px;
+  position: absolute;
 }
 .top-bar__notifications__icon > span {
+  height: 20px;
+  width: 20px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  text-align: center;
   position: absolute;
+  font-size: 14px;
+  padding-top: 3px;
   color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  right: 6px;
-  top: 1px;
+  top: 3px;
 }
 .top-bar__notifications__bell {
   width: 25px;
