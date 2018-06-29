@@ -58,13 +58,13 @@ class PostPage extends React.Component {
           </div>
         </div>
         <div className="post-page__comments">
-          <div>Comments</div>
+          <div className="post-page__comments-header">Comments</div>
           {commentsLoaded &&
           comments.map((elem, i) => (
             <Comment key={elem.id} comment={elem} userInfo={this.props.userInfo} reloadComments={this.getComments} />
           ))}
           {/* {!commentsLoaded && <div>Loading Comments...</div>} */}
-          <div>Write a comment</div>
+          <div className="post-page__new-comment-header">Write a comment</div>
           <WriteComment
             commentInfo={{ parentId: this.props.post.id, parentType: 'post' }}
             userInfo={this.props.userInfo}
