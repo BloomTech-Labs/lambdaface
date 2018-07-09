@@ -115,13 +115,21 @@ class HomePage extends React.Component {
     
     if (!window.WebSocket) {
       console.log('Brower doesn\'t support web sockets');
+      return;
     }
 
-    const connection = new WebSocket(`ws://${process.env.REACT_APP_WSURL}/ws`);
+    const connection = new WebSocket(`ws://lambdaserver.bgmi3t5yei.us-west-2.elasticbeanstalk.com/ws`);
+
+    const ping = () => {
+      // console.log('Ping!');
+      connection.send(JSON.stringify({type:'userPinging', data:this.state.user}));
+    }
+
     connection.onopen = () => {
       // console.log('connection opened');
       // console.log(this.state.user);
       connection.send(JSON.stringify({type:'userConnecting', data:this.state.user}));
+      setInterval(ping, 50 * 1000);
     }
 
     connection.onmessage = message => {
@@ -142,7 +150,7 @@ class HomePage extends React.Component {
   }
 
   updateNotifications = (arr) => {
-    if (arr.length > 0) this.setState({ notifications: [...arr] });
+    if (arr.length > 0) this.setState({ notifications: this.state.notifications.concat(arr) });
   }
 
   clearNotifications = () => {
@@ -174,6 +182,8 @@ class HomePage extends React.Component {
     }
   }
   changeCurrentCategory = (category, post = null) => event => {
+    // reset scrholl bar
+    window.scrollTo(0, 0);
     /* Posts must be loaded, or the given category must not be part of NavBar options */
     if (this.state.postsLoaded || category[1] === null) {
       if (event) event.preventDefault();
