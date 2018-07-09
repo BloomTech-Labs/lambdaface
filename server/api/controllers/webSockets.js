@@ -26,6 +26,7 @@ const storeNotification = (obj) => {
 };
 
 const sendNotifications = (userId) => {
+  // console.log('sending notifications! here are the connected users:', Object.keys(connectedUsers));
   const fetch = (() => {
     return knex('notification')
       .where({ targetId: userId })
@@ -48,9 +49,16 @@ const sendNotifications = (userId) => {
       'user.profilePicture as sourceProfilePicture',
       'notification.type as notificationType'
     )
-    .then(response => connectedUsers[userId].send(JSON.stringify({ type: 'notifications', data: response })))
+    .then(response => 
+      // delete sent notifications from DB
+      knex('notification')
+      .where({ targetId: userId })
+      .del()
+      .then(() => {
+        connectedUsers[userId].send(JSON.stringify({ type: 'notifications', data: response }))
+      })
+    )
     .catch(err => JSON.stringify({ type: 'error', data: err}));
-    // TODO: delete sent notifications from DB
 }
 
 const sendOrStore = async (userId, obj) => {
@@ -58,12 +66,13 @@ const sendOrStore = async (userId, obj) => {
     await storeNotification(obj);
     sendNotifications(userId);
   } else {
+    // console.log(`\nuserId ${userId} not found in connected Users, storing notification.`)
     storeNotification(obj);
   }
 }
 
 const webSocketConnect = (ws, req) => {
-  console.log((new Date()) + ' Connection from origin '
+  console.log('\n', new Date() + ' Connection from origin '
   + req.connection.remoteAddress + '.');
 
   let userId;
@@ -80,7 +89,7 @@ const webSocketConnect = (ws, req) => {
   })
 
   ws.on('close', connection => {
-    console.log(`${new Date()} Peer ${userId} disconnected.`);
+    console.log(`\n${new Date()} Peer ${userId} disconnected.`);
     delete connectedUsers[userId];
   });
 }
