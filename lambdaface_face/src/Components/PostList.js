@@ -8,43 +8,64 @@ import UserBar from "./PostPage/UserBar";
 import FilterMenu from "./FilterMenu";
 // import "../Styles/PostList.css";
 
-const className = (i) => {
-  if (i % 2 !== 0) {
-    return "postList__listItem-odd"
-  } else
-    return "postList__listItem-even"
-}
+export default class PostList extends React.Component {
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+  handleScroll = () => {
+    /**
+     * function for onScroll event listener
+     * if we are at the bottom of the page calls updateCurrentPage
+     */
+    const scrollBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
+    if (this.props.morePosts && scrollBottom) {
+      this.props.updateCurrentPage();
+      this.props.getPosts(true);
+    }
+  }
 
-export default props => {
-  let category = props.category[0];
-  // if (category.length > 2) {
-  //   category = category.replace(/([A-Z])/g, ' $1').trim();
-  // }
-  return (
-    props.category && (
+  header = () => {
+    const category = this.props.category[0];
+    return (
+    <div className="postList__header">
+      <h1 className="postList__header-category">{category}</h1>
+      <FilterMenu
+        className="postList__header-filter"
+        handleNewest={this.props.handleNewest}
+      />
+      <Button 
+        className="postList__header-addPost" 
+        variant="contained" 
+        color="primary" 
+        onClick={this.props.changeCurrentCategory(["AddPost", null])}
+      >
+        Add Post
+      </Button>
+    </div>
+    );
+  }
+
+  render(){
+    return (
       <div className="postList__container">
-        <div className="postList__header">
-          <h1 className="postList__header-category">{category}</h1>
-          <FilterMenu className="postList__header-filter" handleNewest={props.handleNewest} />
-          <Button className="postList__header-addPost" variant="contained" color="primary" onClick={props.changeCurrentCategory(["AddPost", null])}>
-            Add Post
-          </Button>
-        </div>
+        {this.header()}
         <List>
-          {props.postsArr.map((post, i) => {
-            let postPreview = post.content.slice(0, 140);
-            if (post.content.length > 140) {
-              postPreview = postPreview + '...'
-            }
+          {this.props.postsArr.map((post, i) => {
+            const postPreview = post.content.length > 140
+              ? post.content.slice(0, 140) + '...'
+              : post.content;
+
             return (
               <ListItem
-                className={className(i)}
-                style={{ alignItems: "flex-start"}}
+                className={i % 2 ? "postList__listItem-odd" : "postList__listItem-even"}
+                style={{ alignItems: "flex-start" }}
                 key={post.id}
-                onClick={props.changeCurrentCategory(["PostPage", null], post)}
+                onClick={this.props.changeCurrentCategory(["PostPage", null], post)}
               >
                 <ListItemText className="listItem__top" primary={postPreview} />
-                {/* <ListItemText className="listItem__top" primary={post.content.slice(0, 40)} /> */}
                 <UserBar className="listItem__bottom" info={post} type="allposts" />
               </ListItem>
             );
@@ -52,5 +73,45 @@ export default props => {
         </List>
       </div>
     )
-  );
-};
+  }
+}
+
+// export default props => {
+//   let category = props.category[0];
+//   // if (category.length > 2) {
+//   //   category = category.replace(/([A-Z])/g, ' $1').trim();
+//   // }
+//   return (
+//     props.category && (
+//       <div className="postList__container">
+//         <div className="postList__header">
+//           <h1 className="postList__header-category">{category}</h1>
+//           <FilterMenu className="postList__header-filter" handleNewest={props.handleNewest} />
+//           <Button className="postList__header-addPost" variant="contained" color="primary" onClick={props.changeCurrentCategory(["AddPost", null])}>
+//             Add Post
+//           </Button>
+//         </div>
+//         <List>
+//           {props.postsArr.map((post, i) => {
+//             let postPreview = post.content.slice(0, 140);
+//             if (post.content.length > 140) {
+//               postPreview = postPreview + '...'
+//             }
+//             return (
+//               <ListItem
+//                 className={className(i)}
+//                 style={{ alignItems: "flex-start"}}
+//                 key={post.id}
+//                 onClick={props.changeCurrentCategory(["PostPage", null], post)}
+//               >
+//                 <ListItemText className="listItem__top" primary={postPreview} />
+//                 {/* <ListItemText className="listItem__top" primary={post.content.slice(0, 40)} /> */}
+//                 <UserBar className="listItem__bottom" info={post} type="allposts" />
+//               </ListItem>
+//             );
+//           })}
+//         </List>
+//       </div>
+//     )
+//   );
+// };

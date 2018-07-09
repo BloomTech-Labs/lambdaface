@@ -38,18 +38,13 @@ class HomePage extends React.Component {
     await this.getPosts();
     await this.getUserInfo();
     this.openWS();
-    window.addEventListener('scroll', this.handleScroll);
   }
 
   componentDidUpdate() {
-    // console.log('just updated');
+    console.log('just updated', this.state.postsLoaded, this.state.morePosts);
     if (!this.state.postsLoaded) {
       this.getPosts();
     }
-  }
-
-  componentWillUnmount() {
-    window.addEventListener('scroll', this.handleScroll);
   }
 
   getPosts = (addingPosts = false) => {
@@ -59,7 +54,7 @@ class HomePage extends React.Component {
       .get(fetchUrl)
       .then(res => {
         if (!this.state.postsLoaded) {
-          this.setState({ posts: res.data, postsLoaded: true });
+          this.setState({ posts: res.data, postsLoaded: true, morePosts: true });
         } else if (addingPosts) {
           if (res.data.length) {
             this.setState(({ posts }) => ({
@@ -162,17 +157,7 @@ class HomePage extends React.Component {
     }
   }
 
-  handleScroll = () => {
-    /**
-     * function for onScroll event listener
-     * if we are at the bottom of the page calls updateCurrentPage
-     */
-    const scrollBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
-    if (this.state.morePosts && scrollBottom) {
-      this.updateCurrentPage();
-      this.getPosts(true);
-    }
-  }
+
   changeCurrentCategory = (category, post = null) => event => {
     /* Posts must be loaded, or the given category must not be part of NavBar options */
     if (this.state.postsLoaded || category[1] === null) {
@@ -194,6 +179,8 @@ class HomePage extends React.Component {
       }
       /* set currentPost to given post (default is null) */
       if (post) this.setState({ currentPost: { ...post } });
+      /* when we change category reset currentPage to 1 */
+      this.setState({ currentPage: 1 });
     }
   };
   
@@ -227,6 +214,9 @@ class HomePage extends React.Component {
           postsArr={this.state.searchResults} 
           category={this.state.currentCategory}
           changeCurrentCategory={this.changeCurrentCategory}
+          updateCurrentPage={this.updateCurrentPage}
+          getPosts={this.getPosts}
+          morePosts={this.state.morePosts}
         />);
       default:
         return (
@@ -235,6 +225,9 @@ class HomePage extends React.Component {
             changeCurrentCategory={this.changeCurrentCategory}
             category={this.state.currentCategory}
             postsArr={this.state.posts}
+            updateCurrentPage={this.updateCurrentPage}
+            getPosts={this.getPosts}
+            morePosts={this.state.morePosts}
           />
         );
     }
