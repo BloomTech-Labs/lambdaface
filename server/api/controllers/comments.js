@@ -68,9 +68,9 @@ const createComment = (req, res) => {
     .into(table)
     .then(async (response) => {
       const sourceId = userId;
-      let targetId, postId, type
+      const type = table;
+      let targetId, postId;
       if (!child) {
-        type = 'comment';
         postId = parentId;
         await knex('post')
           .where({ id: parentId })
@@ -78,22 +78,23 @@ const createComment = (req, res) => {
         await knex('post')
           .where({ id: parentId })
           .select('post.userId as targetId')
-          .then(res => {
-            targetId = res[0].targetId;
+          .then(([ res ]) => {
+            targetId = res.targetId;
           });
       } else {
-        type = 'reply'
         await knex('comment')
           .where('comment.id', parentId)
           .join('post', 'comment.parentId', '=', 'post.id')
           .select('post.id as postId', 'comment.userId as targetId')
-          .then(res => {
-            postId = res[0].postId;
-            targetId = res[0].targetId;
-          })
+          .then(([ res ]) => {
+            postId = res.postId;
+            targetId = res.targetId;
+          });
       }
 
-      if (sourceId !== targetId) sendOrStore(userId, { sourceId, targetId, postId, type }); 
+      if (sourceId !== targetId) {
+        sendOrStore(targetId, { sourceId, targetId, postId, type }); 
+      }
       res.status(201).json({ success: response });
     })
     .catch((error) => {
