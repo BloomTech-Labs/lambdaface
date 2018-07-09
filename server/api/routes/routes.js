@@ -17,11 +17,7 @@ const {
   postVote,
   getVotes,
   signS3,
-<<<<<<< HEAD
-  getReplyById
-=======
   webSocketConnect,
->>>>>>> 50af7f6b58c539e94cdaa548e16e475a2c67fd9b
 } = require('../controllers');
 
 module.exports = (server) => {
