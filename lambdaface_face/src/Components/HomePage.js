@@ -37,7 +37,7 @@ class HomePage extends React.Component {
   async componentDidMount() {
     await this.getPosts();
     await this.getUserInfo();
-    this.openWS();
+    // this.openWS();
     window.addEventListener('scroll', this.handleScroll);
   }
 
@@ -54,7 +54,7 @@ class HomePage extends React.Component {
 
   getPosts = (addingPosts = false) => {
     const fetchUrl = `${process.env.REACT_APP_URL}api/posts/${this.state.currentPage}/${this.state.currentCategory[1]}`;
-
+    console.log(fetchUrl)
     return axios
       .get(fetchUrl)
       .then(res => {
@@ -96,7 +96,7 @@ class HomePage extends React.Component {
 
   getNewestPosts = () => {
     axios
-      .get(`${process.env.REACT_APP_URL}api/posts/1/newest`)
+      .get(`${process.env.REACT_APP_URL}api/posts/1/${this.state.currentCategory[1]}/newest`)
       .then((res) => {
         this.setState({ currentCategory: ["Newest", '0'] })
         this.setState({ posts: res.data })
