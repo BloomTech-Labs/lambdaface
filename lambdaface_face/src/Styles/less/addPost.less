@@ -1,6 +1,7 @@
 .add-post {
   &__container {
     display: flex;
+    font-family: sans-serif;
 
     .container__left-col {
       display: flex;
@@ -8,10 +9,15 @@
     }
     
     .container__right-col {
+      h4 {
+        font-size: 2.5em;
+      }
       
       .right-col__text-area {
+        margin-top: 10px;
+        font-size: 1.5em;
         height: 300px;
-        width: 940px;
+        width: 800px;
         background-color: rgb(253,253,254);
         border-style: solid;
         border-width: 1px;
@@ -20,31 +26,30 @@
       
       .right-col__bottom-row {
         display: flex;
-        height: 45px;
+        height: 55px;
         width: 100%;
         margin-top: -3px;
         background-color: rgb(247, 248, 251);
         
         .bottom-row__left {
           display: flex;
-          width: 50%;
+          width: 40%;
           align-items: center;
           justify-content: space-around;  
         }
         
         .bottom-row__right {
           display: flex;
-          width: 50%;
+          width: 60%;
           align-items: center;
           justify-content: flex-end;
           justify-content: space-around;
         }
         
-        .bottom-row__right-circle {
-          height: 24px;
-          width: 24px;
+        .bottom-row__right-picture {
+          height: 40px;
+          width: 40px;
           border-radius: 50%;
-          background-color: green;
         }
       }
     }

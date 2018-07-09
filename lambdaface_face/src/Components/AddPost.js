@@ -40,7 +40,8 @@ class AddPost extends React.Component {
       .then(res => {
         // console.log(res);
         this.setState({ content: "" });
-        // TODO: ADD redirect to last page
+        // redirect to last page
+        this.props.changeCurrentCategory([...this.state.category])();
       })
       .catch(err => {
         console.error(err);
@@ -70,15 +71,15 @@ class AddPost extends React.Component {
           <div className="right-col__bottom-row">
             <div className="bottom-row__left">
               {/* TODO: make these elements format textarea text */}
-              <span>B</span>
+              {/* <span>B</span>
               <div>List</div>
-              <div>List</div>
+              <div>List</div> */}
             </div>
             <div className="bottom-row__right">
               <CategoryButton category={category} changeCategory={this.changeCategory} categories={this.props.options} />
               {/* TODO: get avatar & name dynamically */}
-              <div className="bottom-row__right-circle" />
-              <span>John Doe</span>
+              <img src={this.props.userInfo.profilePicture} alt="AddPost-ProfilePic" className="bottom-row__right-picture" />
+              <span>{this.props.userInfo.firstName} {this.props.userInfo.lastName}</span>
               <Button
                 variant="contained"
                 color="primary"

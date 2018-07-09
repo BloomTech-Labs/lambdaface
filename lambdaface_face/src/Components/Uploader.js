@@ -7,6 +7,7 @@ class Uploader extends React.Component {
   state = {
     userId: this.props.userId,
     profilePicture: this.props.profilePicture,
+    imageHash: this.props.imageHash,
   }
   fileChange = event => {
     let file = event.target.files[0];
@@ -25,13 +26,12 @@ class Uploader extends React.Component {
       }
       axios.put(signedUrl, file, options)
       .then((result) => {
-        console.log(result);
+        this.props.updateImageHash();
         axios.put(`${process.env.REACT_APP_URL}`.concat(`api/users/${this.state.userId}`), {
           profilePicture: `https://s3-us-west-2.amazonaws.com/lambdaface-photos/photos/${this.state.userId}`
         })
         .then((result) => {
-          this.setState({profilePicture: `https://s3-us-west-2.amazonaws.com/lambdaface-photos/photos/${this.state.userId}`});
-          console.log('Success?', result);
+          this.setState({profilePicture: `https://s3-us-west-2.amazonaws.com/lambdaface-photos/photos/${this.state.userId}`, imageHash: Date.now() });
         })
         .catch(err => {
           console.error(err);
@@ -53,7 +53,7 @@ class Uploader extends React.Component {
     };
     return (
       <div className="uploader__container">
-        <img src={this.state.profilePicture} alt="profilepicture" style={imageSize} className="uploader__picture" />
+        <img src={`${this.state.profilePicture}?${this.state.imageHash}`} alt="profilepicture" style={imageSize} className="uploader__picture" />
         <input className="uploader__inputfile" id="file" name="file" type="file" accept="image/*" onChange={this.fileChange} />
         <label className="uploader__label" htmlFor="file">Change</label>
       </div>

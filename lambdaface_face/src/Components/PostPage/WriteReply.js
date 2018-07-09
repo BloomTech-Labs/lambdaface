@@ -37,14 +37,18 @@ class WriteReply extends React.Component {
   };
 
   render() {
+    // let replyTo = "Replying to " + this.props.commentInfo.parentFirstName + " " + this.props.commentInfo.parentLastName;
+    let replyTo = "Write your reply"
     return (
       <form>
         <textarea
+          placeholder={replyTo}
+          className="write-reply__textarea"
           style={{ resize: "none" }}
           value={this.state.content}
           onChange={this.handleChange("content")}
           cols="30"
-          rows="10"
+          rows="4"
         />
         <UserBar
           type="writereply"

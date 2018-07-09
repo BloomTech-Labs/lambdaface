@@ -16,6 +16,9 @@ class HomePage extends React.Component {
     previousCategory: [null, null],
     currentPost: {},
     posts: [],
+    notifications: [],
+    postsLoaded: false,
+    currentPage: 1,
     searchResults: [],
     postOptions: [
       "All Posts",
@@ -26,19 +29,28 @@ class HomePage extends React.Component {
       "HR",
       "Product Managers",
       "QA"
-    ]
+    ],
+    imageHash: Date.now(),
   };
 
-  componentDidMount() {
-    this.getPosts();
-    this.getUserInfo();
+  async componentDidMount() {
+    await this.getPosts();
+    await this.getUserInfo();
+    this.openWS();
+  }
+
+  componentDidUpdate() {
+    // console.log('just updated');
+    if (!this.state.postsLoaded) {
+      this.getPosts();
+    }
   }
 
   getPosts = () => {
-    axios
-      .get(`${process.env.REACT_APP_URL}`.concat('api/posts'))
+    return axios
+      .get(`${process.env.REACT_APP_URL}api/posts/${this.state.currentPage}/${this.state.currentCategory[1]}`)
       .then(res => {
-        this.setState({ posts: res.data });
+        if (!this.state.postsLoaded) this.setState({ posts: res.data, postsLoaded: true });
       })
       .catch(err => {
         console.error('Could not get posts: ', err);
@@ -53,25 +65,91 @@ class HomePage extends React.Component {
   
     if (token) {
       userInfo = jwtDecode(token);
-      axios.get(`${process.env.REACT_APP_URL}`.concat(`api/users/${userInfo.sub}`))
+      return axios.get(`${process.env.REACT_APP_URL}`.concat(`api/users/${userInfo.sub}`))
         .then((response) => {
+          userInfo.firstName = response.data[0].firstName;
+          userInfo.lastName = response.data[0].lastName;
           userInfo.profilePicture = response.data[0].profilePicture;
           this.setState({ user: userInfo });
         })
     }
   };
 
+  getNewestPosts = () => {
+    axios
+      .get(`${process.env.REACT_APP_URL}api/posts/1/newest`)
+      .then((res) => {
+        this.setState({ currentCategory: ["Newest", '0'] })
+        this.setState({ posts: res.data })
+      })
+      .catch((err) => {
+        console.error('ERROR', err)
+      })
+  }
 
+  updateImageHash = () => {
+    this.setState({ imageHash: Date.now() })
+  }
+
+  openWS = () => {
+    window.WebSocket = window.WebSocket || window.MozWebSocket;
+    
+    if (!window.WebSocket) {
+      console.log('Brower doesn\'t support web sockets');
+    }
+
+    const connection = new WebSocket(`ws://${process.env.REACT_APP_WSURL}/ws`);
+    connection.onopen = () => {
+      // console.log('connection opened');
+      // console.log(this.state.user);
+      connection.send(JSON.stringify({type:'userConnecting', data:this.state.user}));
+    }
+
+    connection.onmessage = message => {
+      const json = JSON.parse(message.data);
+      if (json.type && json.type === 'notifications') {
+        try {
+          // console.log(json.data);
+          this.updateNotifications(json.data);
+        } catch (e) {
+          // console.log('Invalid JSON: ', message.data);
+          return;
+        }
+      }
+      else if (json.type) {
+        console.log(json.data);
+      }
+    }
+  }
+
+  updateNotifications = (arr) => {
+    if (arr.length > 0) this.setState({ notifications: [...arr] });
+  }
+
+  clearNotifications = () => {
+    if (this.state.notifications.length) this.setState({ notifications: [] });
+  }
 
   changeCurrentCategory = (category, post = null) => event => {
-    event.preventDefault();
-    const noSpaces = [category[0].split(" ").join(""), category[1]];
-    this.setState({ currentCategory: noSpaces });
-    if (this.state.currentCategory[1] !== null) this.setState({ previousCategory: this.state.currentCategory });
-    if (category[0].includes("Search")) {
-      this.searchResults(category[0].slice(20, category[0].length));
+    /* Posts must be loaded, or the given category must not be part of NavBar options */
+    if (this.state.postsLoaded || category[1] === null) {
+      if (event) event.preventDefault();
+      // TODO: do nothing if given category is same as current
+      const noSpaces = [category[0].split(" ").join(""), category[1]];
+      this.setState({ currentCategory: noSpaces });
+      /* reset posts if the given category is part of NavBar options (this.state.postOptions) */
+      if (category[1] !== null) {
+        this.setState({ posts: [], postsLoaded: false })
+      }
+      /* Only NavBar options can be a previous category */
+      if (this.state.currentCategory[1] !== null) this.setState({ previousCategory: this.state.currentCategory });
+      // TODO: Move search outside of changeCurrentCategory
+      if (category[0].includes("Search")) {
+        this.searchResults(category[0].slice(20, category[0].length));
+      }
+      /* set currentPost to given post (default is null) */
+      if (post) this.setState({ currentPost: { ...post } });
     }
-    if (post) this.setState({ currentPost: { ...post } });
   };
   
   searchResults = (query) => {
@@ -95,12 +173,12 @@ class HomePage extends React.Component {
       case "AddPost":
         return <AddPost category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} userInfo={this.state.user} />;
       case "UserSettings":
-        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
+        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} logout={this.props.logout} />;
       case "PostPage":
         return <PostPage post={currentPost} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
-      case "SearchResultsfor:":
-        return (<PostList 
-          currentUser={this.state.user}
+      case "SearchResultsFor:":
+        return (<PostList
+          handleNewest={this.getNewestPosts}
           postsArr={this.state.searchResults} 
           category={this.state.currentCategory}
           changeCurrentCategory={this.changeCurrentCategory}
@@ -108,17 +186,10 @@ class HomePage extends React.Component {
       default:
         return (
           <PostList
-            currentUser={this.state.user}
+            handleNewest={this.getNewestPosts}
             changeCurrentCategory={this.changeCurrentCategory}
             category={this.state.currentCategory}
-            postsArr={this.state.posts.filter(
-              post => {
-                if (this.state.currentCategory[0] === 'AllPosts') return true;
-                // TODO, DO NOT ALLOW post.categoryID to be 'null'
-                // if (post.category === undefined) return true;
-                return post.categoryId === this.state.currentCategory[1]
-              }
-            )}
+            postsArr={this.state.posts}
           />
         );
     }
@@ -133,13 +204,15 @@ class HomePage extends React.Component {
           <TopBar 
             changeCurrentCategory={this.changeCurrentCategory}
             userInfo={this.state.user}
+            notifications={[...this.state.notifications]}
+            clearNotifications={this.clearNotifications}
+            imageHash={this.state.imageHash}
           />
         </div>
         <div className="home-page__bottom">
           <div className="home-page__left-nav">
             <LeftNav
               options={this.state.postOptions}
-              posts={this.state.posts}
               changeCurrentCategory={this.changeCurrentCategory}
             />
           </div>

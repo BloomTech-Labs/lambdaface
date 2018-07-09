@@ -4,5 +4,5 @@ module.exports = {
   ...require('./comments'),
   ...require('./posts'),
   ...require('./s3'),
-  ...require('./replies')
+  ...require('./webSockets'),
 };

@@ -36,6 +36,11 @@ class UserSettings extends React.Component {
     })
   }
 
+  logout = () => event => {
+    event.preventDefault();
+    this.props.auth.logout();
+  };
+
   resetPassword = () => {
     const userStuff = {
       client_id: 'A86C7iFueySjvHsu5fhxq3SVJBNxo1CF',
@@ -78,7 +83,7 @@ class UserSettings extends React.Component {
           {" "}
           {/*left column*/}
           <div className="user-settings__left-col">
-            <Uploader userId={this.state.userId} profilePicture={this.state.profilePicture} />
+            <Uploader userId={this.state.userId} profilePicture={this.state.profilePicture} updateImageHash={this.props.updateImageHash} />
           </div>
           <form className="user-settings__mid-col" onSubmit={this.updateInfo()}>
             {" "}
@@ -125,12 +130,17 @@ class UserSettings extends React.Component {
           onChange={this.handleChange("password")}
           margin="normal"
         /> */}
-            <Button className="user-settings__reset-btn" variant="contained" color="primary" size="medium" onClick={this.resetPassword}>
-            Reset Password
-            </Button>
-            <Button className="user-settings__save-btn" variant="contained" color="primary" size="medium" type="submit">
-            Save Settings
-            </Button>
+            <div className="user-settings__btns">
+              <Button className="user-settings__reset-btn" variant="contained" color="primary" size="medium" onClick={this.resetPassword}>
+              Reset Password
+              </Button>
+              <Button className="user-settings__save-btn" variant="contained" color="primary" size="medium" type="submit">
+              Save Settings
+              </Button>
+              <Button className="user-settings__logout-btn" variant="contained" color="primary" onClick={this.props.logout()}>
+                  Logout
+              </Button>
+            </div>
           </form>
           <div className="user-settings__right-col">
             {/*right column*/}

@@ -17,7 +17,11 @@ const {
   postVote,
   getVotes,
   signS3,
+<<<<<<< HEAD
   getReplyById
+=======
+  webSocketConnect,
+>>>>>>> 50af7f6b58c539e94cdaa548e16e475a2c67fd9b
 } = require('../controllers');
 
 module.exports = (server) => {
@@ -58,8 +62,17 @@ module.exports = (server) => {
     .get(getVotes);
 
   server.route('/s3/sign')
+<<<<<<< HEAD
     .get(signS3);
 
   server.route('/api/replies/:id')
     .get(getReplyById);
+=======
+    .get(signS3)
+
+  const expressWs = require('express-ws')(server);  
+
+  server.ws('/ws', webSocketConnect)
+
+>>>>>>> 50af7f6b58c539e94cdaa548e16e475a2c67fd9b
 };
