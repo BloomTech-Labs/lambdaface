@@ -18,6 +18,7 @@ class HomePage extends React.Component {
     posts: [],
     notifications: [],
     postsLoaded: false,
+    morePosts: true,
     currentPage: 1,
     searchResults: [],
     postOptions: [
@@ -33,13 +34,10 @@ class HomePage extends React.Component {
   };
 
   async componentDidMount() {
-    console.log(
-      'hitting me',
-      `currentPage: ${this.state.currentPage}`
-    );
     await this.getPosts();
     await this.getUserInfo();
     this.openWS();
+    window.addEventListener('scroll', this.handleScroll);
   }
 
   componentDidUpdate() {
@@ -49,11 +47,28 @@ class HomePage extends React.Component {
     }
   }
 
-  getPosts = () => {
+  componentWillUnmount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  getPosts = (addingPosts = false) => {
+    const fetchUrl = `${process.env.REACT_APP_URL}api/posts/${this.state.currentPage}/${this.state.currentCategory[1]}`;
+
     return axios
-      .get(`${process.env.REACT_APP_URL}api/posts/${this.state.currentPage}/${this.state.currentCategory[1]}`)
+      .get(fetchUrl)
       .then(res => {
-        if (!this.state.postsLoaded) this.setState({ posts: res.data, postsLoaded: true });
+        if (!this.state.postsLoaded) {
+          this.setState({ posts: res.data, postsLoaded: true });
+        } else if (addingPosts) {
+          if (res.data.length) {
+            this.setState(({ posts }) => ({
+              posts: [ ...posts, ...res.data ],
+              postsLoaded: true,
+            }));
+          } else {
+            this.setState({ morePosts: false });
+          }
+        }
       })
       .catch(err => {
         console.error('Could not get posts: ', err);
@@ -129,17 +144,27 @@ class HomePage extends React.Component {
     if (this.state.notifications.length) this.setState({ notifications: [] });
   }
 
-  updateCurrentPage = () => {
+  updateCurrentPage = (changeAmmount = 1) => {
     /**
-     * updates currentPage (in state) by one
+     * updates currentPage by an ammount,
+     * defaults to incrementing by 1
+     * will not increment if morePosts is false
      */
     // TODO: If there's no more posts beyond page prevent from incrementing
-    this.setState(({ currentPage }) => ({
-      currentPage: currentPage + 1,
-    }));
-    console.log(this.state.currentPage);
+    // TODO: Change postsLoaded to a better way of checking if posts should upate
+    if (this.state.morePosts && this.state.currentPage + changeAmmount >= 1) {
+      this.setState(({ currentPage }) => ({
+        currentPage: currentPage + changeAmmount,
+      }));
+      this.getPosts(true);
+    }
   }
-
+  handleScroll = (e) => {
+    const scrollBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
+    if (this.state.morePosts && scrollBottom) {
+      this.updateCurrentPage();
+    }
+  }
   changeCurrentCategory = (category, post = null) => event => {
     /* Posts must be loaded, or the given category must not be part of NavBar options */
     if (this.state.postsLoaded || category[1] === null) {
@@ -229,7 +254,10 @@ class HomePage extends React.Component {
           </div>
           <div className="home-page__main">
             {this.categorySwitch(currentCategory, currentPost)}
-            <button onClick={this.updateCurrentPage}>Next</button>
+            { this.state.morePosts
+                ? ''
+                : <span>There are no more posts.</span>
+            }
           </div>
         </div>
         <div className="home-page__footer">
