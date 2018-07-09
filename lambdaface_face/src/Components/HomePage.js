@@ -33,6 +33,10 @@ class HomePage extends React.Component {
   };
 
   async componentDidMount() {
+    console.log(
+      'hitting me',
+      `currentPage: ${this.state.currentPage}`
+    );
     await this.getPosts();
     await this.getUserInfo();
     this.openWS();
@@ -125,6 +129,17 @@ class HomePage extends React.Component {
     if (this.state.notifications.length) this.setState({ notifications: [] });
   }
 
+  updateCurrentPage = () => {
+    /**
+     * updates currentPage (in state) by one
+     */
+    // TODO: If there's no more posts beyond page prevent from incrementing
+    this.setState(({ currentPage }) => ({
+      currentPage: currentPage + 1,
+    }));
+    console.log(this.state.currentPage);
+  }
+
   changeCurrentCategory = (category, post = null) => event => {
     /* Posts must be loaded, or the given category must not be part of NavBar options */
     if (this.state.postsLoaded || category[1] === null) {
@@ -214,6 +229,7 @@ class HomePage extends React.Component {
           </div>
           <div className="home-page__main">
             {this.categorySwitch(currentCategory, currentPost)}
+            <button onClick={this.updateCurrentPage}>Next</button>
           </div>
         </div>
         <div className="home-page__footer">
