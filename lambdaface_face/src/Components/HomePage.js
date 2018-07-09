@@ -54,7 +54,7 @@ class HomePage extends React.Component {
 
   getPosts = (addingPosts = false) => {
     const fetchUrl = `${process.env.REACT_APP_URL}api/posts/${this.state.currentPage}/${this.state.currentCategory[1]}`;
-    console.log(fetchUrl)
+
     return axios
       .get(fetchUrl)
       .then(res => {
