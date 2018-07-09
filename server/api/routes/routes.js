@@ -21,7 +21,7 @@ const {
 } = require('../controllers');
 
 module.exports = (server) => {
-  server.route([ '/api/posts', '/api/posts/:page', '/api/posts/:page/:filter'])
+  server.route([ '/api/posts', '/api/posts/:page', '/api/posts/:page/:category', '/api/posts/:page/:category/:filter' ])
     .get(getPosts)
     .post(createPost);
   

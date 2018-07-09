@@ -96,7 +96,7 @@ class HomePage extends React.Component {
 
   getNewestPosts = () => {
     axios
-      .get(`${process.env.REACT_APP_URL}api/posts/1/newest`)
+      .get(`${process.env.REACT_APP_URL}api/posts/1/${this.state.currentCategory[1]}/newest`)
       .then((res) => {
         this.setState({ currentCategory: ["Newest", '0'] })
         this.setState({ posts: res.data })

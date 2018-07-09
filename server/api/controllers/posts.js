@@ -16,17 +16,15 @@ const {
 } = httpCodes;
 
 const getPosts = (req, res) => {
-  const { page = 1, filter = '' } = req.params;
+  const { page = 1, category = '1', filter = '' } = req.params;
   const limit = 20;
-  const fetch = (() => {
-    if (filter.match(/[1-7]/) !== null) {
-      return knex('post').where({ categoryId: filter });
-    } else if (filter === 'newest') {
-      return knex('post').orderBy('createdAt', 'desc');
-    } else {
-      return knex('post');
-    }
-  })();
+  let fetch = knex('post');
+  if (category.match(/[1-7]/) !== null) {
+    fetch = fetch.where({ categoryId: category });
+  }
+  if (filter === 'newest') {
+    fetch = fetch.orderBy('createdAt', 'desc');
+  }
 
   fetch
     .limit(limit)
