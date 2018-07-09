@@ -14,7 +14,7 @@ export default props => {
       <Notifications notifications={props.notifications} clearNotifications={props.clearNotifications} />
       <div className="top-bar__user-button">
         <Button onClick={props.changeCurrentCategory(["User Settings", null])}>
-          <img src={profilePic} alt="profile" className="top-bar__user-image" />
+          <img src={`${profilePic}?${props.imageHash}}`} alt="profile" className="top-bar__user-image" />
         </Button>
       </div>
     </div>

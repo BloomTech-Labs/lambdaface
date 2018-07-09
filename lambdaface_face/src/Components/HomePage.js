@@ -29,7 +29,8 @@ class HomePage extends React.Component {
       "HR",
       "Product Managers",
       "QA"
-    ]
+    ],
+    imageHash: Date.now(),
   };
 
   async componentDidMount() {
@@ -84,6 +85,10 @@ class HomePage extends React.Component {
       .catch((err) => {
         console.error('ERROR', err)
       })
+  }
+
+  updateImageHash = () => {
+    this.setState({ imageHash: Date.now() })
   }
 
   openWS = () => {
@@ -168,7 +173,7 @@ class HomePage extends React.Component {
       case "AddPost":
         return <AddPost category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} userInfo={this.state.user} />;
       case "UserSettings":
-        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} logout={this.props.logout} />;
+        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} logout={this.props.logout} />;
       case "PostPage":
         return <PostPage post={currentPost} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
       case "SearchResultsFor:":
@@ -201,6 +206,7 @@ class HomePage extends React.Component {
             userInfo={this.state.user}
             notifications={[...this.state.notifications]}
             clearNotifications={this.clearNotifications}
+            imageHash={this.state.imageHash}
           />
         </div>
         <div className="home-page__bottom">
