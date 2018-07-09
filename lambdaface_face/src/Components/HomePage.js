@@ -150,19 +150,22 @@ class HomePage extends React.Component {
      * defaults to incrementing by 1
      * will not increment if morePosts is false
      */
-    // TODO: If there's no more posts beyond page prevent from incrementing
-    // TODO: Change postsLoaded to a better way of checking if posts should upate
     if (this.state.morePosts && this.state.currentPage + changeAmmount >= 1) {
       this.setState(({ currentPage }) => ({
         currentPage: currentPage + changeAmmount,
       }));
-      this.getPosts(true);
     }
   }
-  handleScroll = (e) => {
+
+  handleScroll = () => {
+    /**
+     * function for onScroll event listener
+     * if we are at the bottom of the page calls updateCurrentPage
+     */
     const scrollBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
     if (this.state.morePosts && scrollBottom) {
       this.updateCurrentPage();
+      this.getPosts(true);
     }
   }
   changeCurrentCategory = (category, post = null) => event => {
