@@ -32,6 +32,12 @@ const convertTime = time => {
 const UserBar = props => {
   let user;
   let currentUser = props.currentUser;
+  let upvotes = props.info.upvotes;
+  let downvotes = props.info.downvotes;
+  
+  if (!upvotes) upvotes = 0;
+  if (!downvotes) downvotes = 0;
+
   if (props.info.firstName) {
     user = props.info.firstName.concat(` ${props.info.lastName}`);
   } else {
@@ -58,6 +64,7 @@ const UserBar = props => {
         console.error(err);
       })
   }
+
   return (
     <div className="user-bar__container">
       <div />
@@ -66,9 +73,9 @@ const UserBar = props => {
         <div className="user-bar__info">
           {/* TODO: make this dynamic */}
           <img src={upvote} alt="Upvotes" height="13px" width="11px" />
-          <div>{props.info.upvotes}</div>
+          <div>{upvotes}</div>
           <img src={downvote} alt="Downvotes" height="13px" width="11px" />
-          <div>{props.info.downvotes}</div>
+          <div>{downvotes}</div>
           <div>{categories[props.info.categoryId]}</div>
           <div>{convertTime(props.info.createdAt)}</div>
           <div>{props.info.viewCount} Views</div>
@@ -77,10 +84,10 @@ const UserBar = props => {
       )}
       {props.type === "singlepost" && (
         <div className="user-bar__info">
-          <div>{props.info.upvotes}</div>
+          <div>{upvotes}</div>
           <img src={upvote} onClick={vote('INC', 'post')} alt="Upvotes" height="13px" width="11px" />
           <img src={downvote} onClick={vote('DEC', 'post')} alt="Downvotes" height="13px" width="11px" />
-          <div>{props.info.downvotes}</div>
+          <div>{downvotes}</div>
           <div>{props.info.commentCount} Comments</div>
           <Button variant="contained" color="primary">Follow thread</Button>
         </div>
@@ -88,10 +95,10 @@ const UserBar = props => {
       {props.type === "comment" && (
         <div className="user-bar__info">
           <Button onClick={props.toggleReply}>Reply</Button>
-          <div>{props.info.upvotes}</div>
+          <div>{upvotes}</div>
           <img src={upvote} onClick={vote('INC', 'comment')} alt="Upvotes" height="13px" width="11px" />
           <img src={downvote} onClick={vote('DEC', 'comment')} alt="Downvotes" height="13px" width="11px" />
-          <div>{props.info.downvotes}</div>
+          <div>{downvotes}</div>
         </div>
       )}
       {props.type === "writecomment" && (
