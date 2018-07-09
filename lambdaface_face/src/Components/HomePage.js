@@ -37,7 +37,7 @@ class HomePage extends React.Component {
   async componentDidMount() {
     await this.getPosts();
     await this.getUserInfo();
-    // this.openWS();
+    this.openWS();
     window.addEventListener('scroll', this.handleScroll);
   }
 
