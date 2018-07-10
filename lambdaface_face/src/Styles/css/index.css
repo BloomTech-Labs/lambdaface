@@ -409,10 +409,18 @@ body {
   font-weight: bold;
 }
 .notifications-menu__item--dark {
-  background-color: #EEEEEE;
+  background-color: #fbfcfd;
+}
+.notifications-menu__item--dark:hover {
+  cursor: pointer;
+  background-color: #eaeff5;
 }
 .notifications-menu__item--light {
-  background-color: white;
+  background-color: #ffffff;
+}
+.notifications-menu__item--light:hover {
+  cursor: pointer;
+  background-color: #f2f2f2;
 }
 .notifications-menu__item__text > strong {
   font-weight: bold;
