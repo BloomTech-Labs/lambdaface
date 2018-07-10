@@ -189,24 +189,13 @@ table {
 }
 .user-bar__container {
   display: flex;
-  margin-top: 8px;
+  margin-top: 10px;
   width: 90%;
-}
-.user-bar__userInfo {
-  width: 21%;
-  display: flex;
-  align-items: center;
-}
-.user-bar__userInfo > img {
-  margin-right: 10px;
 }
 .user-bar__info {
   color: grey;
   display: flex;
   align-items: center;
-}
-.user-bar__info .votes {
-  margin-left: 0;
 }
 .user-bar__info > div {
   margin-left: 5px;
@@ -215,6 +204,17 @@ table {
 .user-bar__info > img {
   margin-left: 2.5px;
   margin-right: 2.5px;
+}
+.user-bar__info .votes {
+  margin-left: 0;
+}
+.user-bar__userInfo {
+  width: 21%;
+  display: flex;
+  align-items: center;
+}
+.user-bar__userInfo > img {
+  margin-right: 10px;
 }
 .user-bar__singlepost-info {
   display: flex;
@@ -239,7 +239,7 @@ table {
   align-items: center;
   color: grey;
 }
-.user-bar__comment-button {
+.user-bar .user-bar__comment-button {
   margin-left: 48%;
 }
 .post-page__container {
