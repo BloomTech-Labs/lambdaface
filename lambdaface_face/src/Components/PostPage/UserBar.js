@@ -29,6 +29,18 @@ const convertTime = time => {
   return `${splitTime[1]}-${splitTime[2]}-${splitTime[0]}`;
 };
 
+const followPost = (userId, parentId) => {
+  console.log(userId, parentId);
+  axios
+    .post(`${process.env.REACT_APP_URL}api/follows`, { userId, parentId })
+    .then(res => {
+      console.log('success!', res);
+    })
+    .catch(err => {
+      console.log('There was an error: ', err.response);
+    })
+}
+
 const UserBar = props => {
   let user;
   let currentUser = props.currentUser;
@@ -111,7 +123,7 @@ const UserBar = props => {
             <div className="votes">{downvotes}</div>
           </div>
           <div>{props.info.commentCount} Comments</div>
-          <Button variant="contained" color="primary">Follow thread</Button>
+          <Button onClick={() => {followPost(props.currentUser, props.info.id)}}variant="contained" color="primary">Follow thread</Button>
         </div>
       )}
       {props.type === "comment" && (

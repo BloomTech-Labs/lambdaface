@@ -16,6 +16,8 @@ const {
   getUserById,
   postVote,
   getVotes,
+  addFollower,
+  removeFollower,
   signS3,
   webSocketConnect,
 } = require('../controllers');
@@ -56,6 +58,10 @@ module.exports = (server) => {
   server.route('/api/votes')
     .post(postVote)
     .get(getVotes);
+
+  server.route('/api/follows')
+    .post(addFollower)
+    .delete(removeFollower);
 
   server.route('/s3/sign')
     .get(signS3)

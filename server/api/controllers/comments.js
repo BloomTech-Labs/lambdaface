@@ -91,6 +91,28 @@ const createComment = (req, res) => {
             targetId = res.targetId;
           });
       }
+      // grab all users following parent post
+      const followers = 
+        await knex('follow')
+          .where('follow.parentId', postId)
+          .select('follow.userId')
+          .then(res => {
+            console.log('followers:', res);
+            return res
+          })
+          .catch(err => {
+            console.log(err);
+            return []
+          });
+
+      // send or store each follower's notification, if they are not the source
+      followers.forEach(obj => {
+        const { userId } = obj
+        // if (userId !== sourceId) {
+          console.log(userId);
+          sendOrStore(userId, { sourceId, targetId: userId, postId, type: type.concat('follow') }); 
+        // }
+      });
 
       if (sourceId !== targetId) {
         sendOrStore(targetId, { sourceId, targetId, postId, type }); 
