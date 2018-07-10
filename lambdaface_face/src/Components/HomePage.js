@@ -108,7 +108,7 @@ class HomePage extends React.Component {
     window.WebSocket = window.WebSocket || window.MozWebSocket;
     
     if (!window.WebSocket) {
-      console.log('Brower doesn\'t support web sockets');
+      console.log('Browser doesn\'t support web sockets');
       return;
     }
 
@@ -166,13 +166,13 @@ class HomePage extends React.Component {
 
 
   changeCurrentCategory = (category, post = null) => event => {
-    // reset scrholl bar
+    // reset scroll bar
     window.scrollTo(0, 0);
     /* Posts must be loaded, or the given category must not be part of NavBar options */
     if (this.state.postsLoaded || category[1] === null) {
       if (event) event.preventDefault();
       // TODO: do nothing if given category is same as current
-      const noSpaces = [category[0].replace(' ', ''), category[1]];
+      const noSpaces = [category[0].replace(/\s/g, ''), category[1]]; 
       this.setState({ currentCategory: noSpaces });
       /* reset posts if the given category is part of NavBar options (this.state.postOptions) */
       if (category[1] !== null) {
