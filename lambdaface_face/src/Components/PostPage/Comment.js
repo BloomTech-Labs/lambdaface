@@ -17,8 +17,8 @@ class Comment extends React.Component {
     const replyingTo = this.state.replyingTo;
     // console.log(this.props.comment);
     return (
-      <div>
-        <div>{this.props.comment.content}</div>
+      <div className="comment__container">
+        <div className="comment__content">{this.props.comment.content}</div>
         <UserBar
           currentUser={this.props.userInfo.sub}
           type="comment"

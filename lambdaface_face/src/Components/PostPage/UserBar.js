@@ -34,6 +34,7 @@ const UserBar = props => {
   let currentUser = props.currentUser;
   let upvotes = props.info.upvotes;
   let downvotes = props.info.downvotes;
+  let authorPic = props.info.profilePicture;
   
   if (!upvotes) upvotes = 0;
   if (!downvotes) downvotes = 0;
@@ -65,17 +66,32 @@ const UserBar = props => {
       })
   }
 
+  const imgStyle = {
+    width: "35px",
+    height: "35px",
+    borderRadius: "50%",  
+  };
+
+  const categoryIconStyle = {
+    transform: "scale(0.75)",
+    fill: "grey",
+  };
+
   return (
     <div className="user-bar__container">
-      <div />
-      <span>{user}</span>
+      {/* <div /> */}
+      <div className="user-bar__userInfo">
+        <img src={authorPic} alt="PostPicture" style={imgStyle} />
+        <span>{user}</span>
+      </div>
       {props.type === "allposts" && (
         <div className="user-bar__info">
           {/* TODO: make this dynamic */}
           <img src={upvote} alt="Upvotes" height="13px" width="11px" />
-          <div>{upvotes}</div>
+          <div className="votes">{upvotes}</div>
           <img src={downvote} alt="Downvotes" height="13px" width="11px" />
-          <div>{downvotes}</div>
+          <div className="votes">{downvotes}</div>
+          <img src={require(`../../Assets/${categories[props.info.categoryId]}.svg`)} alt="CategoryIcon" style={categoryIconStyle} />
           <div>{categories[props.info.categoryId]}</div>
           <div>{convertTime(props.info.createdAt)}</div>
           <div>{props.info.viewCount} Views</div>
@@ -83,31 +99,37 @@ const UserBar = props => {
         </div>
       )}
       {props.type === "singlepost" && (
-        <div className="user-bar__info">
-          <div>{upvotes}</div>
-          <img src={upvote} onClick={vote('INC', 'post')} alt="Upvotes" height="13px" width="11px" />
-          <img src={downvote} onClick={vote('DEC', 'post')} alt="Downvotes" height="13px" width="11px" />
-          <div>{downvotes}</div>
+        <div className="user-bar__singlepost-info">
+          <div className="user-bar__singlepost-categoryInfo">
+            <img src={require(`../../Assets/${categories[props.info.categoryId]}.svg`)} alt="CategoryIcon" style={categoryIconStyle} />
+            <div>{categories[props.info.categoryId]}</div>
+          </div>
+          <div className="voteInfo">
+            <div className="votes">{upvotes}</div>
+            <img src={upvote} onClick={vote('INC', 'post')} alt="Upvotes" height="13px" width="11px" />
+            <img src={downvote} onClick={vote('DEC', 'post')} alt="Downvotes" height="13px" width="11px" />
+            <div className="votes">{downvotes}</div>
+          </div>
           <div>{props.info.commentCount} Comments</div>
           <Button variant="contained" color="primary">Follow thread</Button>
         </div>
       )}
       {props.type === "comment" && (
-        <div className="user-bar__info">
+        <div className="user-bar__comment-info">
           <Button onClick={props.toggleReply}>Reply</Button>
-          <div>{upvotes}</div>
+          <div className="votes">{upvotes}</div>
           <img src={upvote} onClick={vote('INC', 'comment')} alt="Upvotes" height="13px" width="11px" />
           <img src={downvote} onClick={vote('DEC', 'comment')} alt="Downvotes" height="13px" width="11px" />
-          <div>{downvotes}</div>
+          <div className="votes">{downvotes}</div>
         </div>
       )}
       {props.type === "writecomment" && (
-        <div className="user-bar__info">
+        <div className="user-bar__comment-button">
           <Button onClick={props.submitComment()}>Post Comment</Button>
         </div>
       )}
       {props.type === "writereply" && (
-        <div className="user-bar__info">
+        <div className="user-bar__reply">
           <Button onClick={props.submitReply()}>Post Reply</Button>
         </div>
       )}
