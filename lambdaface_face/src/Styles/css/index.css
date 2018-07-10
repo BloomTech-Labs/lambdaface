@@ -189,17 +189,58 @@ table {
 }
 .user-bar__container {
   display: flex;
+  margin-top: 10px;
+  width: 90%;
 }
 .user-bar__info {
+  color: grey;
   display: flex;
+  align-items: center;
 }
 .user-bar__info > div {
   margin-left: 5px;
   margin-right: 5px;
 }
 .user-bar__info > img {
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 2.5px;
+  margin-right: 2.5px;
+}
+.user-bar__info .votes {
+  margin-left: 0;
+}
+.user-bar__userInfo {
+  width: 21%;
+  display: flex;
+  align-items: center;
+}
+.user-bar__userInfo > img {
+  margin-right: 10px;
+}
+.user-bar__singlepost-info {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  color: grey;
+  width: 80%;
+}
+.user-bar__singlepost-info .user-bar__singlepost-categoryInfo {
+  display: flex;
+}
+.user-bar__singlepost-info .user-bar__singlepost-categoryInfo > img {
+  margin-right: 2%;
+}
+.user-bar__singlepost-info .voteInfo {
+  width: 10%;
+  display: flex;
+  margin-left: 3%;
+}
+.user-bar__comment-info {
+  display: flex;
+  align-items: center;
+  color: grey;
+}
+.user-bar .user-bar__comment-button {
+  margin-left: 48%;
 }
 .post-page__container {
   display: flex;
@@ -211,24 +252,35 @@ table {
 .post-page__container .post-page__post .post__left-col {
   width: 10%;
 }
+.post-page__container .post-page__post .post__right-col {
+  width: 100%;
+  margin-top: 15px;
+}
 .post-page__container .post-page__comments {
+  margin-top: 15px;
   margin-left: 10%;
 }
 .post-page__container .post-page__comments-header {
+  margin-top: 3%;
   margin-bottom: 1.5%;
 }
 .post-page__container .post-page__comments .post-page__new-comment-header {
   font-size: 1.25em;
-  margin: 1.5% 0;
+  margin: 5% 0 1.5% 0;
 }
 .reply__container {
-  margin-left: 30px;
-  border-left-width: 3px;
+  margin-top: 10px;
+  margin-left: 35px;
+  border-left-width: 5px;
   border-left-color: #f3f5f8;
   border-left-style: solid;
+  padding-left: 1%;
 }
 body {
   font-family: sans-serif;
+}
+li:hover {
+  box-shadow: 5px 5px #f3f5f8;
 }
 .filtermenu__container {
   margin-left: auto;
@@ -543,4 +595,7 @@ body {
 }
 .write-reply__textarea:focus {
   outline-width: 0;
+}
+.comment__container {
+  margin: 20px 0;
 }
