@@ -4,6 +4,8 @@ const knex = require('../../database/db.js');
 
 const connectedUsers = {};
 
+const { _joinVote } = require('./helpers.js')
+
 const storeNotification = (obj) => {
   // console.log('creating new notification...');
   const id = uuidv4();
@@ -35,19 +37,23 @@ const sendNotifications = (userId) => {
   fetch
     .join('user', 'notification.sourceId', '=', 'user.id')
     .join('post', 'notification.postId', '=', 'post.id')
+    .leftJoin( ..._joinVote('post', 'INC') )
+    .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
     .select(
-      'post.categoryId as postCategoryId',
-      'post.commentCount as postCommentCount',
-      'post.content as postContent',
-      'post.createdAt as postCreatedAt',
-      'post.id as postId',
-      'post.updatedAt as postUpdatedAt',
-      'post.userId as postUserId',
-      'post.viewCount as postViewCount',
-      'user.firstName as sourceFirstName',
-      'user.lastName as sourceLastName',
-      'user.profilePicture as sourceProfilePicture',
-      'notification.type as notificationType'
+      'post.categoryId as categoryId',
+      'post.commentCount as commentCount',
+      'post.content as content',
+      'post.createdAt as createdAt',
+      'post.id as id',
+      'post.updatedAt as updatedAt',
+      'post.userId as userId',
+      'post.viewCount as viewCount',
+      'user.firstName as firstName',
+      'user.lastName as lastName',
+      'user.profilePicture as profilePicture',
+      'notification.type as notificationType',
+      'v.upvotes as upvotes',
+      'dv.downvotes as downvotes'
     )
     .then(response => 
       // delete sent notifications from DB

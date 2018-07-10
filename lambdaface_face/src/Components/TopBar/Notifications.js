@@ -10,7 +10,7 @@ const NoticeMeSenpi = (numb) => (
   </div>
 );
 
-const NotificationsMenu = (notifications, clearNotifications) => {
+const NotificationsMenu = (notifications, clearNotifications, changeCurrentCategory) => {
   const grammarParser = (type) => {
     switch(type) {
       case 'comment':
@@ -34,17 +34,18 @@ const NotificationsMenu = (notifications, clearNotifications) => {
         <span>notifications</span>
         <button onClick={clearNotifications}>clear</button>
       </div>
-      { notifications.map(({ sourceFirstName, sourceLastName, sourceProfilePicture, postContent, notificationType }, i) => {
+      { notifications.map((post, i) => {
+        const { firstName, lastName, profilePicture, content, notificationType } = post;
         const [ grammar, parentType ] = grammarParser(notificationType);
         return (
-          <div className={"notifications-menu__item notifications-menu__item" + (i % 2 ? "--light" : "--dark")}>
+          <div onClick={changeCurrentCategory(["PostPage", null], post)} className={"notifications-menu__item notifications-menu__item" + (i % 2 ? "--light" : "--dark")} key={post.id}>
             <div className="notifications-menu__item__user">
-              <img className="notifications-menu__item__user-image" src={sourceProfilePicture} alt={`${sourceFirstName} ${sourceLastName}`} />
-              <strong>{`${sourceFirstName} ${sourceLastName}`}</strong>
+              <img className="notifications-menu__item__user-image" src={profilePicture} alt={`${firstName} ${lastName}`} />
+              <strong>{`${firstName} ${lastName}`}</strong>
             </div>
             <p className="notifications-menu__item__text">
               { grammar } your { parentType }
-              <strong> { contentParser(postContent) }</strong>
+              <strong> { contentParser(content) }</strong>
             </p>
           </div>
         );
@@ -120,7 +121,7 @@ class Notifications extends React.Component {
           alt="notifications icon"  
         />
         { this.state.displayNotificationsMenu
-          ? NotificationsMenu(notifications, this.clearNotifications)
+          ? NotificationsMenu(notifications, this.clearNotifications, this.props.changeCurrentCategory)
           : ''
         }
       </div>
