@@ -106,10 +106,18 @@
     }
     padding: 10px;
     &--dark {
-      background-color: #EEEEEE;
+      background-color: rgb(251, 252, 253);
+      &:hover {
+        cursor: pointer;
+        background-color: darken(rgb(251, 252, 253), 5%);
+      }
     }
     &--light {
-      background-color: white;
+      background-color: rgb(255, 255, 255);
+      &:hover {
+        cursor:pointer;
+        background-color: darken(rgb(255, 255, 255), 5%);
+      }
     }
     &__text {
       & > strong {
