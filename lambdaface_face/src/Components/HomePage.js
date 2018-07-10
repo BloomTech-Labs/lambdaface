@@ -41,15 +41,17 @@ class HomePage extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('just updated', this.state.postsLoaded, this.state.morePosts);
+    // console.log('just updated', this.state.postsLoaded, this.state.morePosts);
     if (!this.state.postsLoaded) {
       this.getPosts();
     }
   }
 
   getPosts = (addingPosts = false) => {
-    const fetchUrl = `${process.env.REACT_APP_URL}api/posts/${this.state.currentPage}/${this.state.currentCategory[1]}`;
-
+    let fetchUrl = `${process.env.REACT_APP_URL}api/posts/${this.state.currentPage}/${this.state.currentCategory[1]}`;
+    if (this.state.currentCategory[0] === 'Newest') {
+      fetchUrl += '/newest';
+    }
     return axios
       .get(fetchUrl)
       .then(res => {
@@ -79,7 +81,7 @@ class HomePage extends React.Component {
   
     if (token) {
       userInfo = jwtDecode(token);
-      return axios.get(`${process.env.REACT_APP_URL}`.concat(`api/users/${userInfo.sub}`))
+      return axios.get(`${process.env.REACT_APP_URL}api/users/${userInfo.sub}`)
         .then((response) => {
           userInfo.firstName = response.data[0].firstName;
           userInfo.lastName = response.data[0].lastName;
@@ -89,20 +91,17 @@ class HomePage extends React.Component {
     }
   };
 
-  getNewestPosts = () => {
-    axios
-      .get(`${process.env.REACT_APP_URL}api/posts/1/${this.state.currentCategory[1]}/newest`)
-      .then((res) => {
-        this.setState({ currentCategory: ["Newest", '0'] })
-        this.setState({ posts: res.data })
-      })
-      .catch((err) => {
-        console.error('ERROR', err)
-      })
+  getNewestPosts = async () => {
+    await this.setState(prev => ({
+      currentCategory: [ 'Newest', prev.currentCategory[1] ],
+      postsLoaded: false,
+      posts: [],
+    }));
+    this.getPosts();
   }
 
   updateImageHash = () => {
-    this.setState({ imageHash: Date.now() })
+    this.setState({ imageHash: Date.now() });
   }
 
   openWS = () => {
