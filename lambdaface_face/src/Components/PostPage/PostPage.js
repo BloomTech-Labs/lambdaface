@@ -3,9 +3,9 @@ import axios from 'axios';
 
 import IconButton from "@material-ui/core/IconButton";
 
-import PostFull from "./PostFull";
 import Comment from "./Comment";
 import WriteComment from "./WriteComment";
+import UserBar from './UserBar';
 
 // import "../../Styles/PostPage.css";
 import backArrow from "../../Assets/BackArrow.svg";
@@ -38,14 +38,22 @@ class PostComments extends React.Component {
   
   render() {
     const { comments, commentsLoaded } = this.state;
-    const { parentId } = this.props;
+    const { parentId, userInfo } = this.props;
     return (
       <div className="post-page__comments">
         <div className="post-page__comments-header">Comments</div>
-        {commentsLoaded && comments.map(comment => (
-          <Comment key={comment.id} comment={comment} userInfo={this.props.userInfo} reloadComments={this.getComments} />
-        ))}
-        {/* {!commentsLoaded && <div>Loading Comments...</div>} */}
+        {
+          commentsLoaded 
+            ? comments.map(comment => (
+                <Comment
+                  key={comment.id}
+                  comment={comment}
+                  userInfo={userInfo}
+                  reloadComments={this.getComments}
+                />
+              ))
+            : <div>Loading Comments... </div>
+        }
         <div className="post-page__new-comment-header">Write a comment</div>
         <WriteComment
           commentInfo={{ parentId, parentType: 'post' }}
@@ -67,7 +75,10 @@ export default props => (
       </div>
 
       <div className="post__right-col">
-        <PostFull post={props.post} currentUser={props.userInfo.sub} />
+        <div>
+        <div>{props.post.content}</div>
+        <UserBar type="singlepost" info={props.post} currentUser={props.currentUser} />
+        </div>
       </div>
     </div>
     <PostComments parentId={props.post.id} userInfo={props.userInfo} />
