@@ -11,10 +11,10 @@ export default props => {
     <div className="top-bar">
       <img src={LambdaLogo} alt="logo" className="top-bar__logo" />
       <Search className="top-bar__search" onSubmit={props.changeCurrentCategory} />
-      <Notifications notifications={props.notifications} clearNotifications={props.clearNotifications} />
+      <Notifications notifications={props.notifications} clearNotifications={props.clearNotifications} changeCurrentCategory={props.changeCurrentCategory} />
       <div className="top-bar__user-button">
         <Button onClick={props.changeCurrentCategory(["User Settings", null])}>
-          <img src={profilePic} alt="profile" className="top-bar__user-image" />
+          <img src={`${profilePic}?${props.imageHash}}`} alt="profile" className="top-bar__user-image" />
         </Button>
       </div>
     </div>

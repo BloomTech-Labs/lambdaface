@@ -10,30 +10,38 @@ class Comment extends React.Component {
   };
 
   toggleReplyingTo = () => {
-    this.setState({ replyingTo: !this.state.replyingTo });
+    this.setState(({ replyingTo }) => ({ replyingTo: !replyingTo }));
   };
 
   render() {
-    const replyingTo = this.state.replyingTo;
+    const { replyingTo } = this.state;
+    const { comment, userInfo } = this.props;
     // console.log(this.props.comment);
     return (
-      <div>
-        <div>{this.props.comment.content}</div>
+      <div className="comment__container">
+        <div className="comment__content">{comment.content}</div>
         <UserBar
-          currentUser={this.props.userInfo.sub}
+          currentUser={userInfo.sub}
           type="comment"
-          info={this.props.comment}
+          info={comment}
           toggleReply={this.toggleReplyingTo}
         />
-        {this.props.comment.comments.map(elem => <Reply key={elem.id} replyInfo={elem} toggleReplyingTo={this.toggleReplyingTo} currentUser={this.props.userInfo.sub} /> )}
+        {comment.comments.map(comment => (
+          <Reply 
+            key={comment.id}
+            replyInfo={comment}
+            toggleReplyingTo={this.toggleReplyingTo}
+            currentUser={userInfo.sub} 
+          />
+        ))}
         {replyingTo && 
           <WriteReply
-            userInfo={this.props.userInfo}
+            userInfo={userInfo}
             commentInfo={{
-              parentId: this.props.comment.id, 
+              parentId: comment.id, 
               parentType: 'comment', 
-              parentFirstName: this.props.comment.firstName, 
-              parentLastName: this.props.comment.lastName 
+              parentFirstName: comment.firstName, 
+              parentLastName: comment.lastName 
             }}
             reloadComments={this.props.reloadComments}
             toggleReplyingTo={this.toggleReplyingTo}
