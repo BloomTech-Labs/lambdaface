@@ -41,6 +41,18 @@ const followPost = (userId, parentId) => {
     })
 }
 
+const unfollowPost = (userId, parentId) => {
+  console.log(userId, parentId);
+  axios
+    .delete(`${process.env.REACT_APP_URL}api/follows`, {data: { userId, parentId }})
+    .then(res => {
+      console.log('successfully unfollowed post!', res);
+    })
+    .catch(err => {
+      console.log('There was an error: ', err.response);
+    })
+}
+
 const UserBar = props => {
   let user;
   let currentUser = props.currentUser;
@@ -123,7 +135,18 @@ const UserBar = props => {
             <div className="votes">{downvotes}</div>
           </div>
           <div>{props.info.commentCount} Comments</div>
-          <Button onClick={() => {followPost(props.currentUser, props.info.id)}}variant="contained" color="primary">Follow thread</Button>
+          <Button 
+            onClick={() => {
+              props.following ? 
+              unfollowPost(props.currentUser, props.info.id)
+              :
+              followPost(props.currentUser, props.info.id)}
+            }
+            variant="contained"
+            color={props.following ? 'default' : 'primary'}
+          >
+            {props.following ? 'Unfollow' : 'Follow Thread' }
+          </Button>
         </div>
       )}
       {props.type === "comment" && (

@@ -14,7 +14,8 @@ class PostPage extends React.Component {
   state = {
     comments: [],
     commentsLoaded: false,
-    currentPostId: ''
+    currentPostId: '',
+    following: null
   };
 
   componentDidMount() {
@@ -35,11 +36,12 @@ class PostPage extends React.Component {
       .get(`${process.env.REACT_APP_URL}`.concat(`api/post/${parentId}/${userId}`))
       .then(resp => {
         const postId = resp.data.id;
+        const isFollowing = resp.data.following || false;
         axios
           .get(`${process.env.REACT_APP_URL}`.concat(`api/comments/${parentId}`))
           .then(res => {
             // console.log(res.data);
-            this.setState({ comments: [...res.data], commentsLoaded: true, currentPostId: postId })
+            this.setState({ comments: [...res.data], commentsLoaded: true, currentPostId: postId, following: isFollowing })
           })
           .catch(err => {
             console.error(err);
@@ -63,7 +65,7 @@ class PostPage extends React.Component {
           </div>
 
           <div className="post__right-col">
-            <PostFull post={this.props.post} currentUser={this.props.userInfo.sub} />
+            <PostFull post={this.props.post} currentUser={this.props.userInfo.sub} following={this.state.following} />
           </div>
         </div>
         <div className="post-page__comments">
