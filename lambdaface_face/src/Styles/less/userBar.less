@@ -2,31 +2,35 @@
   &__container {
     display: flex;
     margin-top: 10px;
-    width: 90%;
+    width: 100%;
   }
   &__info {
     color: grey;
     display: flex;
     align-items: center;
-      > div {
-        margin-left: 5px;
-        margin-right: 5px;
-      }
-      > img {
-        margin-left: 2.5px;
-        margin-right: 2.5px;
-      }
-    .votes {
-      margin-left:0;
-    }
+    width: 70%;
+    justify-content: space-evenly;
   }
   &__userInfo {
-    width: 21%;
+    width: 25%;
     display: flex;
     align-items: center;
     > img{
       margin-right: 10px;
     }
+  }
+  &__voteInfo {
+    display: flex;
+    width: 10%;
+    justify-content: space-evenly;
+  }
+  &__category {
+    display: flex;
+  }
+  &__post-details {
+    display: flex;
+    width: 55%;
+    justify-content: space-between;
   }
   &__singlepost-info {
     display: flex;
@@ -34,25 +38,25 @@
     align-items: center;
     color: grey;
     width: 80%;
-    .user-bar__singlepost-categoryInfo {
+    .user-bar__singlepost-category {
       display: flex;
+      width: 30%;
       > img {
         margin-right: 2%;
       }
-    }
-    .voteInfo {
-      width: 10%;
-      display: flex;
-      margin-left: 3%;
     }
   }
   &__comment-info {
     display: flex;
     align-items: center;
     color: grey;
+    width: 50%;
   }
-  .user-bar__comment-button {
-    margin-left: 48%;
+  &__comment-button {
+    margin-left: 38%;
+  }
+  &__reply-button {
+    margin-left: 22%;
   }
 }
 

@@ -4,6 +4,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
 const LeftNav = props => {
+  console.log('NAVBAR PROPS', props)
   return (
     <List component="nav">
       {props.options.map((category, i) => {
