@@ -27,7 +27,6 @@ const NotificationsMenu = (notifications, clearNotifications, changeCurrentCateg
       ? content.substring(0, content.indexOf(" ", 25))
       : content
   );
-
   return (
     <div id="notifications-menu" className="notifications-menu">
       <div className="notifications-menu__header">

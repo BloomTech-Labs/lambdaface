@@ -112,7 +112,8 @@ class HomePage extends React.Component {
       return;
     }
 
-    const connection = new WebSocket(`ws://lambdaserver.bgmi3t5yei.us-west-2.elasticbeanstalk.com/ws`);
+    const connection = new WebSocket(`ws://localhost:5000/ws`);
+    // const connection = new WebSocket(`ws://lambdaserver.bgmi3t5yei.us-west-2.elasticbeanstalk.com/ws`);
 
     const ping = () => {
       // console.log('Ping!');
