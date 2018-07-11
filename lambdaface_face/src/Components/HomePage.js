@@ -191,9 +191,7 @@ class HomePage extends React.Component {
       if (post) this.setState({ currentPost: { ...post } });
       /* when we change category reset currentPage to 1 */
       if (typeof otherF === "function") {
-        console.log('?')
         otherF(category, passed)
-        console.log('ran')
       } 
       this.setState({ currentPage: 1 });
     }
