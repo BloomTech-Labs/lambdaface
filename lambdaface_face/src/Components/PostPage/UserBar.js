@@ -94,7 +94,7 @@ const UserBar = props => {
             <div className="votes">{downvotes}</div>
           </div>
           <div className="user-bar__category">
-            <img src={require(`../../Assets/GreyCategories/${categories[props.info.categoryId]}.svg`)} alt="CategoryIcon" style={categoryIconStyle} className="grey-svg" />
+            <img src={require(`../../Assets/GreyCategories/${categories[props.info.categoryId]}.svg`)} alt="CategoryIcon" style={categoryIconStyle} />
             <div>{categories[props.info.categoryId]}</div>
           </div>
           <div className="user-bar__post-details">
