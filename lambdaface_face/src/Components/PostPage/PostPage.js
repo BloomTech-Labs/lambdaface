@@ -73,7 +73,7 @@ class PostPage extends React.Component {
 
           <div className="post__right-col">
             <ReactMarkdown className="markdown" source={this.props.post.content} />
-            <UserBar type="singlepost" info={this.props.post} currentUser={this.props.currentUser} following={this.state.following} toggleFollowing={this.toggleFollowing} />
+            <UserBar type="singlepost" info={this.props.post} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} />
           </div>
         </div>
         <div className="post-page__comments">

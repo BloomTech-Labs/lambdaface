@@ -148,9 +148,9 @@ const UserBar = props => {
           <Button 
             onClick={(event) => {
               props.following ? 
-              unfollowPost(event, props.currentUser, props.info.id, props.toggleFollowing)
+              unfollowPost(event, props.currentUser.sub, props.info.id, props.toggleFollowing)
               :
-              followPost(event, props.currentUser, props.info.id, props.toggleFollowing)
+              followPost(event, props.currentUser.sub, props.info.id, props.toggleFollowing)
             }}
             variant="contained"
             className="user-bar__singlepost-followBtn"
