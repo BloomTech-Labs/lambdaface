@@ -1,4 +1,5 @@
 import React from "react";
+import removeMd from 'remove-markdown';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -53,16 +54,20 @@ export default class PostList extends React.Component {
       </div>
     );
   }
-
   render(){
+    const getPreviewReady = content => {
+      const preview = removeMd(content);
+      if (preview.length > 140) {
+        return preview.slice(0, 140) + '...';
+      }
+      return preview;
+    }
     return (
       <div className="postList__container">
         {this.header()}
         <List>
           {this.props.postsArr.map((post, i) => {
-            const postPreview = post.content.length > 140
-              ? post.content.slice(0, 140) + '...'
-              : post.content;
+            const postPreview = getPreviewReady(post.content);
 
             return (
               <ListItem
