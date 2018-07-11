@@ -197,7 +197,7 @@ table {
   display: flex;
   align-items: center;
   width: 70%;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 .user-bar__userInfo {
   width: 25%;
@@ -222,14 +222,15 @@ table {
 }
 .user-bar__singlepost-info {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   color: grey;
   width: 80%;
 }
 .user-bar__singlepost-info .user-bar__singlepost-category {
   display: flex;
-  width: 30%;
+  justify-content: center;
+  width: 26%;
 }
 .user-bar__singlepost-info .user-bar__singlepost-category > img {
   margin-right: 2%;
