@@ -1,5 +1,6 @@
 import React from "react";
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
 
 import IconButton from "@material-ui/core/IconButton";
 
@@ -76,8 +77,8 @@ export default props => (
 
       <div className="post__right-col">
         <div>
-        <div>{props.post.content}</div>
-        <UserBar type="singlepost" info={props.post} currentUser={props.currentUser} />
+          <ReactMarkdown className="markdown" source={props.post.content} />
+          <UserBar type="singlepost" info={props.post} currentUser={props.currentUser} />
         </div>
       </div>
     </div>
