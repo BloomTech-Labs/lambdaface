@@ -108,10 +108,10 @@ const createComment = (req, res) => {
       // send or store each follower's notification, if they are not the source
       followers.forEach(obj => {
         const { userId } = obj
-        // if (userId !== sourceId) {
-          console.log(userId);
+        if (userId !== sourceId) {
+          // console.log(userId);
           sendOrStore(userId, { sourceId, targetId: userId, postId, type: type.concat('follow') }); 
-        // }
+        }
       });
 
       if (sourceId !== targetId) {
