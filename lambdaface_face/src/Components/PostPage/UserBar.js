@@ -56,8 +56,10 @@ const UserBar = props => {
       .post(`${process.env.REACT_APP_URL}`.concat('api/votes'), voteBody)
       .then((res) => {
         if (voteType === "INC") {
+          props.info.upvotes = props.info.upvotes + 1;
           console.log("Upboated!");
         } else {
+          props.info.downvotes = props.info.downvotes + 1;
           console.log("Downboated!");
         }
       })

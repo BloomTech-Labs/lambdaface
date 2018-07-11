@@ -215,6 +215,10 @@ table {
 .user-bar__category {
   display: flex;
 }
+.user-bar__category .categoryIconStyle {
+  transform: scale(0.75);
+  fill: grey;
+}
 .user-bar__post-details {
   display: flex;
   width: 55%;
