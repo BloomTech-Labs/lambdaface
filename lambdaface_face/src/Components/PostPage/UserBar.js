@@ -137,7 +137,6 @@ class UserBar extends React.Component {
               <div className="votes">{downvotes}</div>
             </div>
             <div className="user-bar__category">
-              {/* <img src={require(`../../Assets/GreyCategories/${this.state.categories[this.props.info.categoryId]}.svg`)} alt="CategoryIcon" className="categoryIconStyle" /> */}
               <LeftNavSVG image={this.state.categories[this.props.info.categoryId]} fill="rgb(169,169,169)" />
               <div className="user-bar__category-name">{this.state.categories[this.props.info.categoryId]}</div>
             </div>
@@ -151,7 +150,6 @@ class UserBar extends React.Component {
         {this.props.type === "singlepost" && (
           <div className="user-bar__singlepost-info">
             <div className="user-bar__singlepost-category">
-              {/* <img src={require(`../../Assets/GreyCategories/${this.state.categories[this.props.info.categoryId]}.svg`)} alt="CategoryIcon" className="categoryIconStyle" /> */}
               <LeftNavSVG image={this.state.categories[this.props.info.categoryId]} fill="rgb(169,169,169)" />
               <div className="user-bar__category-name">{this.state.categories[this.props.info.categoryId]}</div>
             </div>
