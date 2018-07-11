@@ -153,8 +153,8 @@ class UserBar extends React.Component {
             <Button onClick={this.props.toggleReply}>Reply</Button>
             <div className="user-bar__voteInfo">
               <div className="votes">{upvotes}</div>
-              <img src={upvote} onClick={voteHandler('INC', 'comment')} alt="Upvotes" height="13px" width="11px" />
-              <img src={downvote} onClick={voteHandler('DEC', 'comment')} alt="Downvotes" height="13px" width="11px" />
+              <img src={upvoteIcon} onClick={voteHandler('INC', 'comment')} alt="Upvotes" height="13px" width="11px" />
+              <img src={downvoteIcon} onClick={voteHandler('DEC', 'comment')} alt="Downvotes" height="13px" width="11px" />
               <div className="votes">{downvotes}</div>
             </div>
           </div>
