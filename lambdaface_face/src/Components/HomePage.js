@@ -165,7 +165,7 @@ class HomePage extends React.Component {
   }
 
 
-  changeCurrentCategory = (category, otherF= null, passed = null, post = null) => event => {
+  changeCurrentCategory = (category, post = null, otherF= null, passed = null ) => event => {
     // reset scroll bar
     window.scrollTo(0, 0);
     /* Posts must be loaded, or the given category must not be part of NavBar options */
@@ -190,7 +190,9 @@ class HomePage extends React.Component {
       if (post) this.setState({ currentPost: { ...post } });
       /* when we change category reset currentPage to 1 */
       if (typeof otherF === "function") {
+        console.log('?')
         otherF(category, passed)
+        console.log('ran')
       } 
       this.setState({ currentPage: 1 });
     }

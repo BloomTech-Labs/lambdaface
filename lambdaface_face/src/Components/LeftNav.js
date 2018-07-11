@@ -26,7 +26,7 @@ class LeftNav extends React.Component {
               style={this.state.currentSelect === category ? {height: "50px", borderLeft: "4px solid #508bcf",}: {height:"50px", borderLeft: "4px solid white"}}
               button
               key={Math.random()}
-              onClick={this.props.changeCurrentCategory([category, i], this.select, this)}>
+              onClick={this.props.changeCurrentCategory([category, i], null, this.select, this)}>
               <img src={image} alt={category} />
               <ListItemText 
                 disableTypography 
