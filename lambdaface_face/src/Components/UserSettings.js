@@ -110,7 +110,7 @@ class UserSettings extends React.Component {
               margin="normal"
               required
             />
-            <TextField
+            {/* <TextField
               id="email-input"
               className="user-settings__text-field"
               label="Email Address"
@@ -120,7 +120,7 @@ class UserSettings extends React.Component {
               onChange={this.handleChange("email")}
               margin="normal"
               required
-            />
+            /> */}
             {/* <TextField
           id="password-input"
           label="Password"
