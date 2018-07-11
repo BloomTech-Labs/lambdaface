@@ -115,24 +115,30 @@ const UserBar = props => {
       {props.type === "allposts" && (
         <div className="user-bar__info">
           {/* TODO: make this dynamic */}
-          <img src={upvote} alt="Upvotes" height="13px" width="11px" />
-          <div className="votes">{upvotes}</div>
-          <img src={downvote} alt="Downvotes" height="13px" width="11px" />
-          <div className="votes">{downvotes}</div>
-          <img src={require(`../../Assets/${categories[props.info.categoryId]}.svg`)} alt="CategoryIcon" style={categoryIconStyle} />
-          <div>{categories[props.info.categoryId]}</div>
-          <div>{convertTime(props.info.createdAt)}</div>
-          <div>{props.info.viewCount} Views</div>
-          <div>{props.info.commentCount} Comments</div>
+          <div className="user-bar__voteInfo">
+            <img src={upvote} alt="Upvotes" height="13px" width="11px" />
+            <div className="votes">{upvotes}</div>
+            <img src={downvote} alt="Downvotes" height="13px" width="11px" />
+            <div className="votes">{downvotes}</div>
+          </div>
+          <div className="user-bar__category">
+            <img src={require(`../../Assets/GreyCategories/${categories[props.info.categoryId]}.svg`)} alt="CategoryIcon" style={categoryIconStyle} />
+            <div>{categories[props.info.categoryId]}</div>
+          </div>
+          <div className="user-bar__post-details">
+            <div>{convertTime(props.info.createdAt)}</div>
+            <div>{props.info.viewCount} Views</div>
+            <div>{props.info.commentCount} Comments</div>
+          </div>
         </div>
       )}
       {props.type === "singlepost" && (
         <div className="user-bar__singlepost-info">
-          <div className="user-bar__singlepost-categoryInfo">
-            <img src={require(`../../Assets/${categories[props.info.categoryId]}.svg`)} alt="CategoryIcon" style={categoryIconStyle} />
+          <div className="user-bar__singlepost-category">
+            <img src={require(`../../Assets/GreyCategories/${categories[props.info.categoryId]}.svg`)} alt="CategoryIcon" style={categoryIconStyle} />
             <div>{categories[props.info.categoryId]}</div>
           </div>
-          <div className="voteInfo">
+          <div className="user-bar__voteInfo">
             <div className="votes">{upvotes}</div>
             <img src={upvote} onClick={vote('INC', 'post')} alt="Upvotes" height="13px" width="11px" />
             <img src={downvote} onClick={vote('DEC', 'post')} alt="Downvotes" height="13px" width="11px" />
@@ -147,6 +153,7 @@ const UserBar = props => {
               followPost(event, props.currentUser, props.info.id, props.toggleFollowing)
             }}
             variant="contained"
+            className="user-bar__singlepost-followBtn"
             color={props.following ? 'default' : 'primary'}
           >
             {props.following ? 'Unfollow' : 'Follow Thread' }
@@ -156,10 +163,12 @@ const UserBar = props => {
       {props.type === "comment" && (
         <div className="user-bar__comment-info">
           <Button onClick={props.toggleReply}>Reply</Button>
-          <div className="votes">{upvotes}</div>
-          <img src={upvote} onClick={vote('INC', 'comment')} alt="Upvotes" height="13px" width="11px" />
-          <img src={downvote} onClick={vote('DEC', 'comment')} alt="Downvotes" height="13px" width="11px" />
-          <div className="votes">{downvotes}</div>
+          <div className="user-bar__voteInfo">
+            <div className="votes">{upvotes}</div>
+            <img src={upvote} onClick={vote('INC', 'comment')} alt="Upvotes" height="13px" width="11px" />
+            <img src={downvote} onClick={vote('DEC', 'comment')} alt="Downvotes" height="13px" width="11px" />
+            <div className="votes">{downvotes}</div>
+          </div>
         </div>
       )}
       {props.type === "writecomment" && (
@@ -168,7 +177,7 @@ const UserBar = props => {
         </div>
       )}
       {props.type === "writereply" && (
-        <div className="user-bar__reply">
+        <div className="user-bar__reply-button">
           <Button onClick={props.submitReply()}>Post Reply</Button>
         </div>
       )}

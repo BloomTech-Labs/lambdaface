@@ -1,4 +1,5 @@
 import React from "react";
+import removeMd from 'remove-markdown';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -27,36 +28,46 @@ export default class PostList extends React.Component {
     }
   }
 
-  header = () => {
-    const category = this.props.category[0];
-    return (
-    <div className="postList__header">
-      <h1 className="postList__header-category">{category}</h1>
-      <FilterMenu
-        className="postList__header-filter"
-        handleNewest={this.props.handleNewest}
-      />
-      <Button 
-        className="postList__header-addPost" 
-        variant="contained" 
-        color="primary" 
-        onClick={this.props.changeCurrentCategory(["AddPost", null])}
-      >
-        Add Post
-      </Button>
-    </div>
-    );
+  insertSpaces = (string) => {
+    string = string.replace(/([a-z])([A-Z])/g, '$1 $2');
+    string = string.replace(/([A-Z])([A-Z][a-z])/g, '$1 $2')
+    return string;
   }
 
+  header = () => {
+    const category = this.insertSpaces(this.props.category[0]);
+    return (
+      <div className="postList__header">
+        <h1 className="postList__header-category">{category}</h1>
+        <FilterMenu
+          className="postList__header-filter"
+          handleNewest={this.props.handleNewest}
+        />
+        <Button 
+          className="postList__header-addPost" 
+          variant="contained" 
+          color="primary" 
+          onClick={this.props.changeCurrentCategory(["AddPost", null])}
+        >
+          Add Post
+        </Button>
+      </div>
+    );
+  }
   render(){
+    const getPreviewReady = content => {
+      const preview = removeMd(content);
+      if (preview.length > 140) {
+        return preview.slice(0, 140) + '...';
+      }
+      return preview;
+    }
     return (
       <div className="postList__container">
         {this.header()}
         <List>
           {this.props.postsArr.map((post, i) => {
-            const postPreview = post.content.length > 140
-              ? post.content.slice(0, 140) + '...'
-              : post.content;
+            const postPreview = getPreviewReady(post.content);
 
             return (
               <ListItem

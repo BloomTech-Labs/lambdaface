@@ -1,11 +1,12 @@
 import React from "react";
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
 
 import IconButton from "@material-ui/core/IconButton";
 
-import PostFull from "./PostFull";
 import Comment from "./Comment";
 import WriteComment from "./WriteComment";
+import UserBar from './UserBar';
 
 // import "../../Styles/PostPage.css";
 import backArrow from "../../Assets/BackArrow.svg";
@@ -47,6 +48,7 @@ class PostPage extends React.Component {
             console.error(err);
           });
       })
+      .catch(error => console.error(error));
     // this.setState({ comments: [...testcomments], commentsLoaded: true });
   };
 
@@ -58,10 +60,8 @@ class PostPage extends React.Component {
   }
 
   render() {
-    const comments = this.state.comments;
-    const commentsLoaded = this.state.commentsLoaded;
-    // console.log("rendered post page");
-    // console.log(this.state.comments);
+    const { comments, commentsLoaded } = this.state;
+    const { userInfo } = this.props;
     return (
       <div className="post-page__container">
         <div className="post-page__post">
@@ -72,16 +72,24 @@ class PostPage extends React.Component {
           </div>
 
           <div className="post__right-col">
-            <PostFull post={this.props.post} currentUser={this.props.userInfo.sub} following={this.state.following} toggleFollowing={this.toggleFollowing} />
+            <ReactMarkdown className="markdown" source={this.props.post.content} />
+            <UserBar type="singlepost" info={this.props.post} currentUser={this.props.currentUser} following={this.state.following} toggleFollowing={this.toggleFollowing} />
           </div>
         </div>
         <div className="post-page__comments">
           <div className="post-page__comments-header">Comments</div>
-          {commentsLoaded &&
-          comments.map((elem, i) => (
-            <Comment key={elem.id} comment={elem} userInfo={this.props.userInfo} reloadComments={this.getComments} />
-          ))}
-          {/* {!commentsLoaded && <div>Loading Comments...</div>} */}
+          {
+            commentsLoaded 
+              ? comments.map(comment => (
+                <Comment
+                  key={comment.id}
+                  comment={comment}
+                  userInfo={userInfo}
+                  reloadComments={this.getComments}
+                />
+                ))
+              : <div>Loading Comments... </div>
+          }
           <div className="post-page__new-comment-header">Write a comment</div>
           <WriteComment
             commentInfo={{ parentId: this.props.post.id, parentType: 'post' }}
