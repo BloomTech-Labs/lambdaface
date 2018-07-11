@@ -53,4 +53,3 @@ class FilterMenu extends React.Component {
 }
 
 export default FilterMenu;
-
