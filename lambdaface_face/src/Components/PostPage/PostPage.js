@@ -13,11 +13,18 @@ import backArrow from "../../Assets/BackArrow.svg";
 class PostPage extends React.Component {
   state = {
     comments: [],
-    commentsLoaded: false
+    commentsLoaded: false,
+    currentPostId: ''
   };
 
   componentDidMount() {
     this.getComments();
+  }
+
+  componentDidUpdate() {
+    if (this.state.currentPostId !== this.props.post.id) {
+      this.getComments();
+    }
   }
 
   getComments = () => {
@@ -26,11 +33,12 @@ class PostPage extends React.Component {
     axios
       .get(`${process.env.REACT_APP_URL}`.concat(`api/post/${parentId}`))
       .then(res => {
+        const postId = res.data.id;
         axios
           .get(`${process.env.REACT_APP_URL}`.concat(`api/comments/${parentId}`))
           .then(res => {
             // console.log(res.data);
-            this.setState({ comments: [...res.data], commentsLoaded: true })
+            this.setState({ comments: [...res.data], commentsLoaded: true, currentPostId: postId })
           })
           .catch(err => {
             console.error(err);
