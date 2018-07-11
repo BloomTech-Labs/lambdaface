@@ -26,15 +26,6 @@ class UserBar extends React.Component {
   }
   
   render() {
-    const convertTime = time => {
-      const splitTime = time.split(/[- 'T']/);
-      // console.log(splitTime);
-      
-      // const date = new Date(Date.UTC(splitTime[0], splitTime[1]-1, splitTime[2], splitTime[3], splitTime[4], splitTime[5]));
-      
-      // return date.toDateString().slice(4);
-      return `${splitTime[1]}-${splitTime[2]}-${splitTime[0]}`;
-    };
     let user;
     let upvoteIcon = this.state.upvoted ? upvoteBlack : upvoteGrey;
     let downvoteIcon = this.state.downvoted ? downvoteBlack : downvoteGrey;
@@ -52,6 +43,39 @@ class UserBar extends React.Component {
     } else {
       user = this.props.info.nickname;
     }
+
+    const convertTime = time => {
+      const splitTime = time.split(/[- 'T']/);
+      return `${splitTime[1]}-${splitTime[2]}-${splitTime[0]}`;
+    };
+
+    const followPost = (e, userId, parentId, toggleFollowing) => {
+      e.preventDefault();
+      // console.log('following', userId, parentId);
+      axios
+        .post(`${process.env.REACT_APP_URL}api/follows`, { userId, parentId })
+        .then(res => {
+          console.log('successfully followed post!', res);
+          toggleFollowing();
+        })
+        .catch(err => {
+          console.log('There was an error: ', err.response);
+        })
+    };
+
+    const unfollowPost = (e, userId, parentId, toggleFollowing) => {
+      e.preventDefault();
+      // console.log('unfollowing', userId, parentId);
+      axios
+        .delete(`${process.env.REACT_APP_URL}api/follows`, {data: { userId, parentId }})
+        .then(res => {
+          console.log('successfully unfollowed post!', res);
+          toggleFollowing();
+        })
+        .catch(err => {
+          console.log('There was an error: ', err.response);
+        })
+    };
 
     const alreadyVoted = () => event => {
       event.stopPropagation();
@@ -133,7 +157,19 @@ class UserBar extends React.Component {
               <div className="votes">{downvotes}</div>
             </div>
             <div>{this.props.info.commentCount} Comments</div>
-            <Button variant="contained" color="primary" className="user-bar__singlepost-followBtn">Follow thread</Button>
+            <Button 
+              onClick={(event) => {
+                this.props.following ? 
+                unfollowPost(event, this.props.currentUser.sub, this.props.info.id, this.props.toggleFollowing)
+                :
+                followPost(event, this.props.currentUser.sub, this.props.info.id, this.props.toggleFollowing)
+              }}
+              variant="contained"
+              className="user-bar__singlepost-followBtn"
+              color={this.props.following ? 'default' : 'primary'}
+            >
+              {this.props.following ? 'Unfollow' : 'Follow Thread' }
+            </Button>          
           </div>
         )}
         {this.props.type === "comment" && (
