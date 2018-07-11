@@ -190,57 +190,62 @@ table {
 .user-bar__container {
   display: flex;
   margin-top: 10px;
-  width: 90%;
+  width: 100%;
 }
 .user-bar__info {
   color: grey;
   display: flex;
   align-items: center;
-}
-.user-bar__info > div {
-  margin-left: 5px;
-  margin-right: 5px;
-}
-.user-bar__info > img {
-  margin-left: 2.5px;
-  margin-right: 2.5px;
-}
-.user-bar__info .votes {
-  margin-left: 0;
+  width: 70%;
+  justify-content: space-between;
 }
 .user-bar__userInfo {
-  width: 21%;
+  width: 25%;
   display: flex;
   align-items: center;
 }
 .user-bar__userInfo > img {
   margin-right: 10px;
 }
+.user-bar__voteInfo {
+  display: flex;
+  width: 10%;
+  justify-content: space-evenly;
+}
+.user-bar__category {
+  display: flex;
+}
+.user-bar__post-details {
+  display: flex;
+  width: 55%;
+  justify-content: space-between;
+}
 .user-bar__singlepost-info {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   color: grey;
   width: 80%;
 }
-.user-bar__singlepost-info .user-bar__singlepost-categoryInfo {
+.user-bar__singlepost-info .user-bar__singlepost-category {
   display: flex;
+  justify-content: center;
+  width: 26%;
 }
-.user-bar__singlepost-info .user-bar__singlepost-categoryInfo > img {
+.user-bar__singlepost-info .user-bar__singlepost-category > img {
   margin-right: 2%;
-}
-.user-bar__singlepost-info .voteInfo {
-  width: 10%;
-  display: flex;
-  margin-left: 3%;
 }
 .user-bar__comment-info {
   display: flex;
   align-items: center;
   color: grey;
+  width: 50%;
 }
-.user-bar .user-bar__comment-button {
-  margin-left: 48%;
+.user-bar__comment-button {
+  margin-left: 38%;
+}
+.user-bar__reply-button {
+  margin-left: 22%;
 }
 .post-page__container {
   display: flex;
@@ -477,6 +482,9 @@ li:hover {
 .notifications-menu__item__text > strong {
   font-weight: bold;
 }
+.filter-menu__text {
+  margin-left: 10px;
+}
 .home-page__bottom {
   display: flex;
 }
@@ -587,6 +595,7 @@ li:hover {
   outline-width: 0;
 }
 .write-reply__textarea {
+  margin-top: 1%;
   width: 60%;
   font-size: 1.1em;
   background-color: #fbfcfd;

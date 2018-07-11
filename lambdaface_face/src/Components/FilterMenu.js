@@ -23,13 +23,15 @@ class FilterMenu extends React.Component {
 
     return (
       <div className="filtermenu__container">
-        <img src={FilterBy} alt="Filter" />
         <Button
           aria-owns={anchorEl ? 'filter-menu' : null}
           aria-haspopup="true"
           onClick={this.handleClick}
         >
-          Filter by
+          <img src={FilterBy} alt="Filter" className="filter-menu__icon" />
+          <span className="filter-menu__text">
+            Filter by
+          </span>
         </Button>
         <Menu
           id="filter-menu"
