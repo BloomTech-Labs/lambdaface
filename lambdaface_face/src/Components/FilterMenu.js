@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import FilterBy from "../Assets/Filter By.svg";
+import FilterBy from "../Assets/FilterBy.svg";
 
 class FilterMenu extends React.Component {
   state = {

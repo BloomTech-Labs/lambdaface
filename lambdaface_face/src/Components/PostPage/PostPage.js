@@ -65,7 +65,6 @@ class PostComments extends React.Component {
     );
   }
 }
-
 export default props => (
   <div className="post-page__container">
     <div className="post-page__post">
@@ -78,7 +77,7 @@ export default props => (
       <div className="post__right-col">
         <div>
           <ReactMarkdown className="markdown" source={props.post.content} />
-          <UserBar type="singlepost" info={props.post} currentUser={props.currentUser} />
+          <UserBar type="singlepost" info={props.post} currentUser={props.userInfo.sub} />
         </div>
       </div>
     </div>
