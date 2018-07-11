@@ -30,7 +30,7 @@ module.exports = (server) => {
   server.route('/api/search/:query')
     .get(searchPosts);
 
-  server.route('/api/post/:id')
+  server.route('/api/post/:id/:userId')
     .get(getPostById)
     .put(editPost)
     .delete(deletePost);

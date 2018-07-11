@@ -30,10 +30,11 @@ class PostPage extends React.Component {
   getComments = () => {
     // console.log(this.props.post);
     const parentId = this.props.post.id;
+    const userId = this.props.userInfo.sub;
     axios
-      .get(`${process.env.REACT_APP_URL}`.concat(`api/post/${parentId}`))
-      .then(res => {
-        const postId = res.data.id;
+      .get(`${process.env.REACT_APP_URL}`.concat(`api/post/${parentId}/${userId}`))
+      .then(resp => {
+        const postId = resp.data.id;
         axios
           .get(`${process.env.REACT_APP_URL}`.concat(`api/comments/${parentId}`))
           .then(res => {
