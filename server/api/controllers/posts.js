@@ -24,6 +24,9 @@ const getPosts = (req, res) => {
   }
   if (filter === 'newest') {
     fetch = fetch.orderBy('createdAt', 'desc');
+  } else {
+    fetch = fetch.orderBy(knex.raw('(v.upvotes * 5) - EXTRACT(HOUR FROM (NOW() - post.createdAt))'), 'DESC');
+    fetch = fetch.select(knex.raw('*, NOW() - post.createdAt AS ITEM2'))
   }
 
   fetch
@@ -33,12 +36,11 @@ const getPosts = (req, res) => {
     .leftJoin( ..._joinVote('post', 'INC') )
     .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
     .then((response) => {
-      
-      res.status(SUCCESS_CODE).json(response.sort((p, p2) => {
-        return ((p.upvotes * 5) - p.createdAt) - ((p2.upvotes * 5) - p2.createdAt);
-      }));
+      console.log(response);
+      res.status(SUCCESS_CODE).json(response);
     })
     .catch((error) => {
+      console.log(error.message);
       res.status(SERVER_ERRROR).json({ error })
     });
 };
