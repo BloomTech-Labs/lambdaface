@@ -219,6 +219,9 @@ table {
   transform: scale(0.75);
   fill: grey;
 }
+.user-bar__category-name {
+  margin-left: 3px;
+}
 .user-bar__post-details {
   display: flex;
   width: 55%;

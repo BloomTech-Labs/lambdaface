@@ -3,186 +3,205 @@ import axios from "axios";
 
 import Button from "@material-ui/core/Button";
 
-import upvote from "../../Assets/upvote.svg";
-import downvote from "../../Assets/downvote.svg";
+import upvoteGrey from "../../Assets/upvote.svg";
+import downvoteGrey from "../../Assets/downvote.svg";
 
-// import "../../Styles/UserBar.css";
+import upvoteBlack from "../../Assets/upvoteBlack.svg";
+import downvoteBlack from "../../Assets/downvoteBlack.svg";
 
-const categories = [
-  "All Posts",
-  "Announcements",
-  "Dev Team",
-  "Design Team",
-  "Marketing",
-  "HR",
-  "Product Managers",
-  "QA"
-];
+import LeftNavSVG from "../../Assets/LeftNavCategory/LeftNavSVG";
 
-const convertTime = time => {
-  const splitTime = time.split(/[- 'T']/);
-  // console.log(splitTime);
 
-  // const date = new Date(Date.UTC(splitTime[0], splitTime[1]-1, splitTime[2], splitTime[3], splitTime[4], splitTime[5]));
-
-  // return date.toDateString().slice(4);
-  return `${splitTime[1]}-${splitTime[2]}-${splitTime[0]}`;
-};
-
-const followPost = (e, userId, parentId, toggleFollowing) => {
-  e.preventDefault();
-  // console.log('following', userId, parentId);
-  axios
-    .post(`${process.env.REACT_APP_URL}api/follows`, { userId, parentId })
-    .then(res => {
-      console.log('successfully followed post!', res);
-      toggleFollowing();
-    })
-    .catch(err => {
-      console.log('There was an error: ', err.response);
-    })
-}
-
-const unfollowPost = (e, userId, parentId, toggleFollowing) => {
-  e.preventDefault();
-  // console.log('unfollowing', userId, parentId);
-  axios
-    .delete(`${process.env.REACT_APP_URL}api/follows`, {data: { userId, parentId }})
-    .then(res => {
-      console.log('successfully unfollowed post!', res);
-      toggleFollowing();
-    })
-    .catch(err => {
-      console.log('There was an error: ', err.response);
-    })
-}
-
-const UserBar = props => {
-  let user;
-  let currentUser = props.currentUser;
-  let upvotes = props.info.upvotes;
-  let downvotes = props.info.downvotes;
-  let authorPic = props.info.profilePicture;
+class UserBar extends React.Component {
+  state = {
+    categories: [
+      "All Posts",
+      "Announcements",
+      "Dev Team",
+      "Design Team",
+      "Marketing",
+      "HR",
+      "Product Managers",
+      "QA"
+    ],
+    upvoted: false,
+    downvoted: false,
+  }
   
-  if (!upvotes) upvotes = 0;
-  if (!downvotes) downvotes = 0;
+  render() {
+    let user;
+    let upvoteIcon = this.state.upvoted ? upvoteBlack : upvoteGrey;
+    let downvoteIcon = this.state.downvoted ? downvoteBlack : downvoteGrey;
+    let voteHandler;
+    let currentUser = this.props.currentUser;
+    let upvotes = this.props.info.upvotes;
+    let downvotes = this.props.info.downvotes;
+    let authorPic = this.props.info.profilePicture;
+    
+    if (!upvotes) upvotes = 0;
+    if (!downvotes) downvotes = 0;
 
-  if (props.info.firstName) {
-    user = props.info.firstName.concat(` ${props.info.lastName}`);
-  } else {
-    user = props.info.nickname;
-  }
-  const vote = (voteType, parentType) => event => {
-    const voteBody = {
-      userId: currentUser,
-      parentId: props.info.id,
-      voteType: voteType,
-      parentType: parentType
+    if (this.props.info.firstName) {
+      user = this.props.info.firstName.concat(` ${this.props.info.lastName}`);
+    } else {
+      user = this.props.info.nickname;
     }
-    event.stopPropagation();
-    axios
-      .post(`${process.env.REACT_APP_URL}`.concat('api/votes'), voteBody)
-      .then((res) => {
-        if (voteType === "INC") {
-          console.log("Upboated!");
-        } else {
-          console.log("Downboated!");
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-  }
 
-  const imgStyle = {
-    width: "35px",
-    height: "35px",
-    borderRadius: "50%",  
-  };
+    const convertTime = time => {
+      const splitTime = time.split(/[- 'T']/);
+      return `${splitTime[1]}-${splitTime[2]}-${splitTime[0]}`;
+    };
 
-  const categoryIconStyle = {
-    transform: "scale(0.75)",
-    fill: "grey",
-  };
+    const followPost = (e, userId, parentId, toggleFollowing) => {
+      e.preventDefault();
+      // console.log('following', userId, parentId);
+      axios
+        .post(`${process.env.REACT_APP_URL}api/follows`, { userId, parentId })
+        .then(res => {
+          console.log('successfully followed post!', res);
+          toggleFollowing();
+        })
+        .catch(err => {
+          console.log('There was an error: ', err.response);
+        })
+    };
 
-  return (
-    <div className="user-bar__container">
-      {/* <div /> */}
-      <div className="user-bar__userInfo">
-        <img src={authorPic} alt="PostPicture" style={imgStyle} />
-        <span>{user}</span>
+    const unfollowPost = (e, userId, parentId, toggleFollowing) => {
+      e.preventDefault();
+      // console.log('unfollowing', userId, parentId);
+      axios
+        .delete(`${process.env.REACT_APP_URL}api/follows`, {data: { userId, parentId }})
+        .then(res => {
+          console.log('successfully unfollowed post!', res);
+          toggleFollowing();
+        })
+        .catch(err => {
+          console.log('There was an error: ', err.response);
+        })
+    };
+
+    const alreadyVoted = () => event => {
+      event.stopPropagation();
+      console.log("Already voted!");
+    }
+
+    const vote = (voteType, parentType) => event => {
+      const voteBody = {
+        userId: currentUser.sub,
+        parentId: this.props.info.id,
+        voteType: voteType,
+        parentType: parentType
+      }
+      event.stopPropagation();
+      axios
+        .post(`${process.env.REACT_APP_URL}`.concat('api/votes'), voteBody)
+        .then((res) => {
+          if (voteType === "INC") {
+            this.props.info.upvotes = this.props.info.upvotes + 1;
+            this.setState({ upvoted: true, downvoted: false });
+          } else {
+            this.props.info.downvotes = this.props.info.downvotes + 1;
+            this.setState({ upvoted: false, downvoted: true });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+    }
+
+    if (this.state.upvoted || this.state.downvoted) {
+      voteHandler = alreadyVoted;
+    } else {
+      voteHandler = vote;
+    }
+  
+    const profilePicStyle = {
+      width: "35px",
+      height: "35px",
+      borderRadius: "50%",  
+    };
+
+    return (
+      <div className="user-bar__container">
+        <div className="user-bar__userInfo">
+          <img src={authorPic} alt="PostPicture" style={profilePicStyle} />
+          <span>{user}</span>
+        </div>
+        {this.props.type === "allposts" && (
+          <div className="user-bar__info">
+            {/* TODO: make this dynamic */}
+            <div className="user-bar__voteInfo">
+              <img src={upvoteIcon} alt="Upvotes" height="13px" width="11px" />
+              <div className="votes">{upvotes}</div>
+              <img src={downvoteIcon} alt="Downvotes" height="13px" width="11px" />
+              <div className="votes">{downvotes}</div>
+            </div>
+            <div className="user-bar__category">
+              {/* <img src={require(`../../Assets/GreyCategories/${this.state.categories[this.props.info.categoryId]}.svg`)} alt="CategoryIcon" className="categoryIconStyle" /> */}
+              <LeftNavSVG image={this.state.categories[this.props.info.categoryId]} fill="rgb(169,169,169)" />
+              <div className="user-bar__category-name">{this.state.categories[this.props.info.categoryId]}</div>
+            </div>
+            <div className="user-bar__post-details">
+              <div>{convertTime(this.props.info.createdAt)}</div>
+              <div>{this.props.info.viewCount} Views</div>
+              <div>{this.props.info.commentCount} Comments</div>
+            </div>
+          </div>
+        )}
+        {this.props.type === "singlepost" && (
+          <div className="user-bar__singlepost-info">
+            <div className="user-bar__singlepost-category">
+              {/* <img src={require(`../../Assets/GreyCategories/${this.state.categories[this.props.info.categoryId]}.svg`)} alt="CategoryIcon" className="categoryIconStyle" /> */}
+              <LeftNavSVG image={this.state.categories[this.props.info.categoryId]} fill="rgb(169,169,169)" />
+              <div className="user-bar__category-name">{this.state.categories[this.props.info.categoryId]}</div>
+            </div>
+            <div className="user-bar__voteInfo">
+              <div className="votes">{upvotes}</div>
+              <img src={upvoteIcon} onClick={voteHandler('INC', 'post')} alt="Upvotes" height="13px" width="11px" />
+              <img src={downvoteIcon} onClick={voteHandler('DEC', 'post')} alt="Downvotes" height="13px" width="11px" />
+              <div className="votes">{downvotes}</div>
+            </div>
+            <div>{this.props.info.commentCount} Comments</div>
+            <Button 
+              onClick={(event) => {
+                this.props.following ? 
+                unfollowPost(event, this.props.currentUser.sub, this.props.info.id, this.props.toggleFollowing)
+                :
+                followPost(event, this.props.currentUser.sub, this.props.info.id, this.props.toggleFollowing)
+              }}
+              variant="contained"
+              className="user-bar__singlepost-followBtn"
+              color={this.props.following ? 'default' : 'primary'}
+              style={this.props.info.userId !== this.props.currentUser.sub ? {visibility: 'visible'} : {visibility: 'hidden'}}
+            >
+              {this.props.following ? 'Unfollow' : 'Follow Thread' }
+            </Button>          
+          </div>
+        )}
+        {this.props.type === "comment" && (
+          <div className="user-bar__comment-info">
+            <Button onClick={this.props.toggleReply}>Reply</Button>
+            <div className="user-bar__voteInfo">
+              <div className="votes">{upvotes}</div>
+              <img src={upvoteIcon} onClick={voteHandler('INC', 'comment')} alt="Upvotes" height="13px" width="11px" />
+              <img src={downvoteIcon} onClick={voteHandler('DEC', 'comment')} alt="Downvotes" height="13px" width="11px" />
+              <div className="votes">{downvotes}</div>
+            </div>
+          </div>
+        )}
+        {this.props.type === "writecomment" && (
+          <div className="user-bar__comment-button">
+            <Button onClick={this.props.submitComment()}>Post Comment</Button>
+          </div>
+        )}
+        {this.props.type === "writereply" && (
+          <div className="user-bar__reply-button">
+            <Button onClick={this.props.submitReply()}>Post Reply</Button>
+          </div>
+        )}
       </div>
-      {props.type === "allposts" && (
-        <div className="user-bar__info">
-          {/* TODO: make this dynamic */}
-          <div className="user-bar__voteInfo">
-            <img src={upvote} alt="Upvotes" height="13px" width="11px" />
-            <div className="votes">{upvotes}</div>
-            <img src={downvote} alt="Downvotes" height="13px" width="11px" />
-            <div className="votes">{downvotes}</div>
-          </div>
-          <div className="user-bar__category">
-            <img src={require(`../../Assets/GreyCategories/${categories[props.info.categoryId]}.svg`)} alt="CategoryIcon" style={categoryIconStyle} />
-            <div>{categories[props.info.categoryId]}</div>
-          </div>
-          <div className="user-bar__post-details">
-            <div>{convertTime(props.info.createdAt)}</div>
-            <div>{props.info.viewCount} Views</div>
-            <div>{props.info.commentCount} Comments</div>
-          </div>
-        </div>
-      )}
-      {props.type === "singlepost" && (
-        <div className="user-bar__singlepost-info">
-          <div className="user-bar__singlepost-category">
-            <img src={require(`../../Assets/GreyCategories/${categories[props.info.categoryId]}.svg`)} alt="CategoryIcon" style={categoryIconStyle} />
-            <div>{categories[props.info.categoryId]}</div>
-          </div>
-          <div className="user-bar__voteInfo">
-            <div className="votes">{upvotes}</div>
-            <img src={upvote} onClick={vote('INC', 'post')} alt="Upvotes" height="13px" width="11px" />
-            <img src={downvote} onClick={vote('DEC', 'post')} alt="Downvotes" height="13px" width="11px" />
-            <div className="votes">{downvotes}</div>
-          </div>
-          <div>{props.info.commentCount} Comments</div>
-          <Button 
-            onClick={(event) => {
-              props.following ? 
-              unfollowPost(event, props.currentUser.sub, props.info.id, props.toggleFollowing)
-              :
-              followPost(event, props.currentUser.sub, props.info.id, props.toggleFollowing)
-            }}
-            variant="contained"
-            className="user-bar__singlepost-followBtn"
-            color={props.following ? 'default' : 'primary'}
-          >
-            {props.following ? 'Unfollow' : 'Follow Thread' }
-          </Button>
-        </div>
-      )}
-      {props.type === "comment" && (
-        <div className="user-bar__comment-info">
-          <Button onClick={props.toggleReply}>Reply</Button>
-          <div className="user-bar__voteInfo">
-            <div className="votes">{upvotes}</div>
-            <img src={upvote} onClick={vote('INC', 'comment')} alt="Upvotes" height="13px" width="11px" />
-            <img src={downvote} onClick={vote('DEC', 'comment')} alt="Downvotes" height="13px" width="11px" />
-            <div className="votes">{downvotes}</div>
-          </div>
-        </div>
-      )}
-      {props.type === "writecomment" && (
-        <div className="user-bar__comment-button">
-          <Button onClick={props.submitComment()}>Post Comment</Button>
-        </div>
-      )}
-      {props.type === "writereply" && (
-        <div className="user-bar__reply-button">
-          <Button onClick={props.submitReply()}>Post Reply</Button>
-        </div>
-      )}
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default UserBar;
