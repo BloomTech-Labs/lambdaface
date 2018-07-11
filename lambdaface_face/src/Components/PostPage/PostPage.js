@@ -50,6 +50,13 @@ class PostPage extends React.Component {
     // this.setState({ comments: [...testcomments], commentsLoaded: true });
   };
 
+  toggleFollowing = () => {
+    // console.log('Following has been toggled!')
+    this.setState(prev => ({
+      following: !prev.following
+    }));
+  }
+
   render() {
     const comments = this.state.comments;
     const commentsLoaded = this.state.commentsLoaded;
@@ -65,7 +72,7 @@ class PostPage extends React.Component {
           </div>
 
           <div className="post__right-col">
-            <PostFull post={this.props.post} currentUser={this.props.userInfo.sub} following={this.state.following} />
+            <PostFull post={this.props.post} currentUser={this.props.userInfo.sub} following={this.state.following} toggleFollowing={this.toggleFollowing} />
           </div>
         </div>
         <div className="post-page__comments">
