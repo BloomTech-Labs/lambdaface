@@ -60,7 +60,7 @@ const searchPosts = (req, res) => {
 }
 
 const getPostById = (req, res) => {
-  const { id } = req.params;
+  const { id, userId } = req.params;
 
   knex('post')
     .where({ id })
@@ -72,6 +72,14 @@ const getPostById = (req, res) => {
       await knex('post')
         .where({ id })
         .update({ viewCount: ++response.viewCount });
+
+      const arr = await knex('follow').where({ parentId: id, userId });
+
+      if (arr.length === 1) {
+        response.following = true;
+      } else if (arr.length === 0) {
+        response.following = false;
+      }
 
       res.status(SUCCESS_CODE).json(response);
     })
