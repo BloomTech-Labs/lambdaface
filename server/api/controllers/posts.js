@@ -33,7 +33,10 @@ const getPosts = (req, res) => {
     .leftJoin( ..._joinVote('post', 'INC') )
     .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
     .then((response) => {
-      res.status(SUCCESS_CODE).json(response)
+      
+      res.status(SUCCESS_CODE).json(response.sort((p, p2) => {
+        return ((p.upvotes * 5) - p.createdAt) - ((p2.upvotes * 5) - p2.createdAt);
+      }));
     })
     .catch((error) => {
       res.status(SERVER_ERRROR).json({ error })
