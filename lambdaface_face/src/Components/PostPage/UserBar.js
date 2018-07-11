@@ -29,6 +29,34 @@ const convertTime = time => {
   return `${splitTime[1]}-${splitTime[2]}-${splitTime[0]}`;
 };
 
+const followPost = (e, userId, parentId, toggleFollowing) => {
+  e.preventDefault();
+  // console.log('following', userId, parentId);
+  axios
+    .post(`${process.env.REACT_APP_URL}api/follows`, { userId, parentId })
+    .then(res => {
+      console.log('successfully followed post!', res);
+      toggleFollowing();
+    })
+    .catch(err => {
+      console.log('There was an error: ', err.response);
+    })
+}
+
+const unfollowPost = (e, userId, parentId, toggleFollowing) => {
+  e.preventDefault();
+  // console.log('unfollowing', userId, parentId);
+  axios
+    .delete(`${process.env.REACT_APP_URL}api/follows`, {data: { userId, parentId }})
+    .then(res => {
+      console.log('successfully unfollowed post!', res);
+      toggleFollowing();
+    })
+    .catch(err => {
+      console.log('There was an error: ', err.response);
+    })
+}
+
 const UserBar = props => {
   let user;
   let currentUser = props.currentUser;
@@ -117,7 +145,19 @@ const UserBar = props => {
             <div className="votes">{downvotes}</div>
           </div>
           <div>{props.info.commentCount} Comments</div>
-          <Button variant="contained" color="primary" className="user-bar__singlepost-followBtn">Follow thread</Button>
+          <Button 
+            onClick={(event) => {
+              props.following ? 
+              unfollowPost(event, props.currentUser.sub, props.info.id, props.toggleFollowing)
+              :
+              followPost(event, props.currentUser.sub, props.info.id, props.toggleFollowing)
+            }}
+            variant="contained"
+            className="user-bar__singlepost-followBtn"
+            color={props.following ? 'default' : 'primary'}
+          >
+            {props.following ? 'Unfollow' : 'Follow Thread' }
+          </Button>
         </div>
       )}
       {props.type === "comment" && (
