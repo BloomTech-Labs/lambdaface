@@ -77,7 +77,7 @@ export default class PostList extends React.Component {
                 onClick={this.props.changeCurrentCategory(["PostPage", null], post.id)}
               >
                 <ListItemText className="listItem__top" primary={postPreview} />
-                <UserBar className="listItem__bottom" info={post} type="allposts" />
+                <UserBar className="listItem__bottom" info={post} type="allposts" imageHash={this.props.imageHash} />
               </ListItem>
             );
           })}

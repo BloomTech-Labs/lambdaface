@@ -26,12 +26,13 @@ class Uploader extends React.Component {
       }
       axios.put(signedUrl, file, options)
       .then((result) => {
-        this.props.updateImageHash();
+        this.props.updateImageHash()
         axios.put(`${process.env.REACT_APP_URL}`.concat(`api/users/${this.state.userId}`), {
           profilePicture: `https://s3-us-west-2.amazonaws.com/lambdaface-photos/photos/${this.state.userId}`
         })
         .then((result) => {
-          this.setState({profilePicture: `https://s3-us-west-2.amazonaws.com/lambdaface-photos/photos/${this.state.userId}`, imageHash: Date.now() });
+          this.props.updatePic();
+          this.setState({imageHash: Date.now()});
         })
         .catch(err => {
           console.error(err);
@@ -45,7 +46,6 @@ class Uploader extends React.Component {
       console.error(err);
     })
   };
-
   render() {
     const imageSize = {
       width: '175px',

@@ -134,7 +134,7 @@ class UserBar extends React.Component {
     return (
       <div className="user-bar__container">
         <div className="user-bar__userInfo">
-          <img src={authorPic} alt="PostPicture" style={profilePicStyle} />
+          <img src={`${authorPic}?${this.props.imageHash}`} alt="PostPicture" style={profilePicStyle} />
           <span>{user}</span>
         </div>
         {this.props.type === "allposts" && (
