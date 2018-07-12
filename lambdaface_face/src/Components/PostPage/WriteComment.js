@@ -51,6 +51,7 @@ class WriteComment extends React.Component {
           type="writecomment"
           info={this.props.userInfo}
           submitComment={this.submitComment}
+          imageHash={this.props.imageHash}
         />
       </form>
     );
