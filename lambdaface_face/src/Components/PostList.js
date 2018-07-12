@@ -74,7 +74,7 @@ export default class PostList extends React.Component {
                 className={i % 2 ? "postList__listItem-odd" : "postList__listItem-even"}
                 style={{ alignItems: "flex-start" }}
                 key={post.id}
-                onClick={this.props.changeCurrentCategory(["PostPage", null], post)}
+                onClick={this.props.changeCurrentCategory(["PostPage", null], post.id)}
               >
                 <ListItemText className="listItem__top" primary={postPreview} />
                 <UserBar className="listItem__bottom" info={post} type="allposts" />
