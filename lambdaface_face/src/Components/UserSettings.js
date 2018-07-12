@@ -110,26 +110,26 @@ class UserSettings extends React.Component {
               margin="normal"
               required
             />
-            <TextField
+            {/* <TextField
               id="email-input"
               className="user-settings__text-field"
               label="Email Address"
-          // className={}
+            // className={}
               type="email"
               value={this.state.email}
               onChange={this.handleChange("email")}
               margin="normal"
               required
-            />
+            /> */}
             {/* <TextField
-          id="password-input"
-          label="Password"
-          // className={}
-          type="password"
-          value={this.state.password}
-          onChange={this.handleChange("password")}
-          margin="normal"
-        /> */}
+              id="password-input"
+              label="Password"
+              // className={}
+              type="password"
+              value={this.state.password}
+              onChange={this.handleChange("password")}
+              margin="normal"
+            /> */}
             <div className="user-settings__btns">
               <Button className="user-settings__reset-btn" variant="contained" color="primary" size="medium" onClick={this.resetPassword}>
               Reset Password
