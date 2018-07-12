@@ -23,10 +23,9 @@ const getPosts = (req, res) => {
     fetch = fetch.where({ categoryId: category });
   }
   if (filter === 'newest') {
-    fetch = fetch.orderBy('createdAt', 'desc');
+    fetch = fetch.orderBy('createdAt', 'DESC');
   } else {
-    fetch = fetch.orderBy(knex.raw('(v.upvotes * 5) - EXTRACT(HOUR FROM (NOW() - post.createdAt))'), 'DESC');
-    fetch = fetch.select(knex.raw('*, NOW() - post.createdAt AS ITEM2'))
+    fetch = fetch.orderBy(knex.raw('COALESCE(v.upvotes, 0) - EXTRACT(HOUR FROM SEC_TO_TIME(NOW() - post.createdAt))'), 'DESC');
   }
 
   fetch
@@ -36,12 +35,10 @@ const getPosts = (req, res) => {
     .leftJoin( ..._joinVote('post', 'INC') )
     .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
     .then((response) => {
-      console.log(response);
       res.status(SUCCESS_CODE).json(response);
     })
     .catch((error) => {
-      console.log(error.message);
-      res.status(SERVER_ERRROR).json({ error })
+      res.status(SERVER_ERRROR).json({ error, message: error.message })
     });
 };
 
@@ -53,6 +50,7 @@ const searchPosts = (req, res) => {
     .join( ..._joinUser('post') )
     .leftJoin( ..._joinVote('post', 'INC') )
     .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
+    .orderBy(knex.raw('COALESCE(v.upvotes, 0) - EXTRACT(HOUR FROM SEC_TO_TIME(NOW() - post.createdAt))'), 'DESC')
     .then((response) => {
       res.status(SUCCESS_CODE).json(response);
     })
