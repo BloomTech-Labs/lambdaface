@@ -187,6 +187,10 @@ table {
 .user-settings__btns .user-settings__logout-btn {
   height: 50px;
 }
+.user-settings__settingsSaved {
+  margin-left: 35%;
+  font-size: 1.25em;
+}
 .user-bar__container {
   display: flex;
   margin-top: 10px;
