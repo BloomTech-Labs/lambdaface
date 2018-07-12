@@ -37,10 +37,10 @@ class UserSettings extends React.Component {
     })
   }
 
-  logout = () => event => {
-    event.preventDefault();
-    this.props.auth.logout();
-  };
+  // logout = () => event => {
+  //   event.preventDefault();
+  //   this.props.auth.logout();
+  // };
 
   resetPassword = () => {
     const userStuff = {
@@ -142,7 +142,7 @@ class UserSettings extends React.Component {
               <Button className="user-settings__save-btn" variant="contained" color="primary" size="medium" type="submit">
               Save Settings
               </Button>
-              <Button className="user-settings__logout-btn" variant="contained" color="primary" onClick={this.props.logout()}>
+              <Button className="user-settings__logout-btn" variant="contained" color="primary" onClick={this.props.logout}>
                   Logout
               </Button>
             </div>
