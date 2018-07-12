@@ -64,21 +64,23 @@ class PostPage extends React.Component {
     const { userInfo } = this.props;
     return (
       <div className="post-page__container">
-        <div className="post-page__post">
-          <div className="post__left-col">
-            <IconButton onClick={this.props.changeCurrentCategory(this.props.category)}>
-              <img src={backArrow} alt="Back" height="30px" width="30px" />
-            </IconButton>
-          </div>
+        {commentsLoaded ?
+          <div>
+            <div className="post-page__post">
+              <div className="post__left-col">
+                <IconButton onClick={this.props.changeCurrentCategory(this.props.category)}>
+                  <img src={backArrow} alt="Back" height="30px" width="30px" />
+                </IconButton>
+              </div>
 
-          <div className="post__right-col">
-            <ReactMarkdown className="markdown" source={currentPost.content} />
-            <UserBar type="singlepost" info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} />
-          </div>
-        </div>
-        <div className="post-page__comments">
-          <div className="post-page__comments-header">Comments</div>
-          {
+              <div className="post__right-col">
+                <ReactMarkdown className="markdown" source={currentPost.content} />
+                <UserBar type="singlepost" info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} />
+              </div>
+            </div>
+            <div className="post-page__comments">
+              <div className="post-page__comments-header">Comments</div>
+              {
             commentsLoaded 
               ? comments.map(comment => (
                 <Comment
@@ -90,13 +92,16 @@ class PostPage extends React.Component {
                 ))
               : <div>Loading Comments... </div>
           }
-          <div className="post-page__new-comment-header">Write a comment</div>
-          <WriteComment
-            commentInfo={{ parentId: this.props.postId, parentType: 'post' }}
-            userInfo={this.props.userInfo}
-            reloadComments={this.getComments}
-          />
-        </div>
+              <div className="post-page__new-comment-header">Write a comment</div>
+              <WriteComment
+                commentInfo={{ parentId: this.props.postId, parentType: 'post' }}
+                userInfo={this.props.userInfo}
+                reloadComments={this.getComments}
+              />
+            </div>
+          </div>
+        : <div>Loading...</div>
+        }
       </div>
     );
   }
