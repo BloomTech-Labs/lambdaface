@@ -573,10 +573,10 @@ li:hover {
   text-align: center;
 }
 .landing-page__container .landing-page__topbar {
-  margin-top: 1.5%;
   display: flex;
   position: relative;
   align-items: center;
+  height: 66px;
   width: 100%;
 }
 .landing-page__container .landing-page__topbar .landing-page__logo {
@@ -587,7 +587,9 @@ li:hover {
   line-height: 1.5;
 }
 .landing-page__container .landing-page__main h1 {
-  font-size: 1.5em;
+  font-size: 1.75em;
+  padding-bottom: 15px;
+  letter-spacing: 3px;
 }
 .landing-page__container .landing-page__main h3 {
   width: 20%;
