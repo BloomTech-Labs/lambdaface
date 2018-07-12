@@ -193,7 +193,7 @@ class HomePage extends React.Component {
       if (typeof otherF === "function") {
         otherF(category, passed)
       } 
-      this.setState({ currentPage: 1 });
+      this.setState({ currentPage: 1, morePosts: true });
     }
   };
   
