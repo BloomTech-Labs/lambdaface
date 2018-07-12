@@ -37,11 +37,6 @@ class UserSettings extends React.Component {
     })
   }
 
-  // logout = () => event => {
-  //   event.preventDefault();
-  //   this.props.auth.logout();
-  // };
-
   resetPassword = () => {
     const userStuff = {
       client_id: 'A86C7iFueySjvHsu5fhxq3SVJBNxo1CF',
