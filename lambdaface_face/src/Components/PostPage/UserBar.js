@@ -30,10 +30,9 @@ class UserBar extends React.Component {
   
   render() {
     let user;
+    let currentUser;
     let upvoteIcon = this.state.upvoted ? upvoteBlack : upvoteGrey;
     let downvoteIcon = this.state.downvoted ? downvoteBlack : downvoteGrey;
-    let voteHandler;
-    let currentUser = this.props.currentUser;
     let upvotes = this.props.info.upvotes;
     let downvotes = this.props.info.downvotes;
     let authorPic = this.props.info.profilePicture;
@@ -80,14 +79,14 @@ class UserBar extends React.Component {
         })
     };
 
-    const alreadyVoted = () => event => {
-      event.stopPropagation();
-      console.log("Already voted!");
-    }
-
-    const vote = (voteType, parentType) => event => {
+    const voteHandler = (voteType, parentType) => event => {
+      if (parentType === "post") {
+        currentUser = this.props.currentUser.sub;
+      } else if (parentType === "comment") {
+        currentUser = this.props.currentUser;
+      }
       const voteBody = {
-        userId: currentUser.sub,
+        userId: currentUser,
         parentId: this.props.info.id,
         voteType: voteType,
         parentType: parentType
@@ -96,10 +95,27 @@ class UserBar extends React.Component {
       axios
         .post(`${process.env.REACT_APP_URL}`.concat('api/votes'), voteBody)
         .then((res) => {
-          if (voteType === "INC") {
+          if (voteType === "INC" && this.state.upvoted) {
+            console.log("Already voted!");
+          }
+          else if (voteType === "INC" && this.state.downvoted) {
+            this.props.info.upvotes = this.props.info.upvotes + 1;
+            this.props.info.downvotes = this.props.info.downvotes - 1;
+            this.setState({ upvoted: true, downvoted: false });
+          }
+          else if (voteType === "DEC" && this.state.upvoted) {
+            this.props.info.upvotes = this.props.info.upvotes - 1;
+            this.props.info.downvotes = this.props.info.downvotes + 1;
+            this.setState({ upvoted: false, downvoted: true });
+          }
+          else if (voteType === "DEC" && this.state.downvoted) {
+            console.log("Already voted!");
+          }
+          else if (voteType === "INC" && !this.state.upvoted && !this.state.downvoted) {
             this.props.info.upvotes = this.props.info.upvotes + 1;
             this.setState({ upvoted: true, downvoted: false });
-          } else {
+          }
+          else if (voteType === "DEC" && !this.state.upvoted && !this.state.downvoted) {
             this.props.info.downvotes = this.props.info.downvotes + 1;
             this.setState({ upvoted: false, downvoted: true });
           }
@@ -108,19 +124,13 @@ class UserBar extends React.Component {
           console.error(err);
         })
     }
-
-    if (this.state.upvoted || this.state.downvoted) {
-      voteHandler = alreadyVoted;
-    } else {
-      voteHandler = vote;
-    }
   
     const profilePicStyle = {
       width: "35px",
       height: "35px",
       borderRadius: "50%",  
     };
-
+    
     return (
       <div className="user-bar__container">
         <div className="user-bar__userInfo">
