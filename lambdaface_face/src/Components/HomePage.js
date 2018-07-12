@@ -105,7 +105,7 @@ class HomePage extends React.Component {
   }
 
   updatePic = () => {
-    let user = this.state.user;
+    const user = this.state.user;
     user.profilePicture = `https://s3-us-west-2.amazonaws.com/lambdaface-photos/photos/${this.state.user.sub}`;
     this.setState({ user: user });
   }
