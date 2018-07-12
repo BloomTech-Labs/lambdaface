@@ -104,6 +104,12 @@ class HomePage extends React.Component {
     this.setState({ imageHash: Date.now() });
   }
 
+  updatePic = () => {
+    let user = this.state.user;
+    user.profilePicture = `https://s3-us-west-2.amazonaws.com/lambdaface-photos/photos/${this.state.user.sub}`;
+    this.setState({ user: user });
+  }
+
   openWS = () => {
     window.WebSocket = window.WebSocket || window.MozWebSocket;
     
@@ -218,9 +224,9 @@ class HomePage extends React.Component {
       case "AddPost":
         return <AddPost category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} userInfo={this.state.user} />;
       case "UserSettings":
-        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} logout={this.props.logout} />;
+        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} updatePic={this.updatePic} logout={this.props.logout} />;
       case "PostPage":
-        return <PostPage postId={currentPostId} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
+        return <PostPage postId={currentPostId} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} />;
       case "SearchResultsFor:":
         return (<PostList
           handleNewest={this.getNewestPosts}
@@ -230,6 +236,7 @@ class HomePage extends React.Component {
           updateCurrentPage={this.updateCurrentPage}
           getPosts={this.getPosts}
           morePosts={this.state.morePosts}
+          imageHash={this.state.imageHash}
         />);
       default:
         return (
@@ -241,6 +248,7 @@ class HomePage extends React.Component {
             updateCurrentPage={this.updateCurrentPage}
             getPosts={this.getPosts}
             morePosts={this.state.morePosts}
+            imageHash={this.state.imageHash}
           />
         );
     }
