@@ -40,6 +40,7 @@ const sendNotifications = (userId) => {
     .leftJoin( ..._joinVote('post', 'INC') )
     .leftJoin( ..._joinVote('post', 'DEC', 'dv') )
     .select(
+      'notification.id as notificationId',
       'post.categoryId as categoryId',
       'post.commentCount as commentCount',
       'post.content as content',
