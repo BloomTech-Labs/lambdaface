@@ -36,7 +36,6 @@ const NotificationsMenu = (notifications, clearNotifications, changeCurrentCateg
       { notifications.map((post, i) => {
         const { firstName, lastName, profilePicture, content, notificationType } = post;
         const [ grammar, parentType ] = grammarParser(notificationType);
-        console.log(post);
         return (
           <div onClick={changeCurrentCategory(["PostPage", null], post)} className={"notifications-menu__item notifications-menu__item" + (i % 2 ? "--light" : "--dark")} key={post.notificationId}>
             <div className="notifications-menu__item__user">
