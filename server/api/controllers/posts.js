@@ -25,7 +25,7 @@ const getPosts = (req, res) => {
   if (filter === 'newest') {
     fetch = fetch.orderBy('createdAt', 'DESC');
   } else {
-    fetch = fetch.orderBy(knex.raw('COALESCE(v.upvotes, 0) - EXTRACT(HOUR FROM SEC_TO_TIME(NOW() - post.createdAt))'), 'DESC');
+    fetch = fetch.orderBy(knex.raw('(COALESCE(v.upvotes, 0) * 5) - EXTRACT(HOUR FROM SEC_TO_TIME(NOW() - post.createdAt))'), 'DESC');
   }
 
   fetch
