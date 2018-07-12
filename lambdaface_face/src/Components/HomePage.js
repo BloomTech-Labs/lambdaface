@@ -14,7 +14,7 @@ class HomePage extends React.Component {
     user: {},
     currentCategory: ['AllPosts', '0'],
     previousCategory: [null, null],
-    currentPost: {},
+    currentPostId: '',
     posts: [],
     notifications: [],
     postsLoaded: false,
@@ -166,7 +166,7 @@ class HomePage extends React.Component {
   }
 
 
-  changeCurrentCategory = (category, post = null, otherF= null, passed = null ) => event => {
+  changeCurrentCategory = (category, postId = '', otherF= null, passed = null ) => event => {
     // reset scroll bar
     window.scrollTo(0, 0);
     /* Posts must be loaded, or the given category must not be part of NavBar options */
@@ -187,8 +187,8 @@ class HomePage extends React.Component {
       if (category[0].includes("Search")) {
         this.searchResults(category[0].slice(20, category[0].length));
       }
-      /* set currentPost to given post (default is null) */
-      if (post) this.setState({ currentPost: { ...post } });
+      /* set currentPostId to given post (default is null) */
+      if (postId) this.setState({ currentPostId: postId });
       /* when we change category reset currentPage to 1 */
       if (typeof otherF === "function") {
         otherF(category, passed)
@@ -213,14 +213,14 @@ class HomePage extends React.Component {
     }
   };
 
-  categorySwitch = (currentCategory, currentPost) => {
+  categorySwitch = (currentCategory, currentPostId) => {
     switch (currentCategory[0].substring(0,17)) {
       case "AddPost":
         return <AddPost category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} userInfo={this.state.user} />;
       case "UserSettings":
         return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} logout={this.props.logout} />;
       case "PostPage":
-        return <PostPage post={currentPost} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
+        return <PostPage postId={currentPostId} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} />;
       case "SearchResultsFor:":
         return (<PostList
           handleNewest={this.getNewestPosts}
@@ -248,7 +248,7 @@ class HomePage extends React.Component {
 
   render() {
     const currentCategory = this.state.currentCategory;
-    const currentPost = this.state.currentPost;
+    const currentPostId = this.state.currentPostId;
     return (
       <div className="home-page">
         <div className="home-page__top-bar">
@@ -268,7 +268,7 @@ class HomePage extends React.Component {
             />
           </div>
           <div className="home-page__main">
-            {this.categorySwitch(currentCategory, currentPost)}
+            {this.categorySwitch(currentCategory, currentPostId)}
             { this.state.morePosts
                 ? ''
                 : <span>There are no more posts.</span>

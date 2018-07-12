@@ -22,6 +22,7 @@ class UserSettings extends React.Component {
     passwordResetEmail: this.props.userInfo.name,
     passwordReset: false,
     selectedImage: null,
+    settingsSaved: false,
   };
 
   handleChange = name => event => {
@@ -65,6 +66,10 @@ class UserSettings extends React.Component {
     axios
       .put(`${process.env.REACT_APP_URL}api/users/${userId}`, userInfo)
       .then(res => {
+        this.setState({ settingsSaved: true });
+        setTimeout(() => {
+          this.setState({ settingsSaved: false });
+        }, 2500);
         console.log(res);
         // need to know what res looks like
       })
@@ -145,8 +150,11 @@ class UserSettings extends React.Component {
           <div className="user-settings__right-col">
             {/*right column*/}
             {/* <div>...</div> */}
-            {this.state.passwordReset ? <PasswordReset handlePW={this.closePasswordModal} /> : null }
+            {this.state.passwordReset ? <PasswordReset handlePW={this.closePasswordModal} /> : null}
           </div>
+        </div>
+        <div className="user-settings__settingsSaved">
+          {this.state.settingsSaved ? <div>Settings Saved!</div> : null}
         </div>
       </div>
     );
