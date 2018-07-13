@@ -222,6 +222,7 @@ class HomePage extends React.Component {
   categorySwitch = (currentCategory, currentPostId) => {
     switch (currentCategory[0].substring(0,17)) {
       case "AddPost":
+        console.log(this.state.previousCategory)
         return <AddPost category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} userInfo={this.state.user} />;
       case "UserSettings":
         return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} updatePic={this.updatePic} logout={this.props.logout} />;

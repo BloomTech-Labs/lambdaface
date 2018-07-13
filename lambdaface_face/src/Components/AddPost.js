@@ -22,9 +22,7 @@ class AddPost extends React.Component {
   };
 
   changeCategory = category => {
-    this.setState({
-      category: category
-    });
+    this.setState({ category });
   }
 
   submitPost = async event => {
@@ -48,6 +46,7 @@ class AddPost extends React.Component {
   render() {
     const category = this.state.category;
     const { firstName, lastName, profilePicture } = this.props.userInfo;
+
     return (
       <div className="add-post__container">
         <div className="container__left-col">
