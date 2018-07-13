@@ -272,6 +272,9 @@ table {
   width: 100%;
   margin-top: 15px;
 }
+.post-page__container .post-page__comments-header {
+  font-weight: 800;
+}
 .post-page__container .post-page__comments {
   margin-top: 15px;
   margin-left: 10%;
@@ -284,6 +287,9 @@ table {
   font-size: 1.25em;
   margin: 5% 0 1.5% 0;
 }
+.post-page__container .post-page__edit-btn {
+  margin-top: 15px;
+}
 .reply__container {
   margin-top: 10px;
   margin-left: 35px;
@@ -295,9 +301,6 @@ table {
 body {
   font-family: sans-serif;
 }
-li:hover {
-  box-shadow: 5px 5px #f3f5f8;
-}
 .filtermenu__container {
   margin-left: auto;
   margin-right: 5px;
@@ -305,6 +308,9 @@ li:hover {
 .postList__container {
   margin-top: 2%;
   width: 100%;
+}
+.postList__container li:hover {
+  box-shadow: 5px 0px #f3f5f8;
 }
 .postList__header {
   display: flex;
