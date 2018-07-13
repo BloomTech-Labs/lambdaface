@@ -56,6 +56,7 @@ class WriteReply extends React.Component {
           type="writereply"
           info={this.props.userInfo}
           submitReply={this.submitReply}
+          imageHash={this.props.imageHash}
         />
       </form>
     );

@@ -58,7 +58,7 @@ class PostPage extends React.Component {
       following: !prev.following
     }));
   }
-
+  
   render() {
     const { comments, commentsLoaded, currentPost } = this.state;
     const { userInfo } = this.props;
@@ -75,7 +75,7 @@ class PostPage extends React.Component {
 
               <div className="post__right-col">
                 <ReactMarkdown className="markdown" source={currentPost.content} />
-                <UserBar type="singlepost" info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} />
+                <UserBar type="singlepost" info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} imageHash={this.props.imageHash} />
               </div>
             </div>
             <div className="post-page__comments">
@@ -88,6 +88,7 @@ class PostPage extends React.Component {
                   comment={comment}
                   userInfo={userInfo}
                   reloadComments={this.getComments}
+                  imageHash={this.props.imageHash}
                 />
                 ))
               : <div>Loading Comments... </div>
@@ -97,6 +98,7 @@ class PostPage extends React.Component {
                 commentInfo={{ parentId: this.props.postId, parentType: 'post' }}
                 userInfo={this.props.userInfo}
                 reloadComments={this.getComments}
+                imageHash={this.props.imageHash}
               />
             </div>
           </div>

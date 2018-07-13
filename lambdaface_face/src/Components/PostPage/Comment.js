@@ -25,13 +25,14 @@ class Comment extends React.Component {
           type="comment"
           info={comment}
           toggleReply={this.toggleReplyingTo}
+          imageHash={this.props.imageHash}
         />
         {comment.comments.map(comment => (
           <Reply 
             key={comment.id}
             replyInfo={comment}
             toggleReplyingTo={this.toggleReplyingTo}
-            currentUser={userInfo.sub} 
+            currentUser={userInfo.sub}
           />
         ))}
         {replyingTo && 
