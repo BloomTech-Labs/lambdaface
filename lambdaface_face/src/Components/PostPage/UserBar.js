@@ -27,14 +27,6 @@ class UserBar extends React.Component {
     upvoted: false,
     downvoted: false,
   }
-  componentDidMount() {
-    const vote = this.props.hasUserVoted
-    if (vote === 'INC') {
-      this.setState({ upvoted: true });
-    } else if (vote === 'DEC') {
-      this.setState({ downvoted: true });
-    }
-  }
   
   render() {
     let user;
@@ -53,7 +45,6 @@ class UserBar extends React.Component {
     } else {
       user = this.props.info.nickname;
     }
-    
 
     const convertTime = time => {
       const splitTime = time.split(/[- 'T']/);

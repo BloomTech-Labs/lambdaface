@@ -25,6 +25,10 @@ class UserSettings extends React.Component {
     settingsSaved: false,
   };
 
+  componentWillUnmount() {
+    this.setState({ settingsSaved: false })
+  }
+
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value
@@ -53,6 +57,12 @@ class UserSettings extends React.Component {
       })
   }
 
+  // timeout = () => {
+  //   setTimeout(() => {
+  //     this.setState({ settingsSaved: false });
+  //   }, 1500);
+  // }
+
   updateInfo = () => event => {
     event.preventDefault();
     const userInfo = { ...this.state };
@@ -61,11 +71,9 @@ class UserSettings extends React.Component {
     axios
       .put(`${process.env.REACT_APP_URL}api/users/${userId}`, userInfo)
       .then(res => {
-        this.props.updateUser(this.state);
         this.setState({ settingsSaved: true });
-        setTimeout(() => {
-          this.setState({ settingsSaved: false });
-        }, 2500);
+        // this.timeout();
+        this.props.updateUser(this.state);
         console.log(res);
         // need to know what res looks like
       })

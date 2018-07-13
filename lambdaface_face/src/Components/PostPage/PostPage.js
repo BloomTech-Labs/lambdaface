@@ -56,7 +56,7 @@ class PostPage extends React.Component {
     
     this.setState({
       comments,
-      currentPost: { ... post },
+      currentPost: { ...post },
       commentsLoaded: true,
       currentPostId: post.id,
       following: post.following || false,

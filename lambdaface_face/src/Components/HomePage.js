@@ -105,8 +105,8 @@ class HomePage extends React.Component {
   }
 
   updateUser = (info) => {
-    this.setState(prevState => ({
-      user: {
+      this.setState(prevState => ({
+        user: {
         ...prevState.user,
         firstName: info.firstName,
         lastName: info.lastName,
@@ -234,7 +234,7 @@ class HomePage extends React.Component {
       case "AddPost":
         return <AddPost category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} userInfo={this.state.user} />;
       case "UserSettings":
-        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} updatePic={this.updatePic} logout={this.props.logout} updateUser={this.updateUser} />;
+        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} updatePic={this.updatePic} updateUser={this.updateUser} logout={this.props.logout} />;
       case "PostPage":
         return <PostPage postId={currentPostId} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} />;
       case "SearchResultsFor:":
