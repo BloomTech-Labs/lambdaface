@@ -51,12 +51,7 @@ const getComments = (req, res) => {
               for (let i = 0; i < replies.length; i++) {
                 replies[i].hasUserVoted = await knex('vote')
                   .where({ parentId: response[i].id, userId })
-                  .then(([ vote ]) => {
-                    if (vote) {
-                      return vote.voteType;
-                    }
-                    return false;
-                  });
+                  .then(([ vote ]) => vote ? vote.voteType : false);
               }
               return replies;
             });
@@ -66,12 +61,7 @@ const getComments = (req, res) => {
       for (let i = 0; i < response.length; i++) {
         response[i].hasUserVoted = await knex('vote')
           .where({ parentId: response[i].id, userId })
-          .then(([ vote ]) => {
-            if (vote) {
-              return vote.voteType;
-            }
-            return false;
-          });
+          .then(([ vote ]) => vote ? vote.voteType : false);
       }
       res.status(200).json(response);
     })

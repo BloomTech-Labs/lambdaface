@@ -75,21 +75,11 @@ const getPostById = (req, res) => {
 
       response.following = await knex('follow')
         .where({ parentId: id, userId })
-        .then(follow => {
-          if (follow.length === 1) {
-            return true;
-          }
-          return false;
-        })
+        .then(follow => follow.length === 1);
 
       response.hasUserVoted = await knex('vote')
         .where({ parentId: id, userId })
-        .then(([ vote ]) => {
-          if (vote) {
-            return vote.voteType;
-          }
-          return false;
-        });
+        .then(([ vote ]) => vote ? vote.voteType : false);
       
       console.log(response);
 
