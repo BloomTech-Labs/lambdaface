@@ -23,6 +23,7 @@ class WriteReply extends React.Component {
       parentType: this.props.commentInfo.parentType
     };
 
+    if (newReply.content.replace(/\n| /g, '').length > 0) {
     axios
       .post(`${process.env.REACT_APP_URL}`.concat('api/comments'), newReply)
       .then(res => {
@@ -34,6 +35,7 @@ class WriteReply extends React.Component {
       .catch(err => {
         console.error(err);
       });
+    } else {console.log('Reply requires content in order to be submitted!')}    
   };
 
   render() {
