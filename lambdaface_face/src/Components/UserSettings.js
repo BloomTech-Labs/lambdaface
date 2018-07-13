@@ -57,12 +57,6 @@ class UserSettings extends React.Component {
       })
   }
 
-  // timeout = () => {
-  //   setTimeout(() => {
-  //     this.setState({ settingsSaved: false });
-  //   }, 1500);
-  // }
-
   updateInfo = () => event => {
     event.preventDefault();
     const userInfo = { ...this.state };
@@ -72,7 +66,6 @@ class UserSettings extends React.Component {
       .put(`${process.env.REACT_APP_URL}api/users/${userId}`, userInfo)
       .then(res => {
         this.setState({ settingsSaved: true });
-        // this.timeout();
         this.props.updateUser(this.state);
         console.log(res);
         // need to know what res looks like
