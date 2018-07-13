@@ -26,6 +26,7 @@ class Comment extends React.Component {
           info={comment}
           toggleReply={this.toggleReplyingTo}
           imageHash={this.props.imageHash}
+          hasUserVoted={comment.hasUserVoted}
         />
         {comment.comments.map(comment => (
           <Reply 
