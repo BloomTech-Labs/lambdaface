@@ -72,20 +72,21 @@ const getPostById = (req, res) => {
       await knex('post')
         .where({ id })
         .update({ viewCount: ++response.viewCount });
-      
-      const arr = await knex('follow').where({ parentId: id, userId });
 
-      if (arr.length === 1) {
-        response.following = true;
-      } else if (arr.length === 0) {
-        response.following = false;
-      }
+      response.following = await knex('follow')
+        .where({ parentId: id, userId })
+        .then(follow => {
+          if (follow.length === 1) {
+            return true;
+          }
+          return false;
+        })
 
       response.hasUserVoted = await knex('vote')
         .where({ parentId: id, userId })
-        .then(([ response ]) => {
-          if (response) {
-            return response.voteType;
+        .then(([ vote ]) => {
+          if (vote) {
+            return vote.voteType;
           }
           return false;
         });
