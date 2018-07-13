@@ -110,7 +110,7 @@ const createComment = (req, res) => {
           .where('follow.parentId', postId)
           .select('follow.userId')
           .then(res => {
-            console.log('followers:', res);
+            // console.log('followers:', res);
             return res
           })
           .catch(err => {
