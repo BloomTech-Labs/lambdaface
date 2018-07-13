@@ -56,7 +56,7 @@ class PostPage extends React.Component {
     
     this.setState({
       comments,
-      currentPost: { ... post },
+      currentPost: { ...post },
       commentsLoaded: true,
       currentPostId: post.id,
       following: post.following || false,
@@ -82,6 +82,10 @@ class PostPage extends React.Component {
       });
   }
   
+  handleClick = () => {
+    this.props.toggleEditingPost(true);
+    this.props.changeCurrentCategory(['AddPost', null], this.state.currentPost.id)();
+  }
   render() {
     const { comments, commentsLoaded, currentPost, hasUserVoted } = this.state;
     const { userInfo } = this.props;
@@ -97,7 +101,10 @@ class PostPage extends React.Component {
               </div>
               {
                 currentPost.userId === userInfo.sub
-                ? <button onClick={this.handleDelete}>Delete</button>
+                ? <div>
+                    <button onClick={this.handleDelete}>Delete</button>
+                    <button onClick={this.handleClick}>edit</button>
+                  </div>
                 : ''
               }
               <div className="post__right-col">
