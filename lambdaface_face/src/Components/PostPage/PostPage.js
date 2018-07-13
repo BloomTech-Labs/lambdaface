@@ -45,6 +45,14 @@ class PostPage extends React.Component {
       .get(`${process.env.REACT_APP_URL}api/comments/${parentId}`)
       .then(({ data }) => data)
       .catch(error => console.error(error));
+
+    if (!post || comments === undefined) {
+      console.error({
+        message: 'Couldn\'t fetch post or comments!',
+        post,
+        comments,
+      });
+    }
     
     this.setState({
       comments,
