@@ -121,7 +121,7 @@ const editPost = (req, res) => {
   const { content } = req.body;
 
   const updatedAt = knex.fn.now();
-
+  
   knex('post')
     .where({ id })
     .update({ content, updatedAt })

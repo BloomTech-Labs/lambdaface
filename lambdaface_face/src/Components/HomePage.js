@@ -218,15 +218,18 @@ class HomePage extends React.Component {
       console.error("Empty Query")
     }
   };
-
+  toggleEditingPost = isEditing => {
+    this.setState({ isEditing });
+  }
   categorySwitch = (currentCategory, currentPostId) => {
     switch (currentCategory[0].substring(0,17)) {
       case "AddPost":
-        return <AddPost category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} userInfo={this.state.user} />;
+        console.log(this.state.previousCategory)
+        return <AddPost isEditing={this.state.isEditing} content={this.state.posts.find(post => post.id === currentPostId).content} postId={currentPostId} category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} userInfo={this.state.user} />;
       case "UserSettings":
         return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} updatePic={this.updatePic} logout={this.props.logout} />;
       case "PostPage":
-        return <PostPage postId={currentPostId} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} />;
+        return <PostPage toggleEditingPost={this.toggleEditingPost} postId={currentPostId} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} />;
       case "SearchResultsFor:":
         return (<PostList
           handleNewest={this.getNewestPosts}
