@@ -17,7 +17,8 @@ class PostPage extends React.Component {
     commentsLoaded: false,
     currentPost: {},
     currentPostId: '',
-    following: null
+    following: null,
+    hasUserVoted: null,
   };
 
   componentDidMount() {
@@ -30,26 +31,29 @@ class PostPage extends React.Component {
     }
   }
 
-  getComments = () => {
+  getComments = async () => {
     // console.log(this.props.post);
     const parentId = this.props.postId;
     const userId = this.props.userInfo.sub;
-    axios
-      .get(`${process.env.REACT_APP_URL}`.concat(`api/post/${parentId}/${userId}`))
-      .then(resp => {
-        const post = resp.data;
-        axios
-          .get(`${process.env.REACT_APP_URL}`.concat(`api/comments/${parentId}`))
-          .then(res => {
-            // console.log(res.data);
-            this.setState({ comments: [...res.data], currentPost: {...post}, commentsLoaded: true, currentPostId: post.id, following: post.following || false })
-          })
-          .catch(err => {
-            console.error(err);
-          });
-      })
+
+    const post = await axios
+      .get(`${process.env.REACT_APP_URL}api/post/${parentId}/${userId}`)
+      .then(({ data }) => data)
       .catch(error => console.error(error));
-    // this.setState({ comments: [...testcomments], commentsLoaded: true });
+
+    const comments = await axios
+      .get(`${process.env.REACT_APP_URL}api/comments/${parentId}`)
+      .then(({ data }) => data)
+      .catch(error => console.error(error));
+    
+    this.setState({
+      comments,
+      currentPost: { ... post },
+      commentsLoaded: true,
+      currentPostId: post.id,
+      following: post.following || false,
+      hasUserVoted: post.hasUserVoted,
+    });
   };
 
   toggleFollowing = () => {
