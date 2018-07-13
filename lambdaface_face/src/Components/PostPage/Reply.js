@@ -10,6 +10,7 @@ export default props => (
       type="comment"
       info={props.replyInfo}
       toggleReply={props.toggleReplyingTo}
+      hasUserVoted={props.replyInfo.hasUserVoted}
     />
   </div>
 );

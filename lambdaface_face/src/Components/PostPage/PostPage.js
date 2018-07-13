@@ -42,7 +42,7 @@ class PostPage extends React.Component {
       .catch(error => console.error(error));
 
     const comments = await axios
-      .get(`${process.env.REACT_APP_URL}api/comments/${parentId}`)
+      .get(`${process.env.REACT_APP_URL}api/comments/${parentId}/${userId}`)
       .then(({ data }) => data)
       .catch(error => console.error(error));
 

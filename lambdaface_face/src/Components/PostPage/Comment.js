@@ -17,6 +17,7 @@ class Comment extends React.Component {
     const { replyingTo } = this.state;
     const { comment, userInfo } = this.props;
     // console.log(this.props.comment);
+    console.log(comment);
     return (
       <div className="comment__container">
         <div className="comment__content">{comment.content}</div>
@@ -26,6 +27,7 @@ class Comment extends React.Component {
           info={comment}
           toggleReply={this.toggleReplyingTo}
           imageHash={this.props.imageHash}
+          hasUserVoted={comment.hasUserVoted}
         />
         {comment.comments.map(comment => (
           <Reply 

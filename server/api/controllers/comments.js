@@ -30,7 +30,7 @@ const isChildComment = (req, res, next) => {
 
 const getComments = (req, res) => {
 
-  const { table, child, params: { parentId }, } = req;
+  const { table, child, params: { parentId, userId }, } = req;
 
   knex(table)
     .where({ parentId })
@@ -46,13 +46,26 @@ const getComments = (req, res) => {
             .orderBy('createdAt', 'asc')
             .join( ..._joinUser('reply') )
             .leftJoin( ..._joinVote('reply', 'INC') )
-            .leftJoin( ..._joinVote('reply', 'DEC', 'dv') );
+            .leftJoin( ..._joinVote('reply', 'DEC', 'dv') )
+            .then(async replies => {
+              for (let i = 0; i < replies.length; i++) {
+                replies[i].hasUserVoted = await knex('vote')
+                  .where({ parentId: response[i].id, userId })
+                  .then(([ vote ]) => {
+                    if (vote) {
+                      return vote.voteType;
+                    }
+                    return false;
+                  });
+              }
+              return replies;
+            });
         }
       }
 
       for (let i = 0; i < response.length; i++) {
         response[i].hasUserVoted = await knex('vote')
-          .where({ parentId: id, userId })
+          .where({ parentId: response[i].id, userId })
           .then(([ vote ]) => {
             if (vote) {
               return vote.voteType;
@@ -60,7 +73,6 @@ const getComments = (req, res) => {
             return false;
           });
       }
-
       res.status(200).json(response);
     })
     .catch((error) => {
