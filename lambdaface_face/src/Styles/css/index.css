@@ -284,6 +284,9 @@ table {
   font-size: 1.25em;
   margin: 5% 0 1.5% 0;
 }
+.post-page__container .post-page__edit-btn {
+  margin-top: 15px;
+}
 .reply__container {
   margin-top: 10px;
   margin-left: 35px;
