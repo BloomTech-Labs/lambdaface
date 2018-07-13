@@ -143,8 +143,7 @@ class HomePage extends React.Component {
           // console.log('Invalid JSON: ', message.data);
           return;
         }
-      }
-      else if (json.type) {
+      } else if (json.type) {
         console.log(json.data);
       }
     }

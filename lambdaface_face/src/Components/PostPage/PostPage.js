@@ -70,6 +70,17 @@ class PostPage extends React.Component {
       following: !prev.following
     }));
   }
+
+  handleDelete = () => {
+    const postId = this.props.postId;
+    const userId = this.props.userInfo.sub;
+
+    axios
+      .delete(`${process.env.REACT_APP_URL}api/post/${postId}/${userId}`)
+      .then(() => {
+        this.props.changeCurrentCategory(['All Posts', 0])();
+      });
+  }
   
   render() {
     const { comments, commentsLoaded, currentPost, hasUserVoted } = this.state;
@@ -84,7 +95,11 @@ class PostPage extends React.Component {
                   <img src={backArrow} alt="Back" height="30px" width="30px" />
                 </IconButton>
               </div>
-
+              {
+                currentPost.userId === userInfo.sub
+                ? <button onClick={this.handleDelete}>Delete</button>
+                : ''
+              }
               <div className="post__right-col">
                 <ReactMarkdown className="markdown" source={currentPost.content} />
                 <UserBar type="singlepost" hasUserVoted={hasUserVoted} info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} imageHash={this.props.imageHash} />
