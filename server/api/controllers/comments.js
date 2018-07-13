@@ -49,7 +49,18 @@ const getComments = (req, res) => {
             .leftJoin( ..._joinVote('reply', 'DEC', 'dv') );
         }
       }
-  
+
+      for (let i = 0; i < response.length; i++) {
+        response[i].hasUserVoted = await knex('vote')
+          .where({ parentId: id, userId })
+          .then(([ vote ]) => {
+            if (vote) {
+              return vote.voteType;
+            }
+            return false;
+          });
+      }
+
       res.status(200).json(response);
     })
     .catch((error) => {
