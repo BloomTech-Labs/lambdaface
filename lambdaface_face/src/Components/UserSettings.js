@@ -93,6 +93,7 @@ class UserSettings extends React.Component {
               id="firstName-input"
               className="user-settings__text-field"
               label="First Name"
+              placeholder={this.props.userInfo.firstName}
             // className={}
               type="text"
               value={this.state.firstName}
@@ -104,6 +105,7 @@ class UserSettings extends React.Component {
               id="lastName-input"
               className="user-settings__text-field"
               label="Last Name"
+              placeholder={this.props.userInfo.lastName}
           // className={}
               type="text"
               value={this.state.lastName}
