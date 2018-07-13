@@ -80,8 +80,6 @@ const getPostById = (req, res) => {
       response.hasUserVoted = await knex('vote')
         .where({ parentId: id, userId })
         .then(([ vote ]) => vote ? vote.voteType : false);
-      
-      console.log(response);
 
       res.status(SUCCESS_CODE).json(response);
     })
