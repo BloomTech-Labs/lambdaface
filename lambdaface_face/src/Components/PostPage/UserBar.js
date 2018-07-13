@@ -45,6 +45,7 @@ class UserBar extends React.Component {
     } else {
       user = this.props.info.nickname;
     }
+    
 
     const convertTime = time => {
       const splitTime = time.split(/[- 'T']/);

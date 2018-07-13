@@ -61,6 +61,7 @@ class UserSettings extends React.Component {
     axios
       .put(`${process.env.REACT_APP_URL}api/users/${userId}`, userInfo)
       .then(res => {
+        this.props.updateUser(this.state);
         this.setState({ settingsSaved: true });
         setTimeout(() => {
           this.setState({ settingsSaved: false });

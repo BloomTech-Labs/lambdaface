@@ -104,6 +104,16 @@ class HomePage extends React.Component {
     this.setState({ imageHash: Date.now() });
   }
 
+  updateUser = (info) => {
+    this.setState(prevState => ({
+      user: {
+        ...prevState.user,
+        firstName: info.firstName,
+        lastName: info.lastName,
+      }
+    }));
+  }
+
   updatePic = () => {
     const user = this.state.user;
     user.profilePicture = `https://s3-us-west-2.amazonaws.com/lambdaface-photos/photos/${this.state.user.sub}`;
@@ -224,7 +234,7 @@ class HomePage extends React.Component {
       case "AddPost":
         return <AddPost category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} userInfo={this.state.user} />;
       case "UserSettings":
-        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} updatePic={this.updatePic} logout={this.props.logout} />;
+        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} updatePic={this.updatePic} logout={this.props.logout} updateUser={this.updateUser} />;
       case "PostPage":
         return <PostPage postId={currentPostId} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} />;
       case "SearchResultsFor:":
