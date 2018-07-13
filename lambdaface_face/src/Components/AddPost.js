@@ -17,7 +17,8 @@ class AddPost extends React.Component {
   };
 
   componentDidMount() {
-    const { isEditing, content } = this.props;
+    console.log(this.props)
+    const { isEditing, content, postId } = this.props;
     if (isEditing) {
       this.setState({ content, postId });
     }
@@ -44,10 +45,10 @@ class AddPost extends React.Component {
 
     if (this.props.isEditing) {
       axios
-        .put(`${process.env.REACT_APP_URL}/api/post/${postId}/${userId}`)
+        .put(`${process.env.REACT_APP_URL}api/post/${postId}/${userId}`, { content })
         .then(() => {
           this.setState({ content: '' })
-          this.props.changeCurrentCategory([...this.state.category])();
+          this.props.changeCurrentCategory(['PostPage', null], postId)();
         })
         .catch(error => console.error(error));
     } else {
