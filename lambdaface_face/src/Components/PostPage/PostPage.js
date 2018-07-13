@@ -72,7 +72,7 @@ class PostPage extends React.Component {
   }
   
   render() {
-    const { comments, commentsLoaded, currentPost } = this.state;
+    const { comments, commentsLoaded, currentPost, hasUserVoted } = this.state;
     const { userInfo } = this.props;
     return (
       <div className="post-page__container">
@@ -87,7 +87,7 @@ class PostPage extends React.Component {
 
               <div className="post__right-col">
                 <ReactMarkdown className="markdown" source={currentPost.content} />
-                <UserBar type="singlepost" info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} imageHash={this.props.imageHash} />
+                <UserBar type="singlepost" hasUserVoted={hasUserVoted} info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} imageHash={this.props.imageHash} />
               </div>
             </div>
             <div className="post-page__comments">
