@@ -12,12 +12,20 @@ class AddPost extends React.Component {
     content: "",
     userId: this.props.userInfo.sub,
     // get category from props, do not let AllPosts be an option
-    category: this.props.category[0] === "AllPosts" ? ["Announcements", 1] : this.props.category
+    category: this.props.category[0] === "AllPosts" ? ["Announcements", 1] : this.props.category,
+    postId: null,
   };
+
+  componentDidMount() {
+    const { isEditing, content } = this.props;
+    if (isEditing) {
+      this.setState({ content, postId });
+    }
+  }
 
   handleChange = event => {
     this.setState({
-      content: event.target.value
+      content: event.target.value,
     });
   };
 
@@ -27,20 +35,30 @@ class AddPost extends React.Component {
 
   submitPost = async event => {
     event.preventDefault();
+    const { content, userId, category, postId } = this.state;
     const newPost = {
-      content: this.state.content,
-      userId: this.state.userId,
-      categoryId: this.state.category[1],
+      content,
+      userId,
+      categoryId: category[1],
     };
-    // TODO: ADD dynamic userId
 
-    axios
-      .post(`${process.env.REACT_APP_URL}api/posts`, newPost)
-      .then(() => {
-        this.setState({ content: '' });
-        this.props.changeCurrentCategory([...this.state.category])();
-      })
-      .catch(error => console.error(error))
+    if (this.props.isEditing) {
+      axios
+        .put(`${process.env.REACT_APP_URL}/api/post/${postId}/${userId}`)
+        .then(() => {
+          this.setState({ content: '' })
+          this.props.changeCurrentCategory([...this.state.category])();
+        })
+        .catch(error => console.error(error));
+    } else {
+      axios
+        .post(`${process.env.REACT_APP_URL}api/posts`, newPost)
+        .then(() => {
+          this.setState({ content: '' });
+          this.props.changeCurrentCategory([...this.state.category])();
+        })
+        .catch(error => console.error(error));
+    }
   };
 
   render() {
