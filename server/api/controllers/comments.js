@@ -30,7 +30,7 @@ const isChildComment = (req, res, next) => {
 
 const getComments = (req, res) => {
 
-  const { table, child, params: { parentId }, } = req;
+  const { table, child, params: { parentId, userId }, } = req;
 
   knex(table)
     .where({ parentId })
@@ -46,10 +46,23 @@ const getComments = (req, res) => {
             .orderBy('createdAt', 'asc')
             .join( ..._joinUser('reply') )
             .leftJoin( ..._joinVote('reply', 'INC') )
-            .leftJoin( ..._joinVote('reply', 'DEC', 'dv') );
+            .leftJoin( ..._joinVote('reply', 'DEC', 'dv') )
+            .then(async replies => {
+              for (let i = 0; i < replies.length; i++) {
+                replies[i].hasUserVoted = await knex('vote')
+                  .where({ parentId: response[i].id, userId })
+                  .then(([ vote ]) => vote ? vote.voteType : false);
+              }
+              return replies;
+            });
         }
       }
-  
+
+      for (let i = 0; i < response.length; i++) {
+        response[i].hasUserVoted = await knex('vote')
+          .where({ parentId: response[i].id, userId })
+          .then(([ vote ]) => vote ? vote.voteType : false);
+      }
       res.status(200).json(response);
     })
     .catch((error) => {

@@ -35,7 +35,7 @@ module.exports = (server) => {
     .put(editPost)
     .delete(deletePost);
 
-  server.route(['/api/comments/:parentId', '/api/comments/child/:parentId'])
+  server.route(['/api/comments/:parentId/:userId', '/api/comments/child/:parentId'])
     .get(isChildComment, getComments);
 
   server.route('/api/comments/:id')
