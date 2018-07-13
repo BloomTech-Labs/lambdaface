@@ -23,16 +23,18 @@ class WriteComment extends React.Component {
       parentType: this.props.commentInfo.parentType
     };
 
-    axios
-      .post(`${process.env.REACT_APP_URL}`.concat('api/comments'), newComment)
-      .then(res => {
-        // TODO: do something with the response, preferably something useful
-        this.setState({ content: "" });
-        this.props.reloadComments();
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    if (newComment.content.replace(/\n| /g, '').length > 0) {
+      axios
+        .post(`${process.env.REACT_APP_URL}`.concat('api/comments'), newComment)
+        .then(res => {
+          // TODO: do something with the response, preferably something useful
+          this.setState({ content: "" });
+          this.props.reloadComments();
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    } else {console.log('Comment requires content in order to be submitted!')}
   };
 
   render() {
