@@ -272,6 +272,9 @@ table {
   width: 100%;
   margin-top: 15px;
 }
+.post-page__container .post-page__comments-header {
+  font-weight: 800;
+}
 .post-page__container .post-page__comments {
   margin-top: 15px;
   margin-left: 10%;
