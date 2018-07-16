@@ -16,7 +16,8 @@ exports.up = function(knex, Promise) {
 
       table
         .foreign('parentId')
-        .references('comment.id');
+        .references('comment.id')
+        .onDelete('CASCADE');
 
       table
         .string('userId')

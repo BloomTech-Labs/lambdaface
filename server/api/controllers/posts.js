@@ -143,6 +143,7 @@ const deletePost = (req, res) => {
       res.status(SUCCESS_CODE).json({ success: response });
     })
     .catch((error) => {
+      console.log(error.message);
       res.status(USER_ERROR).json({ error });
     });
 };
