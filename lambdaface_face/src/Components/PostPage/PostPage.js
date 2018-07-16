@@ -100,26 +100,24 @@ class PostPage extends React.Component {
                   <img src={backArrow} alt="Back" height="30px" width="30px" />
                 </IconButton>
               </div>
-              {
-                currentPost.userId === userInfo.sub
-                ? <div>
-                    <button onClick={this.handleDelete}>Delete</button>
-                    <button onClick={this.handleClick}>edit</button>
-                  </div>
-                : ''
-              }
               <div className="post__right-col">
                 <ReactMarkdown className="markdown" source={currentPost.content} />
                 <UserBar type="singlepost" hasUserVoted={hasUserVoted} info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} imageHash={this.props.imageHash} />
                 {userInfo.sub === currentPost.userId 
-                  ? <Button
-                    variant="contained"
-                    color="primary" 
-                    className="post-page__edit-btn" 
-                    onClick={this.handleClick}
-                  >
-                    edit
-                    </Button>
+                  ? <div>
+                      <Button
+                        variant="contained"
+                        color="primary" 
+                        className="post-page__edit-btn" 
+                        onClick={this.handleClick}
+                      >edit</Button>
+                      <Button
+                        variant="contained"
+                        color="primary" 
+                        className="post-page__delete-btn" 
+                        onClick={this.handleDelete}
+                      >delete</Button>
+                    </div>
                   : ''
                 }
               </div>
