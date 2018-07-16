@@ -45,10 +45,10 @@ class Comment extends React.Component {
           ? <button onClick={this.deleteComment}>delete</button>
           : ''
         }
-        {comment.comments.map(comment => (
+        {comment.comments.map(reply => (
           <Reply 
-            key={comment.id}
-            replyInfo={comment}
+            key={reply.id}
+            replyInfo={reply}
             toggleReplyingTo={this.toggleReplyingTo}
             currentUser={userInfo.sub}
           />
