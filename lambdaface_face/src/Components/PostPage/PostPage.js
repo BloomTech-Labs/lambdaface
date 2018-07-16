@@ -10,6 +10,7 @@ import UserBar from './UserBar';
 
 // import "../../Styles/PostPage.css";
 import backArrow from "../../Assets/BackArrow.svg";
+import Button from "@material-ui/core/Button";
 
 class PostPage extends React.Component {
   state = {
@@ -110,6 +111,17 @@ class PostPage extends React.Component {
               <div className="post__right-col">
                 <ReactMarkdown className="markdown" source={currentPost.content} />
                 <UserBar type="singlepost" hasUserVoted={hasUserVoted} info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} imageHash={this.props.imageHash} />
+                {userInfo.sub === currentPost.userId 
+                  ? <Button
+                    variant="contained"
+                    color="primary" 
+                    className="post-page__edit-btn" 
+                    onClick={this.handleClick}
+                  >
+                    edit
+                    </Button>
+                  : ''
+                }
               </div>
             </div>
             <div className="post-page__comments">

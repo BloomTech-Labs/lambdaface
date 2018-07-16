@@ -104,6 +104,16 @@ class HomePage extends React.Component {
     this.setState({ imageHash: Date.now() });
   }
 
+  updateUser = (info) => {
+      this.setState(prevState => ({
+        user: {
+        ...prevState.user,
+        firstName: info.firstName,
+        lastName: info.lastName,
+      }
+    }));
+  }
+
   updatePic = () => {
     const user = this.state.user;
     user.profilePicture = `https://s3-us-west-2.amazonaws.com/lambdaface-photos/photos/${this.state.user.sub}`;
@@ -226,7 +236,7 @@ class HomePage extends React.Component {
         console.log(this.state.previousCategory)
         return <AddPost isEditing={this.state.isEditing} content={this.state.posts.find(post => post.id === currentPostId).content} postId={currentPostId} category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} userInfo={this.state.user} />;
       case "UserSettings":
-        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} updatePic={this.updatePic} logout={this.props.logout} />;
+        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} updatePic={this.updatePic} updateUser={this.updateUser} logout={this.props.logout} />;
       case "PostPage":
         return <PostPage toggleEditingPost={this.toggleEditingPost} postId={currentPostId} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} />;
       case "SearchResultsFor:":
