@@ -152,6 +152,12 @@ table {
     height: 365px;
   }
 }
+@media (max-width: 768px) and (max-width: 400px) {
+  .user-settings__container {
+    flex-direction: column;
+    height: 100%;
+  }
+}
 .user-settings__left-col {
   display: flex;
   flex-direction: column;
@@ -164,15 +170,32 @@ table {
     width: 35%;
   }
 }
+@media (max-width: 768px) and (max-width: 500px) {
+  .user-settings__left-col {
+    margin-right: 15%;
+  }
+}
+@media (max-width: 768px) and (max-width: 500px) and (max-width: 400px) {
+  .user-settings__left-col {
+    width: 100%;
+    margin-left: 10%;
+  }
+}
 .user-settings__picture {
-  width: 120px;
-  height: 120px;
+  width: 10%;
+  height: 10%;
   border-radius: 50%;
   margin-top: 15%;
 }
+@media (max-width: 768px) {
+  .user-settings__picture {
+    width: 100px;
+    height: 100px;
+  }
+}
 .user-settings__mid-col {
   display: flex;
-  width: 60%;
+  width: 100%;
   flex-wrap: wrap;
   justify-content: space-between;
 }
@@ -183,6 +206,11 @@ table {
   }
   .user-settings__mid-col button {
     margin-bottom: 10px;
+  }
+}
+@media (max-width: 768px) and (max-width: 400px) {
+  .user-settings__mid-col {
+    margin-left: 11%;
   }
 }
 .user-settings__text-field {
@@ -207,6 +235,12 @@ table {
   .user-settings__btns {
     flex-direction: column;
     width: 60%;
+  }
+}
+@media (max-width: 768px) and (max-width: 400px) {
+  .user-settings__btns {
+    margin-top: 3%;
+    margin-left: 8%;
   }
 }
 .user-settings__btns .user-settings__reset-btn {
@@ -543,6 +577,11 @@ body {
 .home-page__bottom .home-page__left-nav {
   width: 20%;
 }
+@media (max-width: 768px) {
+  .home-page__bottom .home-page__left-nav {
+    display: none;
+  }
+}
 .home-page__bottom .home-page__main {
   width: 75%;
 }
@@ -576,6 +615,13 @@ body {
   margin-top: 5%;
   cursor: pointer;
   font-family: sans-serif;
+  margin-left: 16%;
+}
+@media (max-width: 400px) {
+  .uploader__container .uploader__label {
+    margin-left: 29%;
+    justify-content: flex-start;
+  }
 }
 .password-reset__backdrop {
   position: absolute;

@@ -7,6 +7,10 @@
   background-color: rgb(251, 252, 253);
   @media @tablet {
     height: 365px;
+    @media @phone {
+      flex-direction: column;
+      height: 100%;
+    }
   }
 }
 
@@ -18,19 +22,30 @@
   margin-right: 5%;
   @media @tablet {
     width: 35%;
+    @media @500px {
+      margin-right: 15%;
+      @media @phone {
+        width: 100%;
+        margin-left: 10%;
+      }
+    }
   }
 }
 
 .user-settings__picture {
-  width: 120px;
-  height: 120px;
+  width: 10%;
+  height: 10%;
   border-radius: 50%;
   margin-top: 15%;
+  @media @tablet {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 .user-settings__mid-col {
   display: flex;
-  width: 60%;
+  width: 100%;
   flex-wrap: wrap;
   justify-content: space-between;
   @media @tablet {
@@ -38,6 +53,9 @@
     flex-wrap: nowrap;
     button {
       margin-bottom: 10px;
+    }
+    @media @phone {
+      margin-left: 11%;
     }
   }
 }
@@ -62,6 +80,10 @@
   @media @tablet {
     flex-direction: column;
     width: 60%;
+    @media @phone {
+      margin-top: 3%;
+      margin-left: 8%;
+    }
   }
   .user-settings__reset-btn {
     height: 50px;
