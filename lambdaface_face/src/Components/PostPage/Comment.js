@@ -11,7 +11,7 @@ class Comment extends React.Component {
   };
 
   toggleReplyingTo = () => {
-    this.setState(({ replyingTo }) => ({ replyingTo: !replyingTo }));
+    this.setState(prev => ({ replyingTo: !prev.replyingTo }));
   };
 
   deleteComment = () => {
