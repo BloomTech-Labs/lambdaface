@@ -5,9 +5,9 @@ import UserBar from "./UserBar";
 import WriteReply from "./WriteReply";
 import Reply from "./Reply";
 
-class Comment extends React.Component {
+export default class Comment extends React.Component {
   state = {
-    replyingTo: false
+    replyingTo: false,
   };
 
   toggleReplyingTo = () => {
@@ -45,7 +45,7 @@ class Comment extends React.Component {
           ? <button onClick={this.deleteComment}>delete</button>
           : ''
         }
-        {comment.comments.map(reply => (
+        {comment.replies.map(reply => (
           <Reply 
             key={reply.id}
             replyInfo={reply}
@@ -69,5 +69,3 @@ class Comment extends React.Component {
     );
   }
 }
-
-export default Comment;

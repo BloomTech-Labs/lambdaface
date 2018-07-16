@@ -72,8 +72,6 @@ class PostPage extends React.Component {
     }));
   }
 
-<<<<<<< HEAD
-=======
   handleDelete = () => {
     const postId = this.props.postId;
     const userId = this.props.userInfo.sub;
@@ -85,7 +83,6 @@ class PostPage extends React.Component {
       });
   }
   
->>>>>>> 2fa6065bf427be90ebe5f0b0e17fd2e4f310b446
   handleClick = () => {
     this.props.toggleEditingPost(true);
     this.props.changeCurrentCategory(['AddPost', null], this.state.currentPost.id)();

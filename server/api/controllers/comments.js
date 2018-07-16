@@ -41,16 +41,16 @@ const getComments = (req, res) => {
     .then(async (response) => {
       if (!child) {
         for (let i = 0; i < response.length; i++) {
-          response[i].comments = await knex('reply')
+          response[i].replies = await knex('reply')
             .where({ parentId: response[i].id })
             .orderBy('createdAt', 'asc')
             .join( ..._joinUser('reply') )
             .leftJoin( ..._joinVote('reply', 'INC') )
             .leftJoin( ..._joinVote('reply', 'DEC', 'dv') )
             .then(async replies => {
-              for (let i = 0; i < replies.length; i++) {
-                replies[i].hasUserVoted = await knex('vote')
-                  .where({ parentId: response[i].id, userId })
+              for (let j = 0; j < replies.length; j++) {
+                replies[j].hasUserVoted = await knex('vote')
+                  .where({ parentId: replies[j].id, userId })
                   .then(([ vote ]) => vote ? vote.voteType : false);
               }
               return replies;
@@ -66,7 +66,7 @@ const getComments = (req, res) => {
       res.status(200).json(response);
     })
     .catch((error) => {
-      res.status(422).json({ error });
+      res.status(422).json({ message: error.message, error });
     });
 };
 
