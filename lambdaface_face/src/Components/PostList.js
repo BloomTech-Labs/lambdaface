@@ -47,7 +47,7 @@ export default class PostList extends React.Component {
           className="postList__header-addPost" 
           variant="contained" 
           color="primary" 
-          onClick={this.props.changeCurrentCategory(["AddPost", null])}
+          onClick={() => this.props.changeCurrentCategory(["AddPost", null])()}
         >
           Add Post
         </Button>
