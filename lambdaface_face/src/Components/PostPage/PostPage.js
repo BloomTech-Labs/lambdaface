@@ -72,6 +72,20 @@ class PostPage extends React.Component {
     }));
   }
 
+<<<<<<< HEAD
+=======
+  handleDelete = () => {
+    const postId = this.props.postId;
+    const userId = this.props.userInfo.sub;
+
+    axios
+      .delete(`${process.env.REACT_APP_URL}api/post/${postId}/${userId}`)
+      .then(() => {
+        this.props.changeCurrentCategory(['All Posts', 0])();
+      });
+  }
+  
+>>>>>>> 2fa6065bf427be90ebe5f0b0e17fd2e4f310b446
   handleClick = () => {
     this.props.toggleEditingPost(true);
     this.props.changeCurrentCategory(['AddPost', null], this.state.currentPost.id)();
@@ -94,14 +108,20 @@ class PostPage extends React.Component {
                 <ReactMarkdown className="markdown" source={currentPost.content} />
                 <UserBar type="singlepost" hasUserVoted={hasUserVoted} info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} imageHash={this.props.imageHash} />
                 {userInfo.sub === currentPost.userId 
-                  ? <Button
-                    variant="contained"
-                    color="primary" 
-                    className="post-page__edit-btn" 
-                    onClick={this.handleClick}
-                  >
-                    edit
-                    </Button>
+                  ? <div>
+                      <Button
+                        variant="contained"
+                        color="primary" 
+                        className="post-page__edit-btn" 
+                        onClick={this.handleClick}
+                      >edit</Button>
+                      <Button
+                        variant="contained"
+                        color="primary" 
+                        className="post-page__delete-btn" 
+                        onClick={this.handleDelete}
+                      >delete</Button>
+                    </div>
                   : ''
                 }
               </div>
