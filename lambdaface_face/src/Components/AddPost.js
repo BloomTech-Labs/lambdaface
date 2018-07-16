@@ -1,8 +1,10 @@
 import React from "react";
 import axios from "axios";
+import { connect } from 'react-redux';
 
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import { addPost, editPost } from '../Actions/postActions.js';
 import CategoryButton from "./CategoryButton";
 import backArrow from "../Assets/BackArrow.svg";
 // import "../Styles/AddPost.css";
@@ -44,21 +46,21 @@ class AddPost extends React.Component {
     };
 
     if (this.props.isEditing) {
-      axios
-        .put(`${process.env.REACT_APP_URL}api/post/${postId}/${userId}`, { content })
-        .then(() => {
-          this.setState({ content: '' })
-          this.props.changeCurrentCategory(['PostPage', null], postId)();
-        })
-        .catch(error => console.error(error));
+      await this.props.editPost(postId, userId, content);
+      this.setState({ content: '' });
+      this.props.changeCurrentCategory(['PostPage', null], postId)();
+      // axios
+      //   .put(`${process.env.REACT_APP_URL}api/post/${postId}/${userId}`, { content })
+      //   .then(() => {
+      //     this.setState({ content: '' })
+      //     this.props.changeCurrentCategory(['PostPage', null], postId)();
+      //   })
+      //   .catch(error => console.error(error));
+
     } else {
-      axios
-        .post(`${process.env.REACT_APP_URL}api/posts`, newPost)
-        .then(() => {
-          this.setState({ content: '' });
-          this.props.changeCurrentCategory([...this.state.category])();
-        })
-        .catch(error => console.error(error));
+      await this.props.addPost(newPost);
+      this.setState({ content: '' });
+      this.props.changeCurrentCategory([...this.state.category])();
     }
   };
 
@@ -110,5 +112,10 @@ class AddPost extends React.Component {
     );
   }
 }
-
-export default AddPost;
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    posts: state.posts,
+  };
+};
+export default connect(mapStateToProps, { addPost, editPost })(AddPost);

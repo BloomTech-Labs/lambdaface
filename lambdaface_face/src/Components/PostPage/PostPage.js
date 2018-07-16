@@ -1,9 +1,12 @@
 import React from "react";
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
+import { connect } from 'react-redux';
 
 import IconButton from "@material-ui/core/IconButton";
 
+import { getPost, deletePost } from '../../Actions/postActions.js';
+import { getComments } from '../../Actions/commentActions.js';
 import Comment from "./Comment";
 import WriteComment from "./WriteComment";
 import UserBar from './UserBar';
@@ -20,10 +23,16 @@ class PostPage extends React.Component {
     currentPostId: '',
     following: null,
     hasUserVoted: null,
+    postLoaded: false,
   };
 
   componentDidMount() {
-    this.getComments();
+    if (!this.state.postLoaded) {
+      this.getPost()
+    }
+    if (!this.state.commentsLoaded) {
+      this.getComments();
+    }
   }
 
   componentDidUpdate() {
@@ -31,40 +40,29 @@ class PostPage extends React.Component {
       this.getComments();
     }
   }
+  getPost = async () => {
+    const { postId, getPost, userInfo } = this.props;
+    await getPost(postId, userInfo.sub);
 
-  getComments = async (updateCommentsOnly) => {
-    // console.log(this.props.post);
-    const parentId = this.props.postId;
-    const userId = this.props.userInfo.sub;
-
-    const post = !updateCommentsOnly
-      ? await axios
-        .get(`${process.env.REACT_APP_URL}api/post/${parentId}/${userId}`)
-        .then(({ data }) => data)
-        .catch(error => console.error(error))
-      : this.state.currentPost;
+    const { post } = this.props;
   
+    this.setState({
+      currentPost: { ...post },
+      currentPostId: post.id,
+      following: post.following,
+      hasUserVoted: post.hasUserVoted,
+      postLoaded: true,
+    });
+  }
+  getComments = async () => {
+    const { postId, userInfo, getComments } = this.props;
+    await getComments(postId, userInfo.sub);
 
-    const comments = await axios
-      .get(`${process.env.REACT_APP_URL}api/comments/${parentId}/${userId}`)
-      .then(({ data }) => data)
-      .catch(error => console.error(error));
+    const { comments } = this.props;
 
-    if (!post || comments === undefined) {
-      console.error({
-        message: 'Couldn\'t fetch post or comments!',
-        post,
-        comments,
-      });
-    }
-    
     this.setState({
       comments,
-      currentPost: { ...post },
       commentsLoaded: true,
-      currentPostId: post.id,
-      following: post.following || false,
-      hasUserVoted: post.hasUserVoted,
     });
   };
 
@@ -75,15 +73,11 @@ class PostPage extends React.Component {
     }));
   }
 
-  handleDelete = () => {
-    const postId = this.props.postId;
-    const userId = this.props.userInfo.sub;
+  handleDelete = async () => {
+    const { postId, userInfo, deletePost} = this.props;
+    await deletePost(postId, userInfo.sub);
 
-    axios
-      .delete(`${process.env.REACT_APP_URL}api/post/${postId}/${userId}`)
-      .then(() => {
-        this.props.changeCurrentCategory(['All Posts', 0])();
-      });
+    this.props.changeCurrentCategory(['All Posts', 0])();
   }
   
   handleClick = () => {
@@ -92,11 +86,11 @@ class PostPage extends React.Component {
   }
 
   render() {
-    const { comments, commentsLoaded, currentPost, hasUserVoted } = this.state;
+    const { comments, commentsLoaded, postLoaded, currentPost, hasUserVoted } = this.state;
     const { userInfo } = this.props;
     return (
       <div className="post-page__container">
-        {commentsLoaded ?
+        {postLoaded ?
           <div>
             <div className="post-page__post">
               <div className="post__left-col">
@@ -128,19 +122,18 @@ class PostPage extends React.Component {
             </div>
             <div className="post-page__comments">
               <div className="post-page__comments-header">Comments</div>
-              {
-            commentsLoaded 
-              ? comments.map(comment => (
-                <Comment
-                  key={comment.id}
-                  comment={comment}
-                  userInfo={userInfo}
-                  reloadComments={this.getComments}
-                  imageHash={this.props.imageHash}
-                />
-                ))
-              : <div>Loading Comments... </div>
-          }
+              { commentsLoaded 
+                ? comments.map(comment => (
+                  <Comment
+                    key={comment.id}
+                    comment={comment}
+                    userInfo={userInfo}
+                    reloadComments={this.getComments}
+                    imageHash={this.props.imageHash}
+                  />
+                  ))
+                : <div>Loading Comments... </div>
+              }
               <div className="post-page__new-comment-header">Write a comment</div>
               <WriteComment
                 commentInfo={{ parentId: this.props.postId, parentType: 'post' }}
@@ -157,4 +150,12 @@ class PostPage extends React.Component {
   }
 }
 
-export default PostPage;
+const mapStateToProps = ({ post, comments }) => {
+  return {
+    post,
+    comments,
+  };
+};
+export default connect(mapStateToProps, { getPost, getComments, deletePost })(PostPage);
+
+// export default PostPage;

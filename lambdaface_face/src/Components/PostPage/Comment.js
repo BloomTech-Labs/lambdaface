@@ -1,6 +1,8 @@
 import React from "react";
 import axios from 'axios';
+import { connect } from 'react-redux';
 
+import { deleteComment } from '../../Actions/commentActions';
 import UserBar from "./UserBar";
 import WriteReply from "./WriteReply";
 import Reply from "./Reply";

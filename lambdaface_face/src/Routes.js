@@ -12,7 +12,8 @@ const handleAuthentication = (nextState, replace) => {
   }
 };
 
-const Routes = () => {
+const Routes = (props) => {
+  console.log(props)
   return (
     <BrowserRouter>
       <div>
