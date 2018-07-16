@@ -146,11 +146,9 @@ class UserSettings extends React.Component {
               </Button>
             </div>
           </form>
-          <div className="user-settings__right-col">
-            {/*right column*/}
-            {/* <div>...</div> */}
-            {this.state.passwordReset ? <PasswordReset handlePW={this.closePasswordModal} /> : null}
-          </div>
+        </div>
+        <div className="user-settings__password-reset">
+          {this.state.passwordReset ? <PasswordReset handlePW={this.closePasswordModal} /> : null}
         </div>
         <div className="user-settings__settingsSaved">
           {this.state.settingsSaved ? <div>Settings Saved!</div> : null}
