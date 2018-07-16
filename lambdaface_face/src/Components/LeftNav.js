@@ -19,25 +19,27 @@ class LeftNav extends React.Component {
   }
   render() {
     return(
-    <List component="nav" className="category-list">
-      {this.props.options.map((category, i) => {
+      <List component="nav" className="category-list">
+        {this.props.options.map((category, i) => {
         return (
-            <ListItem
-              style={this.state.currentSelect === category ? {height: "50px", borderLeft: "4px solid #508bcf",}: {height:"50px", borderLeft: "4px solid white"}}
-              button
-              key={Math.random()}
-              onClick={this.props.changeCurrentCategory([category, i], null, this.select, this)}>
-              <LeftNavSVG image={category} fill={this.state.currentSelect === category? "#508bcf" : "rgb(44,46,49)"}/>
-              <ListItemText 
-                disableTypography 
-                style={this.state.currentSelect === category ? selectedTextStyle: unSelected} 
-                primary={category}/>
-            </ListItem>
+          <ListItem
+            style={this.state.currentSelect === category ? {height: "50px", borderLeft: "4px solid #508bcf",}: {height:"50px", borderLeft: "4px solid white"}}
+            button
+            key={Math.random()}
+            onClick={this.props.changeCurrentCategory([category, i], null, this.select, this)}
+          >
+            <LeftNavSVG image={category} fill={this.state.currentSelect === category? "#508bcf" : "rgb(44,46,49)"} />
+            <ListItemText 
+              disableTypography 
+              style={this.state.currentSelect === category ? selectedTextStyle: unSelected} 
+              primary={category}
+            />
+          </ListItem>
         );
       })}
-    </List>
+      </List>
     )
-  };
-};
+  }
+}
 
 export default LeftNav;
