@@ -1,17 +1,29 @@
 import React from "react";
+import axios from 'axios';
 
 import UserBar from "./UserBar";
 import WriteReply from "./WriteReply";
 import Reply from "./Reply";
 
-class Comment extends React.Component {
+export default class Comment extends React.Component {
   state = {
-    replyingTo: false
+    replyingTo: false,
   };
 
   toggleReplyingTo = () => {
-    this.setState(({ replyingTo }) => ({ replyingTo: !replyingTo }));
+    this.setState(prev => ({ replyingTo: !prev.replyingTo }));
   };
+
+  deleteComment = async (id, userId, isChild) => {
+    await axios
+      .put(`${process.env.REACT_APP_URL}api/comments/delete/${isChild ? 'child/' : ''}${id}`, { userId })
+      .then(() => {
+        console.log('comment deleted');
+      })
+      .catch(error => console.error(error));
+    
+    this.props.reloadComments(true);
+  }
 
   render() {
     const { replyingTo } = this.state;
@@ -28,12 +40,17 @@ class Comment extends React.Component {
           imageHash={this.props.imageHash}
           hasUserVoted={comment.hasUserVoted}
         />
-        {comment.comments.map(comment => (
+        { userInfo.sub === comment.userId
+          ? <button onClick={() => this.deleteComment(comment.id, userInfo.sub, false)}>delete</button>
+          : ''
+        }
+        {comment.replies.map(reply => (
           <Reply 
-            key={comment.id}
-            replyInfo={comment}
+            key={reply.id}
+            replyInfo={reply}
             toggleReplyingTo={this.toggleReplyingTo}
             currentUser={userInfo.sub}
+            deleteReply={() => this.deleteComment(reply.id, userInfo.sub, true)}
           />
         ))}
         {replyingTo && 
@@ -52,5 +69,3 @@ class Comment extends React.Component {
     );
   }
 }
-
-export default Comment;

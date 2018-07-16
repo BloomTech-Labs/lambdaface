@@ -41,16 +41,16 @@ const getComments = (req, res) => {
     .then(async (response) => {
       if (!child) {
         for (let i = 0; i < response.length; i++) {
-          response[i].comments = await knex('reply')
+          response[i].replies = await knex('reply')
             .where({ parentId: response[i].id })
             .orderBy('createdAt', 'asc')
             .join( ..._joinUser('reply') )
             .leftJoin( ..._joinVote('reply', 'INC') )
             .leftJoin( ..._joinVote('reply', 'DEC', 'dv') )
             .then(async replies => {
-              for (let i = 0; i < replies.length; i++) {
-                replies[i].hasUserVoted = await knex('vote')
-                  .where({ parentId: response[i].id, userId })
+              for (let j = 0; j < replies.length; j++) {
+                replies[j].hasUserVoted = await knex('vote')
+                  .where({ parentId: replies[j].id, userId })
                   .then(([ vote ]) => vote ? vote.voteType : false);
               }
               return replies;
@@ -66,7 +66,7 @@ const getComments = (req, res) => {
       res.status(200).json(response);
     })
     .catch((error) => {
-      res.status(422).json({ error });
+      res.status(422).json({ message: error.message, error });
     });
 };
 
@@ -141,11 +141,13 @@ const editComment = (req, res) => {
   const { 
     table,
     params: { id },
-    body: comment 
+    body: { content, userId } 
   } = req;
 
 
-  knex(table).where({ id }).update(comment)
+  knex(table)
+    .where({ id, userId })
+    .update({ content })
     .then((response) => {
       res.status(204).json({ success: response });
     })
@@ -157,17 +159,46 @@ const editComment = (req, res) => {
 const deleteComment = (req, res) => {
   const { 
     table,
+    child,
     params: { id },
+    body: { userId },
   } = req;
 
-  const content = 'Message Deleted';
+  const content = `${table} deleted`;
 
-  knex(table).where({ id }).update({ content })
-    .then((response) => {
+  knex(table)
+    .where({ id, userId })
+    .update({ content, userId: '-1' })
+    .then(async (response) => {
+      if (!child) {
+        /* if there's no replies or all replies are deleted on a comment delete it */
+        const replies = await knex('reply')
+          .where({ parentId: id });
+
+        if (!replies.length || replies.every(reply => reply.userId === '-1')) {
+          await knex(table)
+            .where({ id })
+            .del();
+        }
+      } else {
+        /* if there's no other replies on a reply delete it */
+        const parentId = await knex('reply')
+          .where({ id })
+          .then(([{ parentId }]) => parentId);
+        
+        const replies = await knex('reply')
+          .where({ parentId });
+        
+        if (!replies.length || replies.every(reply => reply.userId === '-1')) {
+          await knex(table)
+            .where({ id })
+            .del();
+        }
+      }
       res.status(204).json({ success: response });
     })
     .catch((error) => {
-      res.status(422).json({ error });
+      res.status(422).json({ error: error.message });
     });
 };
 

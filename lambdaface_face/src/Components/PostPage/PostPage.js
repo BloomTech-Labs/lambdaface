@@ -32,15 +32,18 @@ class PostPage extends React.Component {
     }
   }
 
-  getComments = async () => {
+  getComments = async (updateCommentsOnly) => {
     // console.log(this.props.post);
     const parentId = this.props.postId;
     const userId = this.props.userInfo.sub;
 
-    const post = await axios
-      .get(`${process.env.REACT_APP_URL}api/post/${parentId}/${userId}`)
-      .then(({ data }) => data)
-      .catch(error => console.error(error));
+    const post = !updateCommentsOnly
+      ? await axios
+        .get(`${process.env.REACT_APP_URL}api/post/${parentId}/${userId}`)
+        .then(({ data }) => data)
+        .catch(error => console.error(error))
+      : this.state.currentPost;
+  
 
     const comments = await axios
       .get(`${process.env.REACT_APP_URL}api/comments/${parentId}/${userId}`)
@@ -68,7 +71,7 @@ class PostPage extends React.Component {
   toggleFollowing = () => {
     // console.log('Following has been toggled!')
     this.setState(prev => ({
-      following: !prev.following
+      following: !prev.following,
     }));
   }
 
@@ -87,6 +90,7 @@ class PostPage extends React.Component {
     this.props.toggleEditingPost(true);
     this.props.changeCurrentCategory(['AddPost', null], this.state.currentPost.id)();
   }
+
   render() {
     const { comments, commentsLoaded, currentPost, hasUserVoted } = this.state;
     const { userInfo } = this.props;

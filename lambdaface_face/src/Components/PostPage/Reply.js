@@ -5,6 +5,13 @@ import UserBar from './UserBar';
 export default props => (
   <div className="reply__container">
     {props.replyInfo.content}
+    { props.currentUser === props.replyInfo.userId 
+      ? (<div>
+          {/* <button onClick={} >edit</button> */}
+          <button onClick={props.deleteReply} >delete</button>
+        </div>)
+      : ''
+    }
     <UserBar
       currentUser={props.currentUser}
       type="comment"
