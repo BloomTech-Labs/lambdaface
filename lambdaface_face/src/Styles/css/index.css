@@ -318,8 +318,12 @@ table {
   font-size: 1.25em;
   margin: 5% 0 1.5% 0;
 }
-.post-page__container .post-page__edit-btn {
+.post-page__container .post-page__edit-btn,
+.post-page__container .post-page__delete-btn {
   margin-top: 15px;
+}
+.post-page__container .post-page__edit-btn {
+  margin-right: 10px;
 }
 .reply__container {
   margin-top: 10px;
