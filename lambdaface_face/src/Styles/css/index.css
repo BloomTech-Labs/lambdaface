@@ -531,6 +531,22 @@ body {
     margin: 0px 10px 0px -9px;
   }
 }
+.top-bar__dropdown-search-input {
+  z-index: 1;
+  position: absolute;
+  height: 25px;
+  width: 60%;
+  right: 20%;
+  top: 55px;
+  background-color: #fbfcfd;
+  box-shadow: 5px 5px 20px lightgray;
+  border-style: none;
+  border-radius: 15px;
+  padding-left: 10px;
+}
+.top-bar__dropdown-search-input:focus {
+  outline-width: 0;
+}
 .top-bar__search-input {
   color: black;
   background-color: #fbfcfd;

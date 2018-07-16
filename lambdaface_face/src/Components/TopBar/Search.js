@@ -39,12 +39,14 @@ class Search extends React.Component {
           {this.state.displaySearchField ? 
             <div>
               <form onSubmit={this.props.onSubmit([`Search Results For: ${this.state.query}`, null])}>
-                <input
-                  className="top-bar__search-input"
-                  type="text"
-                  placeholder="Search"
-                  onChange={this.handleChange} 
-                /> 
+                <div>
+                  <input
+                    className="top-bar__dropdown-search-input"
+                    type="text"
+                    placeholder="Search"
+                    onChange={this.handleChange} 
+                  />  
+                </div>
               </form>
             </div>
               : null
