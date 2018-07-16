@@ -141,11 +141,13 @@ const editComment = (req, res) => {
   const { 
     table,
     params: { id },
-    body: comment 
+    body: { content } 
   } = req;
 
 
-  knex(table).where({ id }).update(comment)
+  knex(table)
+    .where({ id })
+    .update({ content })
     .then((response) => {
       res.status(204).json({ success: response });
     })
@@ -158,16 +160,17 @@ const deleteComment = (req, res) => {
   const { 
     table,
     params: { id },
+    body: { userId },
   } = req;
 
-  const content = 'Message Deleted';
+  const content = `${table} deleted`;
 
-  knex(table).where({ id }).update({ content })
+  knex(table).where({ id, userId }).update({ content, userId: '-1' })
     .then((response) => {
       res.status(204).json({ success: response });
     })
     .catch((error) => {
-      res.status(422).json({ error });
+      res.status(422).json({ error: error.message });
     });
 };
 

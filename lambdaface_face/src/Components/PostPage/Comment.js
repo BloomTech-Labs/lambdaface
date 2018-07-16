@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 
 import UserBar from "./UserBar";
 import WriteReply from "./WriteReply";
@@ -12,6 +13,18 @@ class Comment extends React.Component {
   toggleReplyingTo = () => {
     this.setState(({ replyingTo }) => ({ replyingTo: !replyingTo }));
   };
+
+  deleteComment = () => {
+    const { id } = this.props.comment;
+    const userId = this.props.userInfo.sub;
+
+    axios
+      .put(`${process.env.REACT_APP_URL}api/comments/delete/${id}`, { userId })
+      .then(() => {
+        console.log('comment deleted');
+      })
+      .catch(error => console.error(error));
+  }
 
   render() {
     const { replyingTo } = this.state;
@@ -28,6 +41,10 @@ class Comment extends React.Component {
           imageHash={this.props.imageHash}
           hasUserVoted={comment.hasUserVoted}
         />
+        { userInfo.sub === comment.userId
+          ? <button onClick={this.deleteComment}>delete</button>
+          : ''
+        }
         {comment.comments.map(comment => (
           <Reply 
             key={comment.id}

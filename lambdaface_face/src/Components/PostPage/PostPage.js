@@ -68,13 +68,15 @@ class PostPage extends React.Component {
   toggleFollowing = () => {
     // console.log('Following has been toggled!')
     this.setState(prev => ({
-      following: !prev.following
+      following: !prev.following,
     }));
   }
+
   handleClick = () => {
     this.props.toggleEditingPost(true);
     this.props.changeCurrentCategory(['AddPost', null], this.state.currentPost.id)();
   }
+
   render() {
     const { comments, commentsLoaded, currentPost, hasUserVoted } = this.state;
     const { userInfo } = this.props;
