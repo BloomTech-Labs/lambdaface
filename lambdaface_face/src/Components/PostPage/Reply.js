@@ -16,7 +16,10 @@ export default props => (
   <div className="reply__container">
     {props.replyInfo.content}
     { props.currentUser === props.replyInfo.userId 
-      ? <button onClick={() => _deleteReply(props.replyInfo.id, props.currentUser)} >delete</button>
+      ? (<div>
+          {/* <button onClick={} >edit</button> */}
+          <button onClick={() => _deleteReply(props.replyInfo.id, props.currentUser)} >delete</button>
+        </div>)
       : ''
     }
     <UserBar

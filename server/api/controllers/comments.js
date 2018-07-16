@@ -141,12 +141,12 @@ const editComment = (req, res) => {
   const { 
     table,
     params: { id },
-    body: { content } 
+    body: { content, userId } 
   } = req;
 
 
   knex(table)
-    .where({ id })
+    .where({ id, userId })
     .update({ content })
     .then((response) => {
       res.status(204).json({ success: response });
@@ -159,14 +159,42 @@ const editComment = (req, res) => {
 const deleteComment = (req, res) => {
   const { 
     table,
+    child,
     params: { id },
     body: { userId },
   } = req;
 
   const content = `${table} deleted`;
 
-  knex(table).where({ id, userId }).update({ content, userId: '-1' })
-    .then((response) => {
+  knex(table)
+    .where({ id, userId })
+    .update({ content, userId: '-1' })
+    .then(async (response) => {
+      if (!child) {
+        /* if there's no replies or all replies are deleted on a comment delete it */
+        const replies = await knex('reply')
+          .where({ parentId: id });
+
+        if (!replies.length || replies.every(reply => reply.userId === '-1')) {
+          await knex(table)
+            .where({ id })
+            .del();
+        }
+      } else {
+        /* if there's no other replies on a reply delete it */
+        const parentId = await knex('reply')
+          .where({ id })
+          .then(([{ parentId }]) => parentId);
+        
+        const replies = await knex('reply')
+          .where({ parentId });
+        
+        if (!replies) {
+          await knex(table)
+            .where({ id })
+            .del();
+        }
+      }
       res.status(204).json({ success: response });
     })
     .catch((error) => {
