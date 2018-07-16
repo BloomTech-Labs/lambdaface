@@ -25,6 +25,10 @@ class UserSettings extends React.Component {
     settingsSaved: false,
   };
 
+  componentWillUnmount() {
+    this.setState({ settingsSaved: false })
+  }
+
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value
@@ -62,9 +66,7 @@ class UserSettings extends React.Component {
       .put(`${process.env.REACT_APP_URL}api/users/${userId}`, userInfo)
       .then(res => {
         this.setState({ settingsSaved: true });
-        setTimeout(() => {
-          this.setState({ settingsSaved: false });
-        }, 2500);
+        this.props.updateUser(this.state);
         console.log(res);
         // need to know what res looks like
       })
@@ -92,6 +94,7 @@ class UserSettings extends React.Component {
               id="firstName-input"
               className="user-settings__text-field"
               label="First Name"
+              placeholder={this.props.userInfo.firstName}
             // className={}
               type="text"
               value={this.state.firstName}
@@ -103,6 +106,7 @@ class UserSettings extends React.Component {
               id="lastName-input"
               className="user-settings__text-field"
               label="Last Name"
+              placeholder={this.props.userInfo.lastName}
           // className={}
               type="text"
               value={this.state.lastName}

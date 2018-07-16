@@ -14,9 +14,13 @@ const NotificationsMenu = (notifications, clearNotifications, changeCurrentCateg
   const grammarParser = (type) => {
     switch(type) {
       case 'comment':
-        return [' commented on', 'post'];
+        return [' commented on', 'your post'];
+      case 'commentfollow':
+        return [' commented on', 'a post you are following:'];
       case 'reply':
-        return [' replied to', 'comment'];
+        return [' replied to', 'your comment'];
+      case 'replyfollow':
+        return [' replied on', 'a post you are following:'];
       default:
         return [' missing', 'missing'];
     }
@@ -43,7 +47,7 @@ const NotificationsMenu = (notifications, clearNotifications, changeCurrentCateg
               <strong>{`${firstName} ${lastName}`}</strong>
             </div>
             <p className="notifications-menu__item__text">
-              { grammar } your { parentType }
+              { grammar } { parentType }
               <strong> { contentParser(content) }</strong>
             </p>
           </div>
