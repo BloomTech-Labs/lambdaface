@@ -73,13 +73,13 @@ const getPostById = (req, res) => {
         .where({ id })
         .update({ viewCount: ++response.viewCount });
 
-      const arr = await knex('follow').where({ parentId: id, userId });
+      response.following = await knex('follow')
+        .where({ parentId: id, userId })
+        .then(follow => follow.length === 1);
 
-      if (arr.length === 1) {
-        response.following = true;
-      } else if (arr.length === 0) {
-        response.following = false;
-      }
+      response.hasUserVoted = await knex('vote')
+        .where({ parentId: id, userId })
+        .then(([ vote ]) => vote ? vote.voteType : false);
 
       res.status(SUCCESS_CODE).json(response);
     })
@@ -121,7 +121,7 @@ const editPost = (req, res) => {
   const { content } = req.body;
 
   const updatedAt = knex.fn.now();
-
+  
   knex('post')
     .where({ id })
     .update({ content, updatedAt })
@@ -143,6 +143,7 @@ const deletePost = (req, res) => {
       res.status(SUCCESS_CODE).json({ success: response });
     })
     .catch((error) => {
+      console.log(error.message);
       res.status(USER_ERROR).json({ error });
     });
 };

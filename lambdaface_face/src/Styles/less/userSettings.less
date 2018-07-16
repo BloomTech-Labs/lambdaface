@@ -2,9 +2,16 @@
 
 .user-settings__container {
   display: flex;
-  width: 1031px;
+  width: 100%;
   height: 281px;
   background-color: rgb(251, 252, 253);
+  @media @tablet {
+    height: 365px;
+    @media @phone {
+      flex-direction: column;
+      height: 100%;
+    }
+  }
 }
 
 .user-settings__left-col {
@@ -12,26 +19,55 @@
   flex-direction: column;
   align-items: center;
   width: 25%;
+  margin-right: 5%;
+  @media @tablet {
+    width: 35%;
+    @media @500px {
+      margin-right: 15%;
+      @media @phone {
+        width: 100%;
+        margin-left: 10%;
+      }
+    }
+  }
 }
 
 .user-settings__picture {
-  width: 120px;
-  height: 120px;
+  width: 10%;
+  height: 10%;
   border-radius: 50%;
   margin-top: 15%;
+  @media @tablet {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 .user-settings__mid-col {
   display: flex;
-  width: 60%;
+  width: 100%;
   flex-wrap: wrap;
   justify-content: space-between;
+  @media @tablet {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    button {
+      margin-bottom: 10px;
+    }
+    @media @phone {
+      margin-left: 11%;
+    }
+  }
 }
 
 .user-settings__text-field {
   width: 45%;
+  @media @tablet {
+    width: 75%;
+  }
 }
-.user-settings__right-col {
+
+.user-settings__password-reset {
   display: flex;
   justify-content: flex-end;
   width: 20%;
@@ -41,6 +77,14 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  @media @tablet {
+    flex-direction: column;
+    width: 60%;
+    @media @phone {
+      margin-top: 3%;
+      margin-left: 8%;
+    }
+  }
   .user-settings__reset-btn {
     height: 50px;
   }

@@ -35,13 +35,13 @@ module.exports = (server) => {
     .put(editPost)
     .delete(deletePost);
 
-  server.route(['/api/comments/:parentId', '/api/comments/child/:parentId'])
+  server.route(['/api/comments/:parentId/:userId', '/api/comments/child/:parentId'])
     .get(isChildComment, getComments);
 
-  server.route('/api/comments/:id')
+  server.route(['/api/comments/:id', '/api/comments/child/:id'])
     .put(isChildComment, editComment);
 
-  server.route('/api/comments/delete/:id')
+  server.route(['/api/comments/delete/:id', '/api/comments/delete/child/:id'])
     .put(isChildComment, deleteComment);
 
   server.route('/api/comments')

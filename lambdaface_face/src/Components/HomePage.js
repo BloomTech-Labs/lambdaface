@@ -104,6 +104,16 @@ class HomePage extends React.Component {
     this.setState({ imageHash: Date.now() });
   }
 
+  updateUser = (info) => {
+      this.setState(prevState => ({
+        user: {
+        ...prevState.user,
+        firstName: info.firstName,
+        lastName: info.lastName,
+      }
+    }));
+  }
+
   updatePic = () => {
     const user = this.state.user;
     user.profilePicture = `https://s3-us-west-2.amazonaws.com/lambdaface-photos/photos/${this.state.user.sub}`;
@@ -143,8 +153,7 @@ class HomePage extends React.Component {
           // console.log('Invalid JSON: ', message.data);
           return;
         }
-      }
-      else if (json.type) {
+      } else if (json.type) {
         console.log(json.data);
       }
     }
@@ -218,15 +227,20 @@ class HomePage extends React.Component {
       console.error("Empty Query")
     }
   };
-
-  categorySwitch = (currentCategory, currentPostId) => {
+  toggleEditingPost = isEditing => {
+    this.setState({ isEditing });
+  }
+  categorySwitch = (currentCategory, currentPostId = '') => {
+    console.log(currentPostId);
     switch (currentCategory[0].substring(0,17)) {
       case "AddPost":
-        return <AddPost category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} userInfo={this.state.user} />;
+        let content = this.state.posts.find(post => post.id === currentPostId)
+        content = content && content.content;
+        return <AddPost isEditing={this.state.isEditing} content={content} postId={currentPostId} category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} userInfo={this.state.user} />;
       case "UserSettings":
-        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} updatePic={this.updatePic} logout={this.props.logout} />;
+        return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} updatePic={this.updatePic} updateUser={this.updateUser} logout={this.props.logout} />;
       case "PostPage":
-        return <PostPage postId={currentPostId} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} />;
+        return <PostPage toggleEditingPost={this.toggleEditingPost} postId={currentPostId} changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} />;
       case "SearchResultsFor:":
         return (<PostList
           handleNewest={this.getNewestPosts}

@@ -10,6 +10,7 @@ import UserBar from './UserBar';
 
 // import "../../Styles/PostPage.css";
 import backArrow from "../../Assets/BackArrow.svg";
+import Button from "@material-ui/core/Button";
 
 class PostPage extends React.Component {
   state = {
@@ -17,7 +18,8 @@ class PostPage extends React.Component {
     commentsLoaded: false,
     currentPost: {},
     currentPostId: '',
-    following: null
+    following: null,
+    hasUserVoted: null,
   };
 
   componentDidMount() {
@@ -30,37 +32,67 @@ class PostPage extends React.Component {
     }
   }
 
-  getComments = () => {
+  getComments = async (updateCommentsOnly) => {
     // console.log(this.props.post);
     const parentId = this.props.postId;
     const userId = this.props.userInfo.sub;
-    axios
-      .get(`${process.env.REACT_APP_URL}`.concat(`api/post/${parentId}/${userId}`))
-      .then(resp => {
-        const post = resp.data;
-        axios
-          .get(`${process.env.REACT_APP_URL}`.concat(`api/comments/${parentId}`))
-          .then(res => {
-            // console.log(res.data);
-            this.setState({ comments: [...res.data], currentPost: {...post}, commentsLoaded: true, currentPostId: post.id, following: post.following || false })
-          })
-          .catch(err => {
-            console.error(err);
-          });
-      })
+
+    const post = !updateCommentsOnly
+      ? await axios
+        .get(`${process.env.REACT_APP_URL}api/post/${parentId}/${userId}`)
+        .then(({ data }) => data)
+        .catch(error => console.error(error))
+      : this.state.currentPost;
+  
+
+    const comments = await axios
+      .get(`${process.env.REACT_APP_URL}api/comments/${parentId}/${userId}`)
+      .then(({ data }) => data)
       .catch(error => console.error(error));
-    // this.setState({ comments: [...testcomments], commentsLoaded: true });
+
+    if (!post || comments === undefined) {
+      console.error({
+        message: 'Couldn\'t fetch post or comments!',
+        post,
+        comments,
+      });
+    }
+    
+    this.setState({
+      comments,
+      currentPost: { ...post },
+      commentsLoaded: true,
+      currentPostId: post.id,
+      following: post.following || false,
+      hasUserVoted: post.hasUserVoted,
+    });
   };
 
   toggleFollowing = () => {
     // console.log('Following has been toggled!')
     this.setState(prev => ({
-      following: !prev.following
+      following: !prev.following,
     }));
   }
+
+  handleDelete = () => {
+    const postId = this.props.postId;
+    const userId = this.props.userInfo.sub;
+
+    axios
+      .delete(`${process.env.REACT_APP_URL}api/post/${postId}/${userId}`)
+      .then(() => {
+        this.props.changeCurrentCategory(['All Posts', 0])();
+      });
+  }
   
+  handleClick = () => {
+    this.props.toggleEditingPost(true);
+    this.props.changeCurrentCategory(['AddPost', null], this.state.currentPost.id)();
+  }
+
   render() {
-    const { comments, commentsLoaded, currentPost } = this.state;
+    const { comments, commentsLoaded, currentPost, hasUserVoted } = this.state;
     const { userInfo } = this.props;
     return (
       <div className="post-page__container">
@@ -72,10 +104,26 @@ class PostPage extends React.Component {
                   <img src={backArrow} alt="Back" height="30px" width="30px" />
                 </IconButton>
               </div>
-
               <div className="post__right-col">
                 <ReactMarkdown className="markdown" source={currentPost.content} />
-                <UserBar type="singlepost" info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} imageHash={this.props.imageHash} />
+                <UserBar type="singlepost" hasUserVoted={hasUserVoted} info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} imageHash={this.props.imageHash} />
+                {userInfo.sub === currentPost.userId 
+                  ? <div>
+                      <Button
+                        variant="contained"
+                        color="primary" 
+                        className="post-page__edit-btn" 
+                        onClick={this.handleClick}
+                      >edit</Button>
+                      <Button
+                        variant="contained"
+                        color="primary" 
+                        className="post-page__delete-btn" 
+                        onClick={this.handleDelete}
+                      >delete</Button>
+                    </div>
+                  : ''
+                }
               </div>
             </div>
             <div className="post-page__comments">

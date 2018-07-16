@@ -12,44 +12,60 @@ class AddPost extends React.Component {
     content: "",
     userId: this.props.userInfo.sub,
     // get category from props, do not let AllPosts be an option
-    category: this.props.category[0] === "AllPosts" ? ["Announcements", 1] : this.props.category
+    category: this.props.category[0] === "AllPosts" ? ["Announcements", 1] : this.props.category,
+    postId: null,
   };
 
-  handleChange = name => event => {
+  componentDidMount() {
+    console.log(this.props)
+    const { isEditing, content, postId } = this.props;
+    if (isEditing) {
+      this.setState({ content, postId });
+    }
+  }
+
+  handleChange = event => {
     this.setState({
-      [name]: event.target.value
+      content: event.target.value,
     });
   };
 
   changeCategory = category => {
-    this.setState({
-      category: category
-    });
+    this.setState({ category });
   }
 
-  submitPost = () => event => {
+  submitPost = async event => {
     event.preventDefault();
+    const { content, userId, category, postId } = this.state;
     const newPost = {
-      content: this.state.content,
-      userId: this.state.userId,
-      categoryId: this.state.category[1],
+      content,
+      userId,
+      categoryId: category[1],
     };
-    // TODO: ADD dynamic userId
-    axios
-      .post(`${process.env.REACT_APP_URL}`.concat('api/posts'), newPost)
-      .then(res => {
-        // console.log(res);
-        this.setState({ content: "" });
-        // redirect to last page
-        this.props.changeCurrentCategory([...this.state.category])();
-      })
-      .catch(err => {
-        console.error(err);
-      });
+
+    if (this.props.isEditing) {
+      axios
+        .put(`${process.env.REACT_APP_URL}api/post/${postId}/${userId}`, { content })
+        .then(() => {
+          this.setState({ content: '' })
+          this.props.changeCurrentCategory(['PostPage', null], postId)();
+        })
+        .catch(error => console.error(error));
+    } else {
+      axios
+        .post(`${process.env.REACT_APP_URL}api/posts`, newPost)
+        .then(() => {
+          this.setState({ content: '' });
+          this.props.changeCurrentCategory([...this.state.category])();
+        })
+        .catch(error => console.error(error));
+    }
   };
 
   render() {
     const category = this.state.category;
+    const { firstName, lastName, profilePicture } = this.props.userInfo;
+
     return (
       <div className="add-post__container">
         <div className="container__left-col">
@@ -64,26 +80,26 @@ class AddPost extends React.Component {
             style={{ resize: "none" }}
             className="right-col__text-area"
             value={this.state.content}
-            onChange={this.handleChange("content")}
+            onChange={this.handleChange}
             cols="30"
             rows="10"
           />
           <div className="right-col__bottom-row">
-            <div className="bottom-row__left">
-              {/* TODO: make these elements format textarea text */}
-              {/* <span>B</span>
-              <div>List</div>
-              <div>List</div> */}
-            </div>
+            <div className="bottom-row__left" />
             <div className="bottom-row__right">
-              <CategoryButton category={category} changeCategory={this.changeCategory} categories={this.props.options} />
-              {/* TODO: get avatar & name dynamically */}
-              <img src={this.props.userInfo.profilePicture} alt="AddPost-ProfilePic" className="bottom-row__right-picture" />
-              <span>{this.props.userInfo.firstName} {this.props.userInfo.lastName}</span>
+              <CategoryButton 
+                category={category}
+                changeCategory={this.changeCategory}
+                categories={this.props.options}
+              />
+              <div className="bottom-row__right-user">
+                <img src={profilePicture} alt="AddPost-ProfilePic" className="bottom-row__right-picture" />
+                <span className="bottom-row__right-name">{firstName} {lastName}</span>
+              </div>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={this.submitPost()}
+                onClick={this.submitPost}
               >
                 Post
               </Button>
