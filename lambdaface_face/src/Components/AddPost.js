@@ -85,16 +85,17 @@ class AddPost extends React.Component {
             rows="10"
           />
           <div className="right-col__bottom-row">
-            <div className="bottom-row__left">
-            </div>
+            <div className="bottom-row__left" />
             <div className="bottom-row__right">
               <CategoryButton 
                 category={category}
                 changeCategory={this.changeCategory}
                 categories={this.props.options}
               />
-              <img src={profilePicture} alt="AddPost-ProfilePic" className="bottom-row__right-picture" />
-              <span>{firstName} {lastName}</span>
+              <div className="bottom-row__right-user">
+                <img src={profilePicture} alt="AddPost-ProfilePic" className="bottom-row__right-picture" />
+                <span className="bottom-row__right-name">{firstName} {lastName}</span>
+              </div>
               <Button
                 variant="contained"
                 color="primary"
