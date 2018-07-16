@@ -14,16 +14,15 @@ export default class Comment extends React.Component {
     this.setState(prev => ({ replyingTo: !prev.replyingTo }));
   };
 
-  deleteComment = () => {
-    const { id } = this.props.comment;
-    const userId = this.props.userInfo.sub;
-
-    axios
-      .put(`${process.env.REACT_APP_URL}api/comments/delete/${id}`, { userId })
+  deleteComment = async (id, userId, isChild) => {
+    await axios
+      .put(`${process.env.REACT_APP_URL}api/comments/delete/${isChild ? 'child/' : ''}${id}`, { userId })
       .then(() => {
         console.log('comment deleted');
       })
       .catch(error => console.error(error));
+    
+    this.props.reloadComments(true);
   }
 
   render() {
@@ -42,7 +41,7 @@ export default class Comment extends React.Component {
           hasUserVoted={comment.hasUserVoted}
         />
         { userInfo.sub === comment.userId
-          ? <button onClick={this.deleteComment}>delete</button>
+          ? <button onClick={() => this.deleteComment(comment.id, userInfo.sub, false)}>delete</button>
           : ''
         }
         {comment.replies.map(reply => (
@@ -51,6 +50,7 @@ export default class Comment extends React.Component {
             replyInfo={reply}
             toggleReplyingTo={this.toggleReplyingTo}
             currentUser={userInfo.sub}
+            deleteReply={() => this.deleteComment(reply.id, userInfo.sub, true)}
           />
         ))}
         {replyingTo && 

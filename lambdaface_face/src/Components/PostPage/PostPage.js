@@ -32,15 +32,18 @@ class PostPage extends React.Component {
     }
   }
 
-  getComments = async () => {
+  getComments = async (updateCommentsOnly) => {
     // console.log(this.props.post);
     const parentId = this.props.postId;
     const userId = this.props.userInfo.sub;
 
-    const post = await axios
-      .get(`${process.env.REACT_APP_URL}api/post/${parentId}/${userId}`)
-      .then(({ data }) => data)
-      .catch(error => console.error(error));
+    const post = !updateCommentsOnly
+      ? await axios
+        .get(`${process.env.REACT_APP_URL}api/post/${parentId}/${userId}`)
+        .then(({ data }) => data)
+        .catch(error => console.error(error))
+      : this.state.currentPost;
+  
 
     const comments = await axios
       .get(`${process.env.REACT_APP_URL}api/comments/${parentId}/${userId}`)

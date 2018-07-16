@@ -189,7 +189,7 @@ const deleteComment = (req, res) => {
         const replies = await knex('reply')
           .where({ parentId });
         
-        if (!replies) {
+        if (!replies.length || replies.every(reply => reply.userId === '-1')) {
           await knex(table)
             .where({ id })
             .del();
