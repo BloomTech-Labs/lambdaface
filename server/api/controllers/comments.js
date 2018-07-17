@@ -113,8 +113,8 @@ const createComment = (req, res) => {
             // console.log('followers:', res);
             return res
           })
-          .catch(err => {
-            console.log(err);
+          .catch(error => {
+            console.error(error);
             return []
           });
 
