@@ -361,6 +361,16 @@ table {
 .user-bar__comment-button {
   margin-left: 38%;
 }
+@media (max-width: 600px) {
+  .user-bar__comment-button {
+    margin-left: 20%;
+  }
+}
+@media (max-width: 400px) {
+  .user-bar__comment-button {
+    margin-left: 0%;
+  }
+}
 .user-bar__reply-button {
   margin-left: 22%;
 }
