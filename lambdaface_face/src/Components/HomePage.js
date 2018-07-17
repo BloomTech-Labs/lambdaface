@@ -144,7 +144,7 @@ class HomePage extends React.Component {
     window.WebSocket = window.WebSocket || window.MozWebSocket;
 
     if (!window.WebSocket) {
-      console.log('Browser doesn\'t support web sockets');
+      console.info('Browser doesn\'t support web sockets');
       return;
     }
 
@@ -174,7 +174,7 @@ class HomePage extends React.Component {
           return;
         }
       } else if (json.type) {
-        console.log(json.data);
+        console.info(json.data);
       }
     }
   }
@@ -250,10 +250,10 @@ class HomePage extends React.Component {
     this.setState({ isEditing });
   }
   categorySwitch = (currentCategory, currentPostId = '') => {
+    let content = this.state.posts.find(post => post.id === currentPostId)
+    content = content && content.content;
     switch (currentCategory[0].substring(0,17)) {
       case "AddPost":
-        let content = this.state.posts.find(post => post.id === currentPostId)
-        content = content && content.content;
         return <AddPost isEditing={this.state.isEditing} content={content} postId={currentPostId} category={this.state.previousCategory} options={this.state.postOptions} changeCurrentCategory={this.changeCurrentCategory} userInfo={this.state.user} />;
       case "UserSettings":
         return <UserSettings changeCurrentCategory={this.changeCurrentCategory} category={this.state.previousCategory} userInfo={this.state.user} imageHash={this.state.imageHash} updateImageHash={this.updateImageHash} updatePic={this.updatePic} updateUser={this.updateUser} logout={this.props.logout} />;
