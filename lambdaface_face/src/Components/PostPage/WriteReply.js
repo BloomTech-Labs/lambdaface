@@ -5,7 +5,8 @@ import UserBar from "./UserBar";
 
 class WriteReply extends React.Component {
   state = {
-    content: '',
+    content: this.props.reply && this.props.reply.content || '',
+    isEdit: this.props.isEdit || false,
   };
 
   handleChange = event => {
@@ -16,27 +17,31 @@ class WriteReply extends React.Component {
 
   submitReply = async () => {
     const {
+      reply: { id },
       userInfo,
       commentInfo: { parentId, parentType },
       toggleReplyingTo,
       reloadComments,
     } = this.props;
 
-    const { content } = this.state;
+    const { content, isEdit } = this.state;
 
     try {
       if (content.replace(/\n| /g, '') === '') {
         throw new Error('A reply requires content to be submitted!');
       }
   
-      const reply = {
-        content,
-        userId: userInfo.sub,
-        parentId,
-        parentType,
-      };
-
-      await axios.post(`${process.env.REACT_APP_URL}api/comments`, reply);
+      if (this.state.isEdit) {
+        await axios.put(`${process.env.REACT_APP_URL}api/comments/child/${id}`, { content, userId: userInfo.sub })
+      } else {
+        const reply = {
+          content,
+          userId: userInfo.sub,
+          parentId,
+          parentType,
+        };
+        await axios.post(`${process.env.REACT_APP_URL}api/comments`, reply);
+      }
       this.setState({ content: '' });
       toggleReplyingTo();
       reloadComments();
