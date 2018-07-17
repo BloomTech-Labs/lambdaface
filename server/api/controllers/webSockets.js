@@ -79,7 +79,7 @@ const sendOrStore = async (userId, obj) => {
 }
 
 const webSocketConnect = (ws, req) => {
-  console.log('\n', new Date() + ' Connection from origin '
+  console.info('\n', new Date() + ' Connection from origin '
   + req.connection.remoteAddress + '.');
 
   let userId;
@@ -96,7 +96,7 @@ const webSocketConnect = (ws, req) => {
   })
 
   ws.on('close', connection => {
-    console.log(`\n${new Date()} Peer ${userId} disconnected.`);
+    console.info(`\n${new Date()} Peer ${userId} disconnected.`);
     delete connectedUsers[userId];
   });
 }
