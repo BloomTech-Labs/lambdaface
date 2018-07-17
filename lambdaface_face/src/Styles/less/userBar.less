@@ -3,6 +3,13 @@
     display: flex;
     margin-top: 10px;
     width: 100%;
+    font-size: .9em;
+    @media @tablet {
+      font-size: .875em;
+    }
+    @media @600px {
+      flex-wrap: wrap;
+    }
   }
   &__info {
     color: grey;
@@ -10,6 +17,9 @@
     align-items: center;
     width: 70%;
     justify-content: space-between;
+    @media @600px {
+     justify-content: space-around; 
+    }
   }
   &__userInfo {
     width: 25%;
@@ -17,6 +27,12 @@
     align-items: center;
     > img{
       margin-right: 10px;
+    }
+    @media @600px {
+     width: 35%; 
+    }
+    @media @phone {
+      width: 50%;
     }
   }
   &__voteInfo {
@@ -38,6 +54,9 @@
     display: flex;
     width: 55%;
     justify-content: space-between;
+    @media @600px {
+     display: none; 
+    }
   }
   &__singlepost-info {
     display: flex;
@@ -45,12 +64,18 @@
     align-items: center;
     color: grey;
     width: 80%;
+    @media @600px {
+      width: 95%;
+    }
     .user-bar__singlepost-category {
       display: flex;
       justify-content: center;
-      width: 26%;
+      width: 35%;
       > img {
         margin-right: 2%;
+      }
+      @media @500px {
+        display: none;
       }
     }
   }

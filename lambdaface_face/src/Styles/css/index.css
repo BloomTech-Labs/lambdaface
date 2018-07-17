@@ -260,6 +260,17 @@ table {
   display: flex;
   margin-top: 10px;
   width: 100%;
+  font-size: .9em;
+}
+@media (max-width: 768px) {
+  .user-bar__container {
+    font-size: .875em;
+  }
+}
+@media (max-width: 600px) {
+  .user-bar__container {
+    flex-wrap: wrap;
+  }
 }
 .user-bar__info {
   color: grey;
@@ -268,6 +279,11 @@ table {
   width: 70%;
   justify-content: space-between;
 }
+@media (max-width: 600px) {
+  .user-bar__info {
+    justify-content: space-around;
+  }
+}
 .user-bar__userInfo {
   width: 25%;
   display: flex;
@@ -275,6 +291,16 @@ table {
 }
 .user-bar__userInfo > img {
   margin-right: 10px;
+}
+@media (max-width: 600px) {
+  .user-bar__userInfo {
+    width: 35%;
+  }
+}
+@media (max-width: 400px) {
+  .user-bar__userInfo {
+    width: 50%;
+  }
 }
 .user-bar__voteInfo {
   display: flex;
@@ -296,6 +322,11 @@ table {
   width: 55%;
   justify-content: space-between;
 }
+@media (max-width: 600px) {
+  .user-bar__post-details {
+    display: none;
+  }
+}
 .user-bar__singlepost-info {
   display: flex;
   justify-content: space-between;
@@ -303,13 +334,23 @@ table {
   color: grey;
   width: 80%;
 }
+@media (max-width: 600px) {
+  .user-bar__singlepost-info {
+    width: 95%;
+  }
+}
 .user-bar__singlepost-info .user-bar__singlepost-category {
   display: flex;
   justify-content: center;
-  width: 26%;
+  width: 35%;
 }
 .user-bar__singlepost-info .user-bar__singlepost-category > img {
   margin-right: 2%;
+}
+@media (max-width: 500px) {
+  .user-bar__singlepost-info .user-bar__singlepost-category {
+    display: none;
+  }
 }
 .user-bar__comment-info {
   display: flex;
@@ -792,6 +833,9 @@ body {
 }
 .comment__container {
   margin: 20px 0;
+}
+.comment__delete {
+  margin-top: 12px;
 }
 /*
 Copyright (c) 2017 Chris Patuzzo

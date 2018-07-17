@@ -1,6 +1,8 @@
 import React from "react";
 import axios from 'axios';
 
+import Button from "@material-ui/core/Button";
+
 import UserBar from "./UserBar";
 import WriteReply from "./WriteReply";
 import Reply from "./Reply";
@@ -41,7 +43,7 @@ export default class Comment extends React.Component {
           hasUserVoted={comment.hasUserVoted}
         />
         { userInfo.sub === comment.userId
-          ? <button onClick={() => this.deleteComment(comment.id, userInfo.sub, false)}>delete</button>
+          ? <div className="comment__delete"><Button variant="contained" color="primary" className="comment__delete" onClick={() => this.deleteComment(comment.id, userInfo.sub, false)}>delete</Button></div>
           : ''
         }
         {comment.replies.map(reply => (
