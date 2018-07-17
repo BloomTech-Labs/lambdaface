@@ -9,14 +9,14 @@ class Search extends React.Component {
     displaySearchField: false,
   };
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({
-      query: event.target.value
+      query: event.target.value,
     });
   };
 
   toggleSearchField = () => {
-    this.setState({ displaySearchField: !this.state.displaySearchField });
+    this.setState(prev => ({ displaySearchField: !prev.displaySearchField }));
   }
 
   render() {
@@ -35,7 +35,9 @@ class Search extends React.Component {
           </form>
         </div>
         <div className="top-bar__smol-search">
-          <img src={SearchIcon} alt="SearchIcon" className="top-bar__search-icon" onClick={this.toggleSearchField} />
+          <button className="top-bar__search-icon" onClick={this.toggleSearchField}>
+            <img src={SearchIcon} alt="SearchIcon" />
+          </button>
           {this.state.displaySearchField ? 
             <div>
               <form onSubmit={this.props.onSubmit([`Search Results For: ${this.state.query}`, null])}>
