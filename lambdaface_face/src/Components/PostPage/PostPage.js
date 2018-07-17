@@ -66,6 +66,7 @@ class PostPage extends React.Component {
   }
 
   getComments = async () => {
+    console.log('reloading comments');
     const parentId = this.props.postId;
     const userId = this.props.userInfo.sub;
 
@@ -168,6 +169,7 @@ class PostPage extends React.Component {
               <div className="post-page__new-comment-header">Write a comment</div>
               <WriteComment
                 comment={comments.find(comment => comment.id === this.state.editCommentId)}
+                editComment={this.editComment}
                 commentInfo={{ parentId: this.props.postId, parentType: 'post' }}
                 userInfo={this.props.userInfo}
                 reloadComments={this.getComments}

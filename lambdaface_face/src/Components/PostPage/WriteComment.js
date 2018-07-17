@@ -6,8 +6,16 @@ import UserBar from "./UserBar";
 class WriteComment extends React.Component {
   state = {
     content: '',
+    isEditing: false,
   };
-
+  componentDidUpdate() {
+    if ((this.props.comment && this.props.comment.content) && this.state.isEditing === false) {
+      this.setState({
+        content: this.props.comment.content,
+        isEditing: true,
+      })
+    }
+  }
   handleChange = event => {
     this.setState({
       content: event.target.value
@@ -15,48 +23,50 @@ class WriteComment extends React.Component {
   };
 
   submitComment = async () => {
-    const { content } = this.state;
+    const { content, isEditing } = this.state;
     const {
+      comment,
       userInfo,
       commentInfo: { parentId, parentType },
       reloadComments,
+      editComment,
     } = this.props;
+
+    console.log(this.props)
 
     try {
       if (content.replace(/\n| /g, '') === '') {
         throw new Error('Comment requires content in order to be submitted!');
       }
 
-      const newComment = {
-        content,
-        userId: userInfo.sub,
-        parentId,
-        parentType,
-      };
+      if (isEditing) {
+        const editedComment = {
+          content,
+          userId: userInfo.sub,
+        };
+        await axios.put(`${process.env.REACT_APP_URL}api/comments/${comment.id}`, editedComment);
+        await editComment(null);
+        this.setState({ content: '', isEditing: false });
+        reloadComments();
+      } else {
 
-      await axios.post(`${process.env.REACT_APP_URL}api/comments`, newComment);
-      this.setState({ content: '' });
-      reloadComments();
+        const newComment = {
+          content,
+          userId: userInfo.sub,
+          parentId,
+          parentType,
+        };
+
+        await axios.post(`${process.env.REACT_APP_URL}api/comments`, newComment);
+        this.setState({ content: '' });
+        reloadComments();
+      }
 
     } catch(error) {
       if (error) {
         console.error({ message: 'couldn\'t submit new comment', error });
       }
     }
-
-
-    // if (newComment.content.replace(/\n| /g, '').length > 0) {
-    //   axios
-    //     .post(`${process.env.REACT_APP_URL}`.concat('api/comments'), newComment)
-    //     .then(res => {
-    //       // TODO: do something with the response, preferably something useful
-    //       this.setState({ content: "" });
-    //       this.props.reloadComments();
-    //     })
-    //     .catch(err => {
-    //       console.error(err);
-    //     });
-    // } else {console.log('Comment requires content in order to be submitted!')}
   };
 
   render() {
