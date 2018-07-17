@@ -48,30 +48,47 @@ class HomePage extends React.Component {
     }
   }
 
-  getPosts = (addingPosts = false) => {
-    let fetchUrl = `${process.env.REACT_APP_URL}api/posts/${this.state.currentPage}/${this.state.currentCategory[1]}`;
-    if (this.state.currentCategory[0] === 'Newest') {
+  getPosts = async (addingPosts = false) => {
+    const {
+      currentPage,
+      currentCategory,
+      postsLoaded,
+    } = this.state;
+    
+    let fetchUrl = `${process.env.REACT_APP_URL}api/posts/${currentPage}/${currentCategory[1]}`;
+    if (currentCategory[0] === 'Newest') {
       fetchUrl += '/newest';
     }
-    return axios
-      .get(fetchUrl)
-      .then(res => {
-        if (!this.state.postsLoaded) {
-          this.setState({ posts: res.data, postsLoaded: true, morePosts: true });
-        } else if (addingPosts) {
-          if (res.data.length) {
-            this.setState(({ posts }) => ({
-              posts: [...posts, ...res.data],
-              postsLoaded: true,
-            }));
-          } else {
-            this.setState({ morePosts: false });
-          }
-        }
-      })
-      .catch(err => {
-        console.error('Could not get posts: ', err);
-      });
+    try {
+      const posts = await axios
+        .get(fetchUrl)
+        .then(({ data }) => data);
+
+      if (!posts.length || posts instanceof Error) {
+        throw new Error('no posts fetched!');
+      }
+
+      if (!postsLoaded) {
+        return this.setState({
+          posts,
+          postsLoaded: true,
+          morePosts: true,
+        });
+      }
+
+      if (addingPosts && posts.length) {
+        return this.setState(prev => ({
+          posts: [...prev.posts, ...posts],
+          postsLoaded: true,
+        }));
+      } else {
+        this.setState({ morePosts: false });
+      }
+    } catch(error) {
+      if (error) {
+        console.error({ message: 'couldn\'t fetch posts!', error});
+      }
+    }
   };
 
   getUserInfo = () => {
@@ -97,6 +114,8 @@ class HomePage extends React.Component {
       currentCategory: ['Newest', prev.currentCategory[1]],
       postsLoaded: false,
       posts: [],
+      currentPage: 1,
+      morePosts: true,
     }));
     this.getPosts();
   }
@@ -181,8 +200,7 @@ class HomePage extends React.Component {
     }
   }
 
-
-  changeCurrentCategory = (category, postId = '', otherF = null, passed = null) => event => {
+  changeCurrentCategory = (category, postId = '', otherF= null, passed = null ) => event => {
     // reset scroll bar
     window.scrollTo(0, 0);
     /* Posts must be loaded, or the given category must not be part of NavBar options */
@@ -232,7 +250,6 @@ class HomePage extends React.Component {
     this.setState({ isEditing });
   }
   categorySwitch = (currentCategory, currentPostId = '') => {
-    // console.log(currentPostId);
     switch (currentCategory[0].substring(0,17)) {
       case "AddPost":
         let content = this.state.posts.find(post => post.id === currentPostId)
