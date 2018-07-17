@@ -96,6 +96,8 @@ class HomePage extends React.Component {
       currentCategory: [ 'Newest', prev.currentCategory[1] ],
       postsLoaded: false,
       posts: [],
+      currentPage: 1,
+      morePosts: true,
     }));
     this.getPosts();
   }
@@ -180,7 +182,6 @@ class HomePage extends React.Component {
     }
   }
 
-
   changeCurrentCategory = (category, postId = '', otherF= null, passed = null ) => event => {
     // reset scroll bar
     window.scrollTo(0, 0);
@@ -207,7 +208,7 @@ class HomePage extends React.Component {
       /* when we change category reset currentPage to 1 */
       if (typeof otherF === "function") {
         otherF(category, passed)
-      } 
+      }
       this.setState({ currentPage: 1, morePosts: true });
     }
   };
@@ -231,7 +232,6 @@ class HomePage extends React.Component {
     this.setState({ isEditing });
   }
   categorySwitch = (currentCategory, currentPostId = '') => {
-    console.log(currentPostId);
     switch (currentCategory[0].substring(0,17)) {
       case "AddPost":
         let content = this.state.posts.find(post => post.id === currentPostId)
