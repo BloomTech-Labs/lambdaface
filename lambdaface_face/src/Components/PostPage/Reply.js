@@ -7,7 +7,7 @@ export default props => (
     {props.replyInfo.content}
     { props.currentUser === props.replyInfo.userId 
       ? (<div>
-          {/* <button onClick={} >edit</button> */}
+          <button onClick={props.editReply} >edit</button>
           <button onClick={props.deleteReply} >delete</button>
         </div>)
       : ''

@@ -16,13 +16,18 @@ class PostPage extends React.Component {
   state = {
     comments: [],
     commentsLoaded: false,
+    postLoaded: false,
     currentPost: {},
     currentPostId: '',
     following: null,
     hasUserVoted: null,
+    editCommentId: null,
   };
 
   componentDidMount() {
+    if (!this.state.postLoaded) {
+      this.getPost();
+    }
     this.getComments();
   }
 
@@ -31,41 +36,58 @@ class PostPage extends React.Component {
       this.getComments();
     }
   }
+  editComment = editCommentId => {
+    this.setState({ editCommentId });
+  }
+  getPost = async () => {
+    const { postId, userInfo } = this.props;
 
-  getComments = async (updateCommentsOnly) => {
-    // console.log(this.props.post);
+    try {
+      const post = await axios
+        .get(`${process.env.REACT_APP_URL}api/post/${postId}/${userInfo.sub}`)
+        .then(({ data }) => data);
+      
+      if (!post) {
+        throw new Error({ message: 'Post not found.', post, postId });
+      }
+
+      this.setState({
+        postLoaded: true,
+        currentPost: { ...post },
+        following: post.following || false,
+        hasUserVoted: post.hasUserVoted,
+        currentPostId: post.id,
+      })
+    } catch (error) {
+      if (error) {
+        console.error({ message: 'Couldn\'t get post!', error});
+      }
+    }
+  }
+
+  getComments = async () => {
     const parentId = this.props.postId;
     const userId = this.props.userInfo.sub;
 
-    const post = !updateCommentsOnly
-      ? await axios
-        .get(`${process.env.REACT_APP_URL}api/post/${parentId}/${userId}`)
-        .then(({ data }) => data)
-        .catch(error => console.error(error))
-      : this.state.currentPost;
-  
+    try {
+      const comments = await axios
+        .get(`${process.env.REACT_APP_URL}api/comments/${parentId}/${userId}`)
+        .then(({ data }) => data);
 
-    const comments = await axios
-      .get(`${process.env.REACT_APP_URL}api/comments/${parentId}/${userId}`)
-      .then(({ data }) => data)
-      .catch(error => console.error(error));
+      if (comments === undefined || comments instanceof Error) {
+        throw new Error({ message: 'Comments not found!', comments });
+      }
 
-    if (!post || comments === undefined) {
-      console.error({
-        message: 'Couldn\'t fetch post or comments!',
-        post,
+      this.setState({
         comments,
+        commentsLoaded: true,
       });
+    } catch (error) {
+      if (error) {
+        console.error({ message: 'Couldn\'t fetch comments!', error })
+      }
     }
-    
-    this.setState({
-      comments,
-      currentPost: { ...post },
-      commentsLoaded: true,
-      currentPostId: post.id,
-      following: post.following || false,
-      hasUserVoted: post.hasUserVoted,
-    });
+
   };
 
   toggleFollowing = () => {
@@ -128,21 +150,25 @@ class PostPage extends React.Component {
             </div>
             <div className="post-page__comments">
               <div className="post-page__comments-header">Comments</div>
-              {
-            commentsLoaded 
-              ? comments.map(comment => (
-                <Comment
-                  key={comment.id}
-                  comment={comment}
-                  userInfo={userInfo}
-                  reloadComments={this.getComments}
-                  imageHash={this.props.imageHash}
-                />
-                ))
-              : <div>Loading Comments... </div>
-          }
+              { commentsLoaded 
+                ? comments
+                  .filter(comment => !this.state.editCommentId || comment.id !== this.state.editCommentId)
+                  .map(comment => (
+                    <Comment
+                      key={comment.id}
+                      comment={comment}
+                      userInfo={userInfo}
+                      reloadComments={this.getComments}
+                      imageHash={this.props.imageHash}
+                      editComment={() => this.editComment(comment.id)}
+                    />
+                  ))
+                : <div>Loading Comments... </div>
+              }
               <div className="post-page__new-comment-header">Write a comment</div>
               <WriteComment
+                comment={comments.find(comment => comment.id === this.state.editCommentId)}
+                editComment={this.editComment}
                 commentInfo={{ parentId: this.props.postId, parentType: 'post' }}
                 userInfo={this.props.userInfo}
                 reloadComments={this.getComments}

@@ -859,6 +859,7 @@ body {
   background-color: #fbfcfd;
   border-style: none;
   padding: 1.5%;
+  resize: none;
 }
 .write-comment__textarea:focus {
   outline-width: 0;
@@ -870,6 +871,7 @@ body {
   background-color: #fbfcfd;
   border-style: none;
   padding: 1.5%;
+  resize: none;
 }
 .write-reply__textarea:focus {
   outline-width: 0;
