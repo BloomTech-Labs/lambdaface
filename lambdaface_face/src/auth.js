@@ -1,16 +1,18 @@
 import auth0 from 'auth0-js';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
-// const s3url =     "http://lambdaface.s3-website.us-west-2.amazonaws.com/" //"http://localhost:3000/" 
+// const s3url = "http://lambdaface.com/" 
+// const s3url = "http://lambdaface.s3-website.us-west-2.amazonaws.com/"
 const s3url = "http://localhost:3000/" 
 
 export default class Auth {
   auth0 = new auth0.WebAuth({
-    domain: 'lambda-face-test1.auth0.com',
-    clientID: 'A86C7iFueySjvHsu5fhxq3SVJBNxo1CF',
+    domain: 'mjax.auth0.com',
+    clientID: 'ZvFaTltpAA0mGgP50pOPGRyPsE90JGmz',
     redirectUri: s3url + 'callback',
-    audience: 'https://lambda-face-test1.auth0.com/userinfo',
+    audience: 'https://mjax.auth0.com/userinfo',
     responseType: 'token id_token',
+    // scope: 'openid'
     scope: 'openid profile'
   });
 
@@ -26,7 +28,7 @@ export default class Auth {
         window.location.replace(s3url);
       } else if (err) {
         // TODO: find better way to redirect to main page;
-        window.location.replace(s3url)        
+        window.location.replace(s3url)
         console.error(err);
       }
     });
@@ -49,10 +51,10 @@ export default class Auth {
       .catch(err => {
         // user had already been created, and is thus signing in
         // if (err.response.data.error.code === "ER_DUP_ENTRY" && err.response.status === 422) {
-          const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-          localStorage.setItem('access_token', authResult.accessToken);
-          localStorage.setItem('id_token', authResult.idToken);
-          localStorage.setItem('expires_at', expiresAt);
+        const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+        localStorage.setItem('access_token', authResult.accessToken);
+        localStorage.setItem('id_token', authResult.idToken);
+        localStorage.setItem('expires_at', expiresAt);
         // }
       });
   };
@@ -64,7 +66,7 @@ export default class Auth {
     localStorage.removeItem('expires_at');
 
     // TODO: find better way to navigate back to landing page
-    window.location.replace(s3url);    
+    window.location.replace(s3url);
   };
 
   // evaluate expiration time
