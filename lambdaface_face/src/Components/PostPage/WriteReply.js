@@ -5,37 +5,43 @@ import UserBar from "./UserBar";
 
 class WriteReply extends React.Component {
   state = {
-    content: ""
+    content: '',
   };
 
-  handleChange = name => event => {
+  handleChange = event => {
     this.setState({
-      [name]: event.target.value
+      content: event.target.value
     });
   };
 
-  submitReply = () => event => {
+  submitReply = () => async () => {
+    const {
+      userInfo,
+      commentInfo: { parentId, parentType },
+    } = this.props;
+
     const newReply = {
       content: this.state.content,
-      // TODO, make user dynamic
-      userId: this.props.userInfo.sub,
-      parentId: this.props.commentInfo.parentId,
-      parentType: this.props.commentInfo.parentType
+      userId: userInfo.sub,
+      parentId,
+      parentType,
     };
 
     if (newReply.content.replace(/\n| /g, '').length > 0) {
-    axios
-      .post(`${process.env.REACT_APP_URL}`.concat('api/comments'), newReply)
-      .then(res => {
-        // TODO: do something with the response, preferably something useful
-        this.setState({ content: "" });
-        this.props.toggleReplyingTo();
-        this.props.reloadComments();
-      })
-      .catch(err => {
-        console.error(err);
-      });
-    } else {console.log('Reply requires content in order to be submitted!')}    
+      axios
+        .post(`${process.env.REACT_APP_URL}`.concat('api/comments'), newReply)
+        .then(res => {
+          // TODO: do something with the response, preferably something useful
+          this.setState({ content: "" });
+          this.props.toggleReplyingTo();
+          this.props.reloadComments();
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    } else {
+      console.log('Reply requires content in order to be submitted!')
+    }    
   };
 
   render() {
@@ -48,7 +54,7 @@ class WriteReply extends React.Component {
           className="write-reply__textarea"
           style={{ resize: "none" }}
           value={this.state.content}
-          onChange={this.handleChange("content")}
+          onChange={this.handleChange}
           cols="30"
           rows="4"
         />

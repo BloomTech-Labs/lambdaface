@@ -212,7 +212,7 @@ class UserBar extends React.Component {
         )}
         {this.props.type === "writereply" && (
           <div className="user-bar__reply-button">
-            <Button onClick={this.props.submitReply()}>Post Reply</Button>
+            <Button onClick={this.props.submitReply}>Post Reply</Button>
           </div>
         )}
       </div>

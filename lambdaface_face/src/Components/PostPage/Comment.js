@@ -28,7 +28,6 @@ export default class Comment extends React.Component {
   }
 
   render() {
-    const { replyingTo } = this.state;
     const { comment, userInfo } = this.props;
     // console.log(this.props.comment);
     return (
@@ -55,7 +54,7 @@ export default class Comment extends React.Component {
             deleteReply={() => this.deleteComment(reply.id, userInfo.sub, true)}
           />
         ))}
-        {replyingTo && 
+        { this.state.replyingTo && 
           <WriteReply
             userInfo={userInfo}
             commentInfo={{
@@ -66,7 +65,8 @@ export default class Comment extends React.Component {
             }}
             reloadComments={this.props.reloadComments}
             toggleReplyingTo={this.toggleReplyingTo}
-          />}
+          />
+        }
       </div>
     );
   }
