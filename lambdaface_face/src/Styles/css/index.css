@@ -745,6 +745,10 @@ body {
   .home-page__bottom .home-page__left-nav {
     display: none;
   }
+  .home-page__small-screen-left-nav-list {
+    -webkit-overflow-scrolling: touch,
+    
+  }
 }
 .home-page__bottom .home-page__main {
   width: 75%;
@@ -752,6 +756,11 @@ body {
 @media (max-width: 768px) {
   .home-page__bottom .home-page__main {
     width: 100%;
+  }
+}
+@media (min-width: 769px) {
+  .home-page__small-screen-left-nav {
+    display: none;
   }
 }
 .uploader__container {

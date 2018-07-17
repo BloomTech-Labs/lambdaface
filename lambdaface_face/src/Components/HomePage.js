@@ -8,6 +8,7 @@ import UserSettings from "./UserSettings";
 import PostPage from "./PostPage/PostPage";
 import TopBar from "./TopBar";
 import Footer from "./Footer";
+import SmallScreenLeftNav from "./SmallScreenLeftNav";
 
 class HomePage extends React.Component {
   state = {
@@ -60,7 +61,7 @@ class HomePage extends React.Component {
         } else if (addingPosts) {
           if (res.data.length) {
             this.setState(({ posts }) => ({
-              posts: [ ...posts, ...res.data ],
+              posts: [...posts, ...res.data],
               postsLoaded: true,
             }));
           } else {
@@ -77,8 +78,8 @@ class HomePage extends React.Component {
     const jwtDecode = require('jwt-decode');
     const token = localStorage.getItem('id_token');
 
-    let userInfo = {sub: '', name: ''};
-  
+    let userInfo = { sub: '', name: '' };
+
     if (token) {
       userInfo = jwtDecode(token);
       return axios.get(`${process.env.REACT_APP_URL}api/users/${userInfo.sub}`)
@@ -93,7 +94,7 @@ class HomePage extends React.Component {
 
   getNewestPosts = async () => {
     await this.setState(prev => ({
-      currentCategory: [ 'Newest', prev.currentCategory[1] ],
+      currentCategory: ['Newest', prev.currentCategory[1]],
       postsLoaded: false,
       posts: [],
     }));
@@ -105,8 +106,8 @@ class HomePage extends React.Component {
   }
 
   updateUser = (info) => {
-      this.setState(prevState => ({
-        user: {
+    this.setState(prevState => ({
+      user: {
         ...prevState.user,
         firstName: info.firstName,
         lastName: info.lastName,
@@ -122,7 +123,7 @@ class HomePage extends React.Component {
 
   openWS = () => {
     window.WebSocket = window.WebSocket || window.MozWebSocket;
-    
+
     if (!window.WebSocket) {
       console.log('Browser doesn\'t support web sockets');
       return;
@@ -133,13 +134,13 @@ class HomePage extends React.Component {
 
     const ping = () => {
       // console.log('Ping!');
-      connection.send(JSON.stringify({type:'userPinging', data:this.state.user}));
+      connection.send(JSON.stringify({ type: 'userPinging', data: this.state.user }));
     }
 
     connection.onopen = () => {
       // console.log('connection opened');
       // console.log(this.state.user);
-      connection.send(JSON.stringify({type:'userConnecting', data:this.state.user}));
+      connection.send(JSON.stringify({ type: 'userConnecting', data: this.state.user }));
       setInterval(ping, 50 * 1000);
     }
 
@@ -181,14 +182,14 @@ class HomePage extends React.Component {
   }
 
 
-  changeCurrentCategory = (category, postId = '', otherF= null, passed = null ) => event => {
+  changeCurrentCategory = (category, postId = '', otherF = null, passed = null) => event => {
     // reset scroll bar
     window.scrollTo(0, 0);
     /* Posts must be loaded, or the given category must not be part of NavBar options */
     if (this.state.postsLoaded || category[1] === null) {
       if (event) event.preventDefault();
       // TODO: do nothing if given category is same as current
-      const noSpaces = [category[0].replace(/\s/g, ''), category[1]]; 
+      const noSpaces = [category[0].replace(/\s/g, ''), category[1]];
       this.setState({ currentCategory: noSpaces });
       /* reset posts if the given category is part of NavBar options (this.state.postOptions) */
       if (category[1] !== null) {
@@ -207,16 +208,16 @@ class HomePage extends React.Component {
       /* when we change category reset currentPage to 1 */
       if (typeof otherF === "function") {
         otherF(category, passed)
-      } 
+      }
       this.setState({ currentPage: 1, morePosts: true });
     }
   };
-  
+
   searchResults = (query) => {
     if (query) {
       query = query.replace(/\s+/g, '%20');
       axios
-      .get(`${process.env.REACT_APP_URL}api/search/`.concat(`${query}`))
+        .get(`${process.env.REACT_APP_URL}api/search/`.concat(`${query}`))
         .then((res) => {
           this.setState({ searchResults: res.data })
         })
@@ -244,7 +245,7 @@ class HomePage extends React.Component {
       case "SearchResultsFor:":
         return (<PostList
           handleNewest={this.getNewestPosts}
-          postsArr={this.state.searchResults} 
+          postsArr={this.state.searchResults}
           category={this.state.currentCategory}
           changeCurrentCategory={this.changeCurrentCategory}
           updateCurrentPage={this.updateCurrentPage}
@@ -274,12 +275,18 @@ class HomePage extends React.Component {
     return (
       <div className="home-page">
         <div className="home-page__top-bar">
-          <TopBar 
+          <TopBar
             changeCurrentCategory={this.changeCurrentCategory}
             userInfo={this.state.user}
             notifications={[...this.state.notifications]}
             clearNotifications={this.clearNotifications}
             imageHash={this.state.imageHash}
+          />
+        </div>
+        <div className="home-page__small-screen-left-nav">
+          <SmallScreenLeftNav
+            options={this.state.postOptions}
+            changeCurrentCategory={this.changeCurrentCategory}
           />
         </div>
         <div className="home-page__bottom">
@@ -291,9 +298,9 @@ class HomePage extends React.Component {
           </div>
           <div className="home-page__main">
             {this.categorySwitch(currentCategory, currentPostId)}
-            { this.state.morePosts
-                ? ''
-                : <span>There are no more posts.</span>
+            {this.state.morePosts
+              ? ''
+              : <span>There are no more posts.</span>
             }
           </div>
         </div>
