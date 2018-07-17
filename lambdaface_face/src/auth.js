@@ -1,9 +1,9 @@
 import auth0 from 'auth0-js';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
-// const s3url = "http://lambdaface.com/" 
+const s3url = "http://lambdaface.com/" 
 // const s3url = "http://lambdaface.s3-website.us-west-2.amazonaws.com/"
-const s3url = "http://localhost:3000/" 
+// const s3url = "http://localhost:3000/" 
 
 export default class Auth {
   auth0 = new auth0.WebAuth({
