@@ -48,14 +48,20 @@ class HomePage extends React.Component {
   }
 
   getPosts = (addingPosts = false) => {
-    let fetchUrl = `${process.env.REACT_APP_URL}api/posts/${this.state.currentPage}/${this.state.currentCategory[1]}`;
-    if (this.state.currentCategory[0] === 'Newest') {
+    const {
+      currentPage,
+      currentCategory,
+      postsLoaded,
+    } = this.state;
+    
+    let fetchUrl = `${process.env.REACT_APP_URL}api/posts/${currentPage}/${currentCategory[1]}`;
+    if (currentCategory[0] === 'Newest') {
       fetchUrl += '/newest';
     }
     return axios
       .get(fetchUrl)
       .then(res => {
-        if (!this.state.postsLoaded) {
+        if (!postsLoaded) {
           this.setState({ posts: res.data, postsLoaded: true, morePosts: true });
         } else if (addingPosts) {
           if (res.data.length) {
