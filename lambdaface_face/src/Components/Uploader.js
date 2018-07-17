@@ -53,9 +53,24 @@ class Uploader extends React.Component {
     };
     return (
       <div className="uploader__container">
-        <img src={`${this.state.profilePicture}?${this.state.imageHash}`} alt="profilepicture" style={imageSize} className="uploader__picture" />
-        <input className="uploader__inputfile" id="file" name="file" type="file" accept="image/*" onChange={this.fileChange} />
-        <label className="uploader__label" htmlFor="file">Change</label>
+
+        <img
+          src={`${this.state.profilePicture}?${this.state.imageHash}`}
+          alt="profilepicture"
+          style={imageSize}
+          className="uploader__picture"
+        />
+
+        <input 
+          className="uploader__inputfile"
+          id="file"
+          name="file"
+          type="file"
+          accept="image/*"
+          onChange={this.fileChange}
+        />
+
+        <label htmlFor="file" className="uploader__label">Change</label>
       </div>
     );
   }
