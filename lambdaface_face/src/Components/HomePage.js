@@ -231,7 +231,7 @@ class HomePage extends React.Component {
     this.setState({ isEditing });
   }
   categorySwitch = (currentCategory, currentPostId = '') => {
-    console.log(currentPostId);
+    // console.log(currentPostId);
     switch (currentCategory[0].substring(0,17)) {
       case "AddPost":
         let content = this.state.posts.find(post => post.id === currentPostId)
