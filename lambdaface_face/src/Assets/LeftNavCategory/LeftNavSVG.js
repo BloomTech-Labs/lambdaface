@@ -1,4 +1,5 @@
 import React from 'react';
+
 class LeftNavSVG extends React.Component {
   render() {
     switch (this.props.image) {
