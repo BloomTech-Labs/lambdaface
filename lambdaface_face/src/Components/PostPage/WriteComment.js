@@ -5,36 +5,58 @@ import UserBar from "./UserBar";
 
 class WriteComment extends React.Component {
   state = {
-    content: ""
+    content: '',
   };
 
-  handleChange = name => event => {
+  handleChange = event => {
     this.setState({
-      [name]: event.target.value
+      content: event.target.value
     });
   };
 
-  submitComment = () => event => {
-    const newComment = {
-      content: this.state.content,
-      // TODO, make user dynamic
-      userId: this.props.userInfo.sub,
-      parentId: this.props.commentInfo.parentId,
-      parentType: this.props.commentInfo.parentType
-    };
+  submitComment = async () => {
+    const { content } = this.state;
+    const {
+      userInfo,
+      commentInfo: { parentId, parentType },
+      reloadComments,
+    } = this.props;
 
-    if (newComment.content.replace(/\n| /g, '').length > 0) {
-      axios
-        .post(`${process.env.REACT_APP_URL}`.concat('api/comments'), newComment)
-        .then(res => {
-          // TODO: do something with the response, preferably something useful
-          this.setState({ content: "" });
-          this.props.reloadComments();
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    } else {console.log('Comment requires content in order to be submitted!')}
+    try {
+      if (content.replace(/\n| /g, '') === '') {
+        throw new Error('Comment requires content in order to be submitted!');
+      }
+
+      const newComment = {
+        content,
+        userId: userInfo.sub,
+        parentId,
+        parentType,
+      };
+
+      await axios.post(`${process.env.REACT_APP_URL}api/comments`, newComment);
+      this.setState({ content: '' });
+      reloadComments();
+
+    } catch(error) {
+      if (error) {
+        console.error({ message: 'couldn\'t submit new comment', error });
+      }
+    }
+
+
+    // if (newComment.content.replace(/\n| /g, '').length > 0) {
+    //   axios
+    //     .post(`${process.env.REACT_APP_URL}`.concat('api/comments'), newComment)
+    //     .then(res => {
+    //       // TODO: do something with the response, preferably something useful
+    //       this.setState({ content: "" });
+    //       this.props.reloadComments();
+    //     })
+    //     .catch(err => {
+    //       console.error(err);
+    //     });
+    // } else {console.log('Comment requires content in order to be submitted!')}
   };
 
   render() {
@@ -43,9 +65,8 @@ class WriteComment extends React.Component {
         <textarea
           className="write-comment__textarea"
           placeholder="Write your comment"
-          style={{ resize: "none" }}
           value={this.state.content}
-          onChange={this.handleChange("content")}
+          onChange={this.handleChange}
           cols="30"
           rows="10"
         />

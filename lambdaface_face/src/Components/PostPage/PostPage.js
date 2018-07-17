@@ -21,6 +21,7 @@ class PostPage extends React.Component {
     currentPostId: '',
     following: null,
     hasUserVoted: null,
+    editCommentId: null,
   };
 
   componentDidMount() {
@@ -35,7 +36,9 @@ class PostPage extends React.Component {
       this.getComments();
     }
   }
-
+  editComment = editCommentId => {
+    this.setState({ editCommentId });
+  }
   getPost = async () => {
     const { postId, userInfo } = this.props;
 
@@ -147,21 +150,24 @@ class PostPage extends React.Component {
             </div>
             <div className="post-page__comments">
               <div className="post-page__comments-header">Comments</div>
-              {
-            commentsLoaded 
-              ? comments.map(comment => (
-                <Comment
-                  key={comment.id}
-                  comment={comment}
-                  userInfo={userInfo}
-                  reloadComments={this.getComments}
-                  imageHash={this.props.imageHash}
-                />
-                ))
-              : <div>Loading Comments... </div>
-          }
+              { commentsLoaded 
+                ? comments
+                  .filter(comment => !this.state.editCommentId || comment.id !== this.state.editCommentId)
+                  .map(comment => (
+                    <Comment
+                      key={comment.id}
+                      comment={comment}
+                      userInfo={userInfo}
+                      reloadComments={this.getComments}
+                      imageHash={this.props.imageHash}
+                      editComment={() => this.editComment(comment.id)}
+                    />
+                  ))
+                : <div>Loading Comments... </div>
+              }
               <div className="post-page__new-comment-header">Write a comment</div>
               <WriteComment
+                comment={comments.find(comment => comment.id === this.state.editCommentId)}
                 commentInfo={{ parentId: this.props.postId, parentType: 'post' }}
                 userInfo={this.props.userInfo}
                 reloadComments={this.getComments}

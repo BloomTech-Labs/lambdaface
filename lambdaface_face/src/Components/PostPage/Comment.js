@@ -62,6 +62,12 @@ export default class Comment extends React.Component {
                 variant="contained"
                 color="primary"
                 className="comment__delete"
+                onClick={this.props.editComment}
+              >edit</Button>
+              <Button 
+                variant="contained"
+                color="primary"
+                className="comment__delete"
                 onClick={() => this.deleteComment(comment, userInfo.sub, false)}
               >delete</Button>
             </div>
