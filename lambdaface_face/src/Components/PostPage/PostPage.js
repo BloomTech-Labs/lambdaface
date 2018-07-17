@@ -3,6 +3,7 @@ import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
 
 import Comment from "./Comment";
 import WriteComment from "./WriteComment";
@@ -10,7 +11,6 @@ import UserBar from './UserBar';
 
 // import "../../Styles/PostPage.css";
 import backArrow from "../../Assets/BackArrow.svg";
-import Button from "@material-ui/core/Button";
 
 class PostPage extends React.Component {
   state = {
