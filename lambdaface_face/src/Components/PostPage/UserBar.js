@@ -67,13 +67,11 @@ class UserBar extends React.Component {
       // console.log('following', userId, parentId);
       axios
         .post(`${process.env.REACT_APP_URL}api/follows`, { userId, parentId })
-        .then(res => {
-          console.log('successfully followed post!', res);
+        .then(response => {
+          console.info('successfully followed post!', response);
           toggleFollowing();
         })
-        .catch(err => {
-          console.log('There was an error: ', err.response);
-        })
+        .catch(error => console.error('There was an error:', error.response));
     };
 
     const unfollowPost = (e, userId, parentId, toggleFollowing) => {
@@ -81,13 +79,11 @@ class UserBar extends React.Component {
       // console.log('unfollowing', userId, parentId);
       axios
         .delete(`${process.env.REACT_APP_URL}api/follows`, {data: { userId, parentId }})
-        .then(res => {
-          console.log('successfully unfollowed post!', res);
+        .then(response => {
+          console.info('successfully unfollowed post!', response);
           toggleFollowing();
         })
-        .catch(err => {
-          console.log('There was an error: ', err.response);
-        })
+        .catch(error => console.error('There was an error:', error.response));
     };
 
     const voteHandler = (voteType, parentType) => event => {
