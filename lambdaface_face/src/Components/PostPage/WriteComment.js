@@ -32,8 +32,6 @@ class WriteComment extends React.Component {
       editComment,
     } = this.props;
 
-    console.log(this.props)
-
     try {
       if (content.replace(/\n| /g, '') === '') {
         throw new Error('Comment requires content in order to be submitted!');

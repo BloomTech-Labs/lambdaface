@@ -66,7 +66,6 @@ class PostPage extends React.Component {
   }
 
   getComments = async () => {
-    console.log('reloading comments');
     const parentId = this.props.postId;
     const userId = this.props.userInfo.sub;
 
