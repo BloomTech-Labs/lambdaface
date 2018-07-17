@@ -16,13 +16,21 @@ export default class Comment extends React.Component {
     this.setState(prev => ({ replyingTo: !prev.replyingTo }));
   };
 
-  deleteComment = async (id, userId, isChild) => {
-    await axios
-      .put(`${process.env.REACT_APP_URL}api/comments/delete/${isChild ? 'child/' : ''}${id}`, { userId })
-      .then(() => {
-        console.log('comment deleted');
-      })
-      .catch(error => console.error(error));
+  deleteComment = async (comment, userId, isChild) => {
+    try {
+
+      if (comment.userId !== userId) {
+        throw new Error('comment userId doesn\'t match logged in user');
+      }
+
+      await axios.put(`${process.env.REACT_APP_URL}api/comments/delete/${isChild ? 'child/' : ''}${comment.id}`, { userId });
+      console.info('comment deleted!');
+  
+    } catch (error) {
+      if (error) {
+        console.error({ message: 'Unable to delete comment', error });
+      }
+    }
     
     this.props.reloadComments(true);
   }
@@ -42,7 +50,14 @@ export default class Comment extends React.Component {
           hasUserVoted={comment.hasUserVoted}
         />
         { userInfo.sub === comment.userId
-          ? <div className="comment__delete"><Button variant="contained" color="primary" className="comment__delete" onClick={() => this.deleteComment(comment.id, userInfo.sub, false)}>delete</Button></div>
+          ? <div className="comment__delete">
+              <Button 
+                variant="contained"
+                color="primary"
+                className="comment__delete"
+                onClick={() => this.deleteComment(comment, userInfo.sub, false)}
+              >delete</Button>
+            </div>
           : ''
         }
         {comment.replies.map(reply => (
@@ -51,7 +66,7 @@ export default class Comment extends React.Component {
             replyInfo={reply}
             toggleReplyingTo={this.toggleReplyingTo}
             currentUser={userInfo.sub}
-            deleteReply={() => this.deleteComment(reply.id, userInfo.sub, true)}
+            deleteReply={() => this.deleteComment(reply, userInfo.sub, true)}
           />
         ))}
         { this.state.replyingTo && 
