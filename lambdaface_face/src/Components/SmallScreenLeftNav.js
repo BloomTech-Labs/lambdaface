@@ -36,7 +36,7 @@ class SmallScreenLeftNav extends React.Component {
   render() {
     return (
 
-      <List component="nav" style={topStyle} classname="home-page__small-screen-left-nav-list">
+      <List component="nav" style={topStyle} className="home-page__small-screen-left-nav-list">
         {this.props.options.map((category, i) => {
           return (
             <ListItem
