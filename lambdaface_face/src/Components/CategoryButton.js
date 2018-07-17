@@ -6,16 +6,31 @@ import FormControl from '@material-ui/core/FormControl';
 class CategoryButton extends React.Component {
 
   handleChange = event => {
-    if (event.target.value === '') return;
+    if (event.target.value === '') return;  
     const newCategory = event.target.value.split(',');
     this.props.changeCategory(newCategory);    
     // console.log("handling change", newCategory);
   };
 
+  setupCategories = () => {
+    const { categories, category } = this.props;
+    
+    const categorySetup = categories
+      .slice(1)
+      .map((category, i) => [category, `${i + 1}`]);
+
+    const currentCategory = categorySetup.find(val => val[1] === `${category[1]}`);
+
+    const remainingCategories = categorySetup
+      .filter(val => val[0].replace(' ', '') !== currentCategory[0]);
+
+    return [
+      currentCategory,
+      ...remainingCategories,
+    ];
+  }
+
   render() {
-    // create new array so we can mutate it with sort() AND change to tuples to keep value constant
-    const categories = this.props.categories.slice(1).map((cat, i) => [cat, i+1]);
-    const currentCategory = this.props.category;
     return (
       <FormControl>
         <InputLabel>Category</InputLabel>
@@ -25,8 +40,7 @@ class CategoryButton extends React.Component {
         >
           {/* TODO: fix categories */}
           {/* tuples, category[0] is the string, category[1] is the categoryId */}
-          {[ categories.find(val => val[1] === currentCategory[1]),
-            ...categories.filter(val => val[0].replace(' ', '') !== currentCategory[0]) ]
+          {this.setupCategories()
             .map(category => (
               <option
                 key={category[1]}
