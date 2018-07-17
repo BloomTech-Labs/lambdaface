@@ -16,6 +16,7 @@ class PostPage extends React.Component {
   state = {
     comments: [],
     commentsLoaded: false,
+    postLoaded: false,
     currentPost: {},
     currentPostId: '',
     following: null,
@@ -23,6 +24,9 @@ class PostPage extends React.Component {
   };
 
   componentDidMount() {
+    if (!this.state.postLoaded) {
+      this.getPost();
+    }
     this.getComments();
   }
 
@@ -32,40 +36,55 @@ class PostPage extends React.Component {
     }
   }
 
-  getComments = async (updateCommentsOnly) => {
-    // console.log(this.props.post);
+  getPost = async () => {
+    const { postId, userInfo } = this.props;
+
+    try {
+      const post = await axios
+        .get(`${process.env.REACT_APP_URL}api/post/${postId}/${userInfo.sub}`)
+        .then(({ data }) => data);
+      
+      if (!post) {
+        throw new Error({ message: 'Post not found.', post, postId });
+      }
+
+      this.setState({
+        postLoaded: true,
+        currentPost: { ...post },
+        following: post.following || false,
+        hasUserVoted: post.hasUserVoted,
+        currentPostId: post.id,
+      })
+    } catch (error) {
+      if (error) {
+        console.error({ message: 'Couldn\'t get post!', error});
+      }
+    }
+  }
+
+  getComments = async () => {
     const parentId = this.props.postId;
     const userId = this.props.userInfo.sub;
 
-    const post = !updateCommentsOnly
-      ? await axios
-        .get(`${process.env.REACT_APP_URL}api/post/${parentId}/${userId}`)
-        .then(({ data }) => data)
-        .catch(error => console.error(error))
-      : this.state.currentPost;
-  
+    try {
+      const comments = await axios
+        .get(`${process.env.REACT_APP_URL}api/comments/${parentId}/${userId}`)
+        .then(({ data }) => data);
 
-    const comments = await axios
-      .get(`${process.env.REACT_APP_URL}api/comments/${parentId}/${userId}`)
-      .then(({ data }) => data)
-      .catch(error => console.error(error));
+      if (comments === undefined || comments instanceof Error) {
+        throw new Error({ message: 'Comments not found!', comments });
+      }
 
-    if (!post || comments === undefined) {
-      console.error({
-        message: 'Couldn\'t fetch post or comments!',
-        post,
+      this.setState({
         comments,
+        commentsLoaded: true,
       });
+    } catch (error) {
+      if (error) {
+        console.error({ message: 'Couldn\'t fetch comments!', error })
+      }
     }
-    
-    this.setState({
-      comments,
-      currentPost: { ...post },
-      commentsLoaded: true,
-      currentPostId: post.id,
-      following: post.following || false,
-      hasUserVoted: post.hasUserVoted,
-    });
+
   };
 
   toggleFollowing = () => {
