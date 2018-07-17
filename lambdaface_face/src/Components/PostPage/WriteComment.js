@@ -5,36 +5,66 @@ import UserBar from "./UserBar";
 
 class WriteComment extends React.Component {
   state = {
-    content: ""
+    content: '',
+    isEditing: false,
   };
-
-  handleChange = name => event => {
+  componentDidUpdate() {
+    if ((this.props.comment && this.props.comment.content) && this.state.isEditing === false) {
+      this.setState({
+        content: this.props.comment.content,
+        isEditing: true,
+      })
+    }
+  }
+  handleChange = event => {
     this.setState({
-      [name]: event.target.value
+      content: event.target.value
     });
   };
 
-  submitComment = () => event => {
-    const newComment = {
-      content: this.state.content,
-      // TODO, make user dynamic
-      userId: this.props.userInfo.sub,
-      parentId: this.props.commentInfo.parentId,
-      parentType: this.props.commentInfo.parentType
-    };
+  submitComment = async () => {
+    const { content, isEditing } = this.state;
+    const {
+      comment,
+      userInfo,
+      commentInfo: { parentId, parentType },
+      reloadComments,
+      editComment,
+    } = this.props;
 
-    if (newComment.content.replace(/\n| /g, '').length > 0) {
-      axios
-        .post(`${process.env.REACT_APP_URL}`.concat('api/comments'), newComment)
-        .then(res => {
-          // TODO: do something with the response, preferably something useful
-          this.setState({ content: "" });
-          this.props.reloadComments();
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    } else {console.log('Comment requires content in order to be submitted!')}
+    try {
+      if (content.replace(/\n| /g, '') === '') {
+        throw new Error('Comment requires content in order to be submitted!');
+      }
+
+      if (isEditing) {
+        const editedComment = {
+          content,
+          userId: userInfo.sub,
+        };
+        await axios.put(`${process.env.REACT_APP_URL}api/comments/${comment.id}`, editedComment);
+        await editComment(null);
+        this.setState({ content: '', isEditing: false });
+        reloadComments();
+      } else {
+
+        const newComment = {
+          content,
+          userId: userInfo.sub,
+          parentId,
+          parentType,
+        };
+
+        await axios.post(`${process.env.REACT_APP_URL}api/comments`, newComment);
+        this.setState({ content: '' });
+        reloadComments();
+      }
+
+    } catch(error) {
+      if (error) {
+        console.error({ message: 'couldn\'t submit new comment', error });
+      }
+    }
   };
 
   render() {
@@ -43,9 +73,8 @@ class WriteComment extends React.Component {
         <textarea
           className="write-comment__textarea"
           placeholder="Write your comment"
-          style={{ resize: "none" }}
           value={this.state.content}
-          onChange={this.handleChange("content")}
+          onChange={this.handleChange}
           cols="30"
           rows="10"
         />
