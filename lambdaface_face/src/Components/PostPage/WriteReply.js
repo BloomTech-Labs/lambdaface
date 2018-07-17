@@ -17,7 +17,7 @@ class WriteReply extends React.Component {
 
   submitReply = async () => {
     const {
-      reply: { id },
+      reply,
       userInfo,
       commentInfo: { parentId, parentType },
       toggleReplyingTo,
@@ -30,9 +30,14 @@ class WriteReply extends React.Component {
       if (content.replace(/\n| /g, '') === '') {
         throw new Error('A reply requires content to be submitted!');
       }
-  
-      if (this.state.isEdit) {
-        await axios.put(`${process.env.REACT_APP_URL}api/comments/child/${id}`, { content, userId: userInfo.sub })
+
+      if (isEdit) {
+        const editedReply = {
+          content: content + ' (edited)',
+          userId: userInfo.sub,
+        };
+
+        await axios.put(`${process.env.REACT_APP_URL}api/comments/child/${reply.id}`, editedReply);
       } else {
         const reply = {
           content,
@@ -40,6 +45,7 @@ class WriteReply extends React.Component {
           parentId,
           parentType,
         };
+
         await axios.post(`${process.env.REACT_APP_URL}api/comments`, reply);
       }
       this.setState({ content: '' });
