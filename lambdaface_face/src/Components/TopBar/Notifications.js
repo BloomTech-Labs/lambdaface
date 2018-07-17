@@ -1,17 +1,32 @@
 import React from 'react';
 
 import notificationBell from '../../Assets/notificationBell.svg';
-// import notificationCircle from '../../Assets/notificationCircle.svg';
 
-const NoticeMeSenpi = (numb) => (
-  <div className="top-bar__notifications__icon">
-    <span>{numb}</span>
-    {/* <img src={notificationCircle} alt={`${numb} new notifications`} /> */}
-  </div>
-);
+class MenuItem extends React.Component {
+  state = {
+    content: '',
+    grammar: ' missing',
+    parentType: 'missing',
+  }
+  componentDidMount() {
+    console.log(this.props, this.state);
+    const [ grammar, parentType ] = this.parseGrammar(this.props.notificationType);
 
-const NotificationsMenu = (notifications, clearNotifications, changeCurrentCategory) => {
-  const grammarParser = (type) => {
+    this.setState({
+      content: this.parseContent(this.props.content),
+      grammar,
+      parentType,
+    });
+  }
+
+  parseContent = content => {
+    if (content.length > 25) {
+      return content.substring(0, content.indexOf(" ", 25));
+    }
+    return content;
+  }
+
+  parseGrammar = type => {
     switch(type) {
       case 'comment':
         return [' commented on', 'your post'];
@@ -24,34 +39,42 @@ const NotificationsMenu = (notifications, clearNotifications, changeCurrentCateg
       default:
         return [' missing', 'missing'];
     }
-  };
+  }
+  render() {
+    const { firstName, lastName, profilePicture, changeCurrentCategory, id, index, notificationId } = this.props;
+    const { grammar, parentType, content } = this.state;
+    return (
+      <div onClick={changeCurrentCategory(["PostPage", null], id)} 
+        className={"notifications-menu__item notifications-menu__item--" + (index % 2 ? "light" : "dark")} 
+        key={notificationId}
+      >
+        <div className="notifications-menu__item__user">
+          <img className="notifications-menu__item__user-image" src={profilePicture} alt={`${firstName} ${lastName}`} />
+          <strong>{`${firstName} ${lastName}`}</strong>
+        </div>
+        <p className="notifications-menu__item__text">
+          { grammar } { parentType }
+          <strong> { content }</strong>
+        </p>
+      </div>
+    );
+  }
+}
 
-  const contentParser = (content) => (
-    content.length > 25 
-      ? content.substring(0, content.indexOf(" ", 25))
-      : content
-  );
+const NotificationsMenu = (notifications, clearNotifications, changeCurrentCategory) => {
   return (
     <div id="notifications-menu" className="notifications-menu">
       <div className="notifications-menu__header">
         <span>notifications</span>
         <button onClick={clearNotifications}>clear</button>
       </div>
-      { notifications.map((post, i) => {
-        const { firstName, lastName, profilePicture, content, notificationType } = post;
-        const [ grammar, parentType ] = grammarParser(notificationType);
-        return (
-          <div onClick={changeCurrentCategory(["PostPage", null], post.id)} className={"notifications-menu__item notifications-menu__item" + (i % 2 ? "--light" : "--dark")} key={post.notificationId}>
-            <div className="notifications-menu__item__user">
-              <img className="notifications-menu__item__user-image" src={profilePicture} alt={`${firstName} ${lastName}`} />
-              <strong>{`${firstName} ${lastName}`}</strong>
-            </div>
-            <p className="notifications-menu__item__text">
-              { grammar } { parentType }
-              <strong> { contentParser(content) }</strong>
-            </p>
-          </div>
-        );
+      { notifications.map((post, index) => {
+        return <MenuItem 
+          key={post.id}
+          index={index}
+          {...post}
+          changeCurrentCategory={changeCurrentCategory}
+        />;
       }) }
     </div>
   );
@@ -59,22 +82,6 @@ const NotificationsMenu = (notifications, clearNotifications, changeCurrentCateg
 
 class Notifications extends React.Component {
   state = {
-    // notifications: this.props.notifications || [
-    //   {
-    //     notificationType:"comment",
-    //     postCategoryId:4,
-    //     postCommentCount:2,
-    //     postContent:"test post marketing",
-    //     postCreatedAt:"2018-06-27T23:37:47.000Z",
-    //     postId:"08220f9f-e75f-4437-a23e-da4d7b98e70f",
-    //     postUpdatedAt:null,
-    //     postUserId:"auth0|5b2d30547871d50de045faa6",
-    //     postViewCount:19,
-    //     sourceFirstName:"Jerry",
-    //     sourceLastName:"West",
-    //     sourceProfilePicture:"https://s3-us-west-2.amazonaws.com/lambdaface-photos/photos/auth0%7C5b33a7927871d50de047091c",
-    //   },
-    // ],
     displayNotificationsMenu: false
   };
 
@@ -85,29 +92,26 @@ class Notifications extends React.Component {
     window.removeEventListener('click', this.handleNotificationsDisplay);
   }
 
-  toggleNotificationMenu = (length) => {
+  toggleNotificationMenu = length => {
     if (length) {
-      this.setState(({displayNotificationsMenu}) => ({
-        displayNotificationsMenu: !displayNotificationsMenu,
+      this.setState(prev => ({
+        displayNotificationsMenu: !prev.displayNotificationsMenu,
       }));
     }
   }
 
-  clearNotifications = () => {
-    this.props.clearNotifications();
-  }
-
-  handleNotificationsDisplay = (e) => {
+  handleNotificationsDisplay = event => {
     if (this.state.displayNotificationsMenu) {
-      const test1 = document.getElementById('notifications-menu').contains(e.target);
-      const test2 = document.getElementById('notifications-icon').contains(e.target);
+      const test1 = document.getElementById('notifications-menu').contains(event.target);
+      const test2 = document.getElementById('notifications-icon').contains(event.target);
       if (!test1 && !test2){
         this.setState({ displayNotificationsMenu: false });
       }
     }
   }
+
   render() {
-    const notifications = this.props.notifications;
+    const { notifications } = this.props;
     return (
       <div
         id="notifications-icon"
@@ -115,7 +119,9 @@ class Notifications extends React.Component {
         onClick={() => this.toggleNotificationMenu(notifications.length)}
       >
         { notifications && notifications.length
-            ? NoticeMeSenpi(notifications.length)
+            ? <div className="top-bar__notifications__icon">
+                <span>{notifications.length}</span>
+              </div>
             : ''
         }
         <img
@@ -124,7 +130,7 @@ class Notifications extends React.Component {
           alt="notifications icon"  
         />
         { this.state.displayNotificationsMenu
-          ? NotificationsMenu(notifications, this.clearNotifications, this.props.changeCurrentCategory)
+          ? NotificationsMenu(notifications, this.props.clearNotifications, this.props.changeCurrentCategory)
           : ''
         }
       </div>
