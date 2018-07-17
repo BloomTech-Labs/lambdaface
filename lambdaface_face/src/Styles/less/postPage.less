@@ -6,13 +6,26 @@
     .post-page__post {
       display: flex;
 
+      @media @tablet {
+        flex-direction: column;
+        margin-left: 2%;
+      }
+
       .post__left-col {
         width: 10%;
+
+        @media @tablet {
+          justify-content: start;
+        }
       }
 
       .post__right-col {
         width: 100%;
         margin-top: 15px;
+
+        @media @tablet {
+          margin-top: 0px;
+        }
       }
     }
     .post-page__comments-header {
