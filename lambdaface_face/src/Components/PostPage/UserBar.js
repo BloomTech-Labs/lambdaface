@@ -28,11 +28,14 @@ class UserBar extends React.Component {
     downvoted: false,
   }
   componentDidMount() {
-    const vote = this.props.hasUserVoted
+    this.checkVoted(this.props.hasUserVoted);
+  }
+  checkVoted = vote => {
     if (vote === 'INC') {
-      this.setState({ upvoted: true });
-    } else if (vote === 'DEC') {
-      this.setState({ downvoted: true });
+      return this.setState({ upvoted: true });
+    }
+    if (vote === 'DEC') {
+      return this.setState({ downvoted: true });
     }
   }
   
