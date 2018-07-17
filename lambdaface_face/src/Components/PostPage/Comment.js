@@ -57,21 +57,26 @@ export default class Comment extends React.Component {
           hasUserVoted={comment.hasUserVoted}
         />
         { userInfo.sub === comment.userId
-          ? <div className="comment__delete">
+          ? (
+            <div className="comment__delete">
               <Button 
                 variant="contained"
                 color="primary"
                 className="comment__delete"
                 onClick={this.props.editComment}
-              >edit</Button>
+              >
+                edit
+              </Button>
               <Button 
                 variant="contained"
                 color="primary"
                 className="comment__delete"
                 onClick={() => this.deleteComment(comment, userInfo.sub, false)}
-              >delete</Button>
+              >
+                delete
+              </Button>
             </div>
-          : ''
+          ) : ''
         }
         {comment.replies
           .filter(reply => !this.state.editReplyId || this.state.editReplyId !== reply.id)
