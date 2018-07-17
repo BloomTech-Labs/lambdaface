@@ -59,7 +59,6 @@ class HomePage extends React.Component {
     if (currentCategory[0] === 'Newest') {
       fetchUrl += '/newest';
     }
-<<<<<<< HEAD
     try {
       const posts = await axios
         .get(fetchUrl)
@@ -90,27 +89,6 @@ class HomePage extends React.Component {
         console.error({ message: 'couldn\'t fetch posts!', error});
       }
     }
-=======
-    return axios
-      .get(fetchUrl)
-      .then(res => {
-        if (!this.state.postsLoaded) {
-          this.setState({ posts: res.data, postsLoaded: true, morePosts: true });
-        } else if (addingPosts) {
-          if (res.data.length) {
-            this.setState(({ posts }) => ({
-              posts: [...posts, ...res.data],
-              postsLoaded: true,
-            }));
-          } else {
-            this.setState({ morePosts: false });
-          }
-        }
-      })
-      .catch(err => {
-        console.error('Could not get posts: ', err);
-      });
->>>>>>> 4b29f209a9f26451d024cb96bf0c4f9d3668deb5
   };
 
   getUserInfo = () => {
@@ -222,12 +200,7 @@ class HomePage extends React.Component {
     }
   }
 
-<<<<<<< HEAD
   changeCurrentCategory = (category, postId = '', otherF= null, passed = null ) => event => {
-=======
-
-  changeCurrentCategory = (category, postId = '', otherF = null, passed = null) => event => {
->>>>>>> 4b29f209a9f26451d024cb96bf0c4f9d3668deb5
     // reset scroll bar
     window.scrollTo(0, 0);
     /* Posts must be loaded, or the given category must not be part of NavBar options */
