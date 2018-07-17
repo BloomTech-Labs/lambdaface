@@ -1,6 +1,6 @@
 import React from "react";
-
 import axios from "axios";
+
 import UserBar from "./UserBar";
 
 class WriteReply extends React.Component {
@@ -10,49 +10,50 @@ class WriteReply extends React.Component {
 
   handleChange = event => {
     this.setState({
-      content: event.target.value
+      content: event.target.value,
     });
   };
 
-  submitReply = () => async () => {
+  submitReply = async () => {
     const {
       userInfo,
       commentInfo: { parentId, parentType },
+      toggleReplyingTo,
+      reloadComments,
     } = this.props;
 
-    const newReply = {
-      content: this.state.content,
-      userId: userInfo.sub,
-      parentId,
-      parentType,
-    };
+    const { content } = this.state;
 
-    if (newReply.content.replace(/\n| /g, '').length > 0) {
-      axios
-        .post(`${process.env.REACT_APP_URL}`.concat('api/comments'), newReply)
-        .then(res => {
-          // TODO: do something with the response, preferably something useful
-          this.setState({ content: "" });
-          this.props.toggleReplyingTo();
-          this.props.reloadComments();
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    } else {
-      console.log('Reply requires content in order to be submitted!')
-    }    
+    try {
+      if (content.replace(/\n| /g, '') === '') {
+        throw new Error('A reply requires content to be submitted!');
+      }
+  
+      const reply = {
+        content,
+        userId: userInfo.sub,
+        parentId,
+        parentType,
+      };
+
+      await axios.post(`${process.env.REACT_APP_URL}api/comments`, reply);
+      this.setState({ content: '' });
+      toggleReplyingTo();
+      reloadComments();
+    } catch (error) {
+      if (error) { 
+        console.error({ message: 'Couldn\'t send reply.', error });
+      }
+    }
   };
 
   render() {
     // let replyTo = "Replying to " + this.props.commentInfo.parentFirstName + " " + this.props.commentInfo.parentLastName;
-    let replyTo = "Write your reply"
     return (
       <form>
         <textarea
-          placeholder={replyTo}
+          placeholder="Write your reply"
           className="write-reply__textarea"
-          style={{ resize: "none" }}
           value={this.state.content}
           onChange={this.handleChange}
           cols="30"
