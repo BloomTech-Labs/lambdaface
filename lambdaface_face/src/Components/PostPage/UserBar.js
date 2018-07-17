@@ -95,15 +95,15 @@ class UserBar extends React.Component {
       const voteBody = {
         userId: currentUser,
         parentId: this.props.info.id,
-        voteType: voteType,
-        parentType: parentType
+        voteType,
+        parentType,
       }
       event.stopPropagation();
       axios
-        .post(`${process.env.REACT_APP_URL}`.concat('api/votes'), voteBody)
-        .then((res) => {
+        .post(`${process.env.REACT_APP_URL}api/votes`, voteBody)
+        .then(() => {
           if (voteType === "INC" && this.state.upvoted) {
-            console.log("Already voted!");
+            console.info("Already voted!");
           }
           else if (voteType === "INC" && this.state.downvoted) {
             this.props.info.upvotes = this.props.info.upvotes + 1;
@@ -116,7 +116,7 @@ class UserBar extends React.Component {
             this.setState({ upvoted: false, downvoted: true });
           }
           else if (voteType === "DEC" && this.state.downvoted) {
-            console.log("Already voted!");
+            console.info("Already voted!");
           }
           else if (voteType === "INC" && !this.state.upvoted && !this.state.downvoted) {
             this.props.info.upvotes = this.props.info.upvotes + 1;
@@ -127,9 +127,7 @@ class UserBar extends React.Component {
             this.setState({ upvoted: false, downvoted: true });
           }
         })
-        .catch((err) => {
-          console.error(err);
-        })
+        .catch(error => console.error(error));
     }
   
     const profilePicStyle = {
