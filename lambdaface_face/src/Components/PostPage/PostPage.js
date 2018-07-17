@@ -36,9 +36,7 @@ class PostPage extends React.Component {
       this.getComments();
     }
   }
-  editComment = editCommentId => {
-    this.setState({ editCommentId });
-  }
+
   getPost = async () => {
     const { postId, userInfo } = this.props;
 
@@ -87,8 +85,11 @@ class PostPage extends React.Component {
         console.error({ message: 'Couldn\'t fetch comments!', error })
       }
     }
-
   };
+
+  editComment = editCommentId => {
+    this.setState({ editCommentId });
+  }
 
   toggleFollowing = () => {
     // console.log('Following has been toggled!')
@@ -129,22 +130,28 @@ class PostPage extends React.Component {
               <div className="post__right-col">
                 <ReactMarkdown className="markdown" source={currentPost.content} />
                 <UserBar type="singlepost" hasUserVoted={hasUserVoted} info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} imageHash={this.props.imageHash} />
-                {userInfo.sub === currentPost.userId 
-                  ? <div>
+                { userInfo.sub === currentPost.userId 
+                  ? (
+                    <div>
                       <Button
                         variant="contained"
                         color="primary" 
                         className="post-page__edit-btn" 
                         onClick={this.handleClick}
-                      >edit</Button>
+                      >
+                        edit
+                      </Button>
+
                       <Button
                         variant="contained"
                         color="primary" 
                         className="post-page__delete-btn" 
                         onClick={this.handleDelete}
-                      >delete</Button>
+                      >
+                        delete
+                      </Button>
                     </div>
-                  : ''
+                  ) : ''
                 }
               </div>
             </div>
