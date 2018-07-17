@@ -47,7 +47,7 @@ class HomePage extends React.Component {
     }
   }
 
-  getPosts = (addingPosts = false) => {
+  getPosts = async (addingPosts = false) => {
     const {
       currentPage,
       currentCategory,
@@ -58,25 +58,36 @@ class HomePage extends React.Component {
     if (currentCategory[0] === 'Newest') {
       fetchUrl += '/newest';
     }
-    return axios
-      .get(fetchUrl)
-      .then(res => {
-        if (!postsLoaded) {
-          this.setState({ posts: res.data, postsLoaded: true, morePosts: true });
-        } else if (addingPosts) {
-          if (res.data.length) {
-            this.setState(({ posts }) => ({
-              posts: [ ...posts, ...res.data ],
-              postsLoaded: true,
-            }));
-          } else {
-            this.setState({ morePosts: false });
-          }
-        }
-      })
-      .catch(err => {
-        console.error('Could not get posts: ', err);
-      });
+    try {
+      const posts = await axios
+        .get(fetchUrl)
+        .then(({ data }) => data);
+
+      if (!posts.length || posts instanceof Error) {
+        throw new Error('no posts fetched!');
+      }
+
+      if (!postsLoaded) {
+        return this.setState({
+          posts,
+          postsLoaded: true,
+          morePosts: true,
+        });
+      }
+
+      if (addingPosts && posts.length) {
+        return this.setState(prev => ({
+          posts: [...prev.posts, ...posts],
+          postsLoaded: true,
+        }));
+      } else {
+        this.setState({ morePosts: false });
+      }
+    } catch(error) {
+      if (error) {
+        console.error({ message: 'couldn\'t fetch posts!', error});
+      }
+    }
   };
 
   getUserInfo = () => {
