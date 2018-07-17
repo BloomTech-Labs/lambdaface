@@ -111,7 +111,7 @@ class Notifications extends React.Component {
   }
 
   render() {
-    const { notifications } = this.props;
+    const { notifications, clearNotifications, changeCurrentCategory } = this.props;
     return (
       <div
         id="notifications-icon"
@@ -130,7 +130,7 @@ class Notifications extends React.Component {
           alt="notifications icon"  
         />
         { this.state.displayNotificationsMenu
-          ? NotificationsMenu(notifications, this.props.clearNotifications, this.props.changeCurrentCategory)
+          ? NotificationsMenu(notifications, clearNotifications, changeCurrentCategory)
           : ''
         }
       </div>
