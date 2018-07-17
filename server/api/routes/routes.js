@@ -66,7 +66,7 @@ module.exports = (server) => {
   server.route('/s3/sign')
     .get(signS3)
 
-  const expressWs = require('express-ws')(server);  
+  require('express-ws')(server);  
 
   server.ws('/ws', webSocketConnect)
 
