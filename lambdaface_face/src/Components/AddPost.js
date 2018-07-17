@@ -17,7 +17,7 @@ class AddPost extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props)
+    // console.log(this.props)
     const { isEditing, content, postId } = this.props;
     if (isEditing) {
       this.setState({ content, postId });
