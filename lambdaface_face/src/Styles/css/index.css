@@ -615,7 +615,9 @@ body {
 }
 @media (max-width: 500px) {
   .top-bar__search-icon {
-    margin: 0px 10px 0px -9px;
+    margin-bottom: 0;
+    background-color: transparent;
+    border: none;
   }
 }
 .top-bar__dropdown-search-input {

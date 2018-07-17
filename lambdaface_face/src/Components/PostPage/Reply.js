@@ -6,11 +6,12 @@ export default props => (
   <div className="reply__container">
     {props.replyInfo.content}
     { props.currentUser === props.replyInfo.userId 
-      ? (<div>
+      ? (
+        <div>
           <button onClick={props.editReply} >edit</button>
           <button onClick={props.deleteReply} >delete</button>
-        </div>)
-      : ''
+        </div>
+      ) : ''
     }
     <UserBar
       currentUser={props.currentUser}

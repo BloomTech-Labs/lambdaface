@@ -28,11 +28,14 @@ class UserBar extends React.Component {
     downvoted: false,
   }
   componentDidMount() {
-    const vote = this.props.hasUserVoted
+    this.checkVoted(this.props.hasUserVoted);
+  }
+  checkVoted = vote => {
     if (vote === 'INC') {
-      this.setState({ upvoted: true });
-    } else if (vote === 'DEC') {
-      this.setState({ downvoted: true });
+      return this.setState({ upvoted: true });
+    }
+    if (vote === 'DEC') {
+      return this.setState({ downvoted: true });
     }
   }
   
@@ -64,13 +67,11 @@ class UserBar extends React.Component {
       // console.log('following', userId, parentId);
       axios
         .post(`${process.env.REACT_APP_URL}api/follows`, { userId, parentId })
-        .then(res => {
-          console.log('successfully followed post!', res);
+        .then(response => {
+          console.info('successfully followed post!', response);
           toggleFollowing();
         })
-        .catch(err => {
-          console.log('There was an error: ', err.response);
-        })
+        .catch(error => console.error('There was an error:', error.response));
     };
 
     const unfollowPost = (e, userId, parentId, toggleFollowing) => {
@@ -78,13 +79,11 @@ class UserBar extends React.Component {
       // console.log('unfollowing', userId, parentId);
       axios
         .delete(`${process.env.REACT_APP_URL}api/follows`, {data: { userId, parentId }})
-        .then(res => {
-          console.log('successfully unfollowed post!', res);
+        .then(response => {
+          console.info('successfully unfollowed post!', response);
           toggleFollowing();
         })
-        .catch(err => {
-          console.log('There was an error: ', err.response);
-        })
+        .catch(error => console.error('There was an error:', error.response));
     };
 
     const voteHandler = (voteType, parentType) => event => {
@@ -96,15 +95,15 @@ class UserBar extends React.Component {
       const voteBody = {
         userId: currentUser,
         parentId: this.props.info.id,
-        voteType: voteType,
-        parentType: parentType
+        voteType,
+        parentType,
       }
       event.stopPropagation();
       axios
-        .post(`${process.env.REACT_APP_URL}`.concat('api/votes'), voteBody)
-        .then((res) => {
+        .post(`${process.env.REACT_APP_URL}api/votes`, voteBody)
+        .then(() => {
           if (voteType === "INC" && this.state.upvoted) {
-            console.log("Already voted!");
+            console.info("Already voted!");
           }
           else if (voteType === "INC" && this.state.downvoted) {
             this.props.info.upvotes = this.props.info.upvotes + 1;
@@ -117,7 +116,7 @@ class UserBar extends React.Component {
             this.setState({ upvoted: false, downvoted: true });
           }
           else if (voteType === "DEC" && this.state.downvoted) {
-            console.log("Already voted!");
+            console.info("Already voted!");
           }
           else if (voteType === "INC" && !this.state.upvoted && !this.state.downvoted) {
             this.props.info.upvotes = this.props.info.upvotes + 1;
@@ -128,9 +127,7 @@ class UserBar extends React.Component {
             this.setState({ upvoted: false, downvoted: true });
           }
         })
-        .catch((err) => {
-          console.error(err);
-        })
+        .catch(error => console.error(error));
     }
   
     const profilePicStyle = {
@@ -173,8 +170,8 @@ class UserBar extends React.Component {
             </div>
             <div className="user-bar__voteInfo">
               <div className="votes">{upvotes}</div>
-              <img src={upvoteIcon} onClick={voteHandler('INC', 'post')} alt="Upvotes" height="13px" width="11px" />
-              <img src={downvoteIcon} onClick={voteHandler('DEC', 'post')} alt="Downvotes" height="13px" width="11px" />
+              <img src={upvoteIcon} role="button" onClick={voteHandler('INC', 'post')} alt="Upvotes" height="13px" width="11px" />
+              <img src={downvoteIcon} rolle="button" onClick={voteHandler('DEC', 'post')} alt="Downvotes" height="13px" width="11px" />
               <div className="votes">{downvotes}</div>
             </div>
             <div>{this.props.info.commentCount} Comments</div>

@@ -9,7 +9,7 @@ import backArrow from "../Assets/BackArrow.svg";
 
 class AddPost extends React.Component {
   state = {
-    content: "",
+    content: '',
     userId: this.props.userInfo.sub,
     // get category from props, do not let AllPosts be an option
     category: this.props.category[0] === "AllPosts" ? ["Announcements", 1] : this.props.category,
@@ -18,12 +18,14 @@ class AddPost extends React.Component {
 
   componentDidMount() {
     // console.log(this.props)
-    const { isEditing, content, postId } = this.props;
-    if (isEditing) {
-      this.setState({ content, postId });
+    if (this.props.isEditing) {
+      this.setActivePost();
     }
   }
-
+  setActivePost = () => {
+    const { content, postId } = this.props;
+    this.setState({ content, postId });
+  }
   handleChange = event => {
     this.setState({
       content: event.target.value,

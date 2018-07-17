@@ -16,13 +16,12 @@ const signS3 = (req, res) => {
     // Expires: 60,
   };
 
-  s3.getSignedUrl('putObject', options, (err, data) => {
-    if (err) {
-      console.log(err);
-      return err;
-    } else {
-      res.json(data);
-    }
+  s3.getSignedUrl('putObject', options, (error, data) => {
+    if (error) {
+      console.error(error);
+      return error;
+    } 
+    res.json(data);
   })
 }
 

@@ -48,13 +48,11 @@ class UserSettings extends React.Component {
       connection: 'Username-Password-Authentication'}
 
     axios.post('https://lambda-face-test1.auth0.com/dbconnections/change_password', userStuff)
-      .then((res) => {
+      .then(result => {
         this.setState({ passwordReset: true });
-        console.log({ success: res });
+        console.info({ success: result });
       })
-      .catch((err) => {
-        console.error({ err });
-      })
+      .catch(error => console.error({ error }));
   }
 
   updateInfo = () => event => {
@@ -64,15 +62,13 @@ class UserSettings extends React.Component {
     // console.log("updating Info!", userInfo);
     axios
       .put(`${process.env.REACT_APP_URL}api/users/${userId}`, userInfo)
-      .then(res => {
+      .then(result => {
         this.setState({ settingsSaved: true });
         this.props.updateUser(this.state);
-        console.log(res);
+        console.info({ success: result });
         // need to know what res looks like
       })
-      .catch(err => {
-        console.error(err);
-      });
+      .catch(error => console.error(error));
   };
 
   render() {

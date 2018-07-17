@@ -10,11 +10,14 @@ class WriteComment extends React.Component {
   };
   componentDidUpdate() {
     if ((this.props.comment && this.props.comment.content) && this.state.isEditing === false) {
-      this.setState({
-        content: this.props.comment.content,
-        isEditing: true,
-      })
+      this.setCommentContent();
     }
+  }
+  setCommentContent = () => {
+    this.setState({
+      content: this.props.comment.content,
+      isEditing: true,
+    });
   }
   handleChange = event => {
     this.setState({

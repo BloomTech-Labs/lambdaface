@@ -5,13 +5,6 @@ import FormControl from '@material-ui/core/FormControl';
 
 class CategoryButton extends React.Component {
 
-  handleChange = event => {
-    if (event.target.value === '') return;  
-    const newCategory = event.target.value.split(',');
-    this.props.changeCategory(newCategory);    
-    // console.log("handling change", newCategory);
-  };
-
   setupCategories = () => {
     const { categories, category } = this.props;
     
@@ -30,6 +23,13 @@ class CategoryButton extends React.Component {
     ];
   }
 
+  handleChange = event => {
+    if (event.target.value === '') return;  
+    const newCategory = event.target.value.split(',');
+    this.props.changeCategory(newCategory);    
+    // console.log("handling change", newCategory);
+  };
+
   render() {
     return (
       <FormControl>
@@ -45,7 +45,9 @@ class CategoryButton extends React.Component {
               <option
                 key={category[1]}
                 value={`${category.join(',')}`}
-              >{category[0]}</option>
+              >
+                {category[0]}
+              </option>
             ))
           }
         </Select>
