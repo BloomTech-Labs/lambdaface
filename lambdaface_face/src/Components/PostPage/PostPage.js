@@ -3,11 +3,11 @@ import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 
 import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
 
 import Comment from "./Comment";
 import WriteComment from "./WriteComment";
 import UserBar from './UserBar';
+import UserMenu from './UserMenu';
 
 // import "../../Styles/PostPage.css";
 import backArrow from "../../Assets/BackArrow.svg";
@@ -129,30 +129,11 @@ class PostPage extends React.Component {
               </div>
               <div className="post__right-col">
                 <ReactMarkdown className="markdown" source={currentPost.content} />
-                <UserBar type="singlepost" hasUserVoted={hasUserVoted} info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} imageHash={this.props.imageHash} />
                 { userInfo.sub === currentPost.userId 
-                  ? (
-                    <div>
-                      <Button
-                        variant="contained"
-                        color="primary" 
-                        className="post-page__edit-btn" 
-                        onClick={this.handleClick}
-                      >
-                        edit
-                      </Button>
-
-                      <Button
-                        variant="contained"
-                        color="primary" 
-                        className="post-page__delete-btn" 
-                        onClick={this.handleDelete}
-                      >
-                        delete
-                      </Button>
-                    </div>
-                  ) : ''
+                  ? <UserMenu handleEdit={this.handleClick} handleDelete={this.handleDelete} />
+                  : ''
                 }
+                <UserBar type="singlepost" hasUserVoted={hasUserVoted} info={currentPost} currentUser={userInfo} following={this.state.following} toggleFollowing={this.toggleFollowing} imageHash={this.props.imageHash} />
               </div>
             </div>
             <div className="post-page__comments">

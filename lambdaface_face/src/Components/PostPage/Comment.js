@@ -1,11 +1,10 @@
 import React from "react";
 import axios from 'axios';
 
-import Button from "@material-ui/core/Button";
-
 import UserBar from "./UserBar";
 import WriteReply from "./WriteReply";
 import Reply from "./Reply";
+import UserMenu from './UserMenu';
 
 export default class Comment extends React.Component {
   state = {
@@ -48,6 +47,10 @@ export default class Comment extends React.Component {
     return (
       <div className="comment__container">
         <div className="comment__content">{comment.content}</div>
+        { userInfo.sub === comment.userId
+          ? <UserMenu handleEdit={this.props.editComment} handleDelete={() => this.deleteComment(comment, userInfo.sub, false)} />
+          : ''
+        }
         <UserBar
           currentUser={userInfo.sub}
           type="comment"
@@ -56,28 +59,6 @@ export default class Comment extends React.Component {
           imageHash={this.props.imageHash}
           hasUserVoted={comment.hasUserVoted}
         />
-        { userInfo.sub === comment.userId
-          ? (
-            <div className="comment__delete">
-              <Button 
-                variant="contained"
-                color="primary"
-                className="comment__delete"
-                onClick={this.props.editComment}
-              >
-                edit
-              </Button>
-              <Button 
-                variant="contained"
-                color="primary"
-                className="comment__delete"
-                onClick={() => this.deleteComment(comment, userInfo.sub, false)}
-              >
-                delete
-              </Button>
-            </div>
-          ) : ''
-        }
         {comment.replies
           .filter(reply => !this.state.editReplyId || this.state.editReplyId !== reply.id)
           .map(reply => (
