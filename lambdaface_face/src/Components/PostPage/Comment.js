@@ -1,8 +1,6 @@
 import React from "react";
 import axios from 'axios';
 
-import Button from "@material-ui/core/Button";
-
 import UserBar from "./UserBar";
 import WriteReply from "./WriteReply";
 import Reply from "./Reply";
