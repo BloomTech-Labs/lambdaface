@@ -1,17 +1,14 @@
 import React from 'react';
 
 import UserBar from './UserBar';
+import UserMenu from './UserMenu'
 
 export default props => (
   <div className="reply__container">
     {props.replyInfo.content}
     { props.currentUser === props.replyInfo.userId 
-      ? (
-        <div>
-          <button onClick={props.editReply} >edit</button>
-          <button onClick={props.deleteReply} >delete</button>
-        </div>
-      ) : ''
+      ? <UserMenu handleEdit={props.editReply} handleDelete={props.deleteReply} />
+      : ''
     }
     <UserBar
       currentUser={props.currentUser}

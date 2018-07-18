@@ -16,16 +16,16 @@ export default class UserMenu extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div style={{ display: 'flex' }}>
         <IconButton onClick={this.toggleUserMenu}>
-          <img src={menuIcon} alt="edit menu" height="30px" width="30px" />
+          <img src={menuIcon} alt="edit menu" height="20px" width="20px" />
         </IconButton>
         { this.state.showUserMenu
           ? (
             <div className="edit_menu">
               <Button
-                variant="contained"
-                color="secondary" 
+                variant="text"
+                color="#FAFAFA"
                 className="edit-btn" 
                 onClick={this.props.handleEdit}
               >
@@ -33,8 +33,8 @@ export default class UserMenu extends React.Component {
               </Button>
 
               <Button
-                variant="contained"
-                color="primary" 
+                variant="text"
+                color="#FAFAFA"
                 className="delete-btn" 
                 onClick={this.props.handleDelete}
               >
