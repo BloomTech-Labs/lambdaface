@@ -65,7 +65,6 @@ class UserBar extends React.Component {
       axios
         .post(`${process.env.REACT_APP_URL}api/follows`, { userId, parentId })
         .then(res => {
-          console.log('successfully followed post!', res);
           toggleFollowing();
         })
         .catch(err => {
@@ -79,7 +78,6 @@ class UserBar extends React.Component {
       axios
         .delete(`${process.env.REACT_APP_URL}api/follows`, {data: { userId, parentId }})
         .then(res => {
-          console.log('successfully unfollowed post!', res);
           toggleFollowing();
         })
         .catch(err => {
@@ -104,7 +102,6 @@ class UserBar extends React.Component {
         .post(`${process.env.REACT_APP_URL}`.concat('api/votes'), voteBody)
         .then((res) => {
           if (voteType === "INC" && this.state.upvoted) {
-            console.log("Already voted!");
           }
           else if (voteType === "INC" && this.state.downvoted) {
             this.props.info.upvotes = this.props.info.upvotes + 1;
@@ -117,7 +114,6 @@ class UserBar extends React.Component {
             this.setState({ upvoted: false, downvoted: true });
           }
           else if (voteType === "DEC" && this.state.downvoted) {
-            console.log("Already voted!");
           }
           else if (voteType === "INC" && !this.state.upvoted && !this.state.downvoted) {
             this.props.info.upvotes = this.props.info.upvotes + 1;
